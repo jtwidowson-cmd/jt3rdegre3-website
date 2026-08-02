@@ -31,6 +31,7 @@
   h1,h2,h3,.brand{font-family:'Sora','Inter',sans-serif;letter-spacing:-.03em}
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
+  img,canvas,svg,video{max-width:100%}
   .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
   .logo{background:var(--logo) center/cover no-repeat;border-radius:50%;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
   .btn{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:15px;padding:13px 24px;border-radius:12px;border:1px solid transparent;cursor:pointer;transition:.2s;white-space:nowrap;font-family:inherit;letter-spacing:-.01em}
@@ -46,7 +47,7 @@
   html.js .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
   html.js .reveal.in{opacity:1;transform:none}
 
-  header.site{position:sticky;top:0;z-index:70;background:rgba(11,14,20,.62);backdrop-filter:saturate(160%) blur(18px);border-bottom:1px solid var(--line)}
+  header.site{position:sticky;top:0;z-index:100;background:var(--navy);border-bottom:1px solid var(--line)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
   .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:19px;color:#fff}
   .brand .logo{width:42px;height:42px}
@@ -269,6 +270,16 @@
   .cw-err{color:#ff8079;font-size:11.5px;display:none}
   .cw-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
   @media(max-width:480px){ #cw-panel{right:12px;left:12px;width:auto;bottom:84px;height:70vh} #cw-toggle{right:16px;bottom:16px} }
+  #cw-toggle{touch-action:none}
+  #cw-nudge{position:fixed;z-index:201;max-width:min(240px,calc(100vw - 32px));
+    background:var(--navy-2);color:#eaf6ff;border:1px solid var(--line-2);border-left:3px solid var(--blue);
+    border-radius:14px;padding:10px 14px;font-size:13.5px;line-height:1.4;font-weight:600;
+    box-shadow:0 18px 40px -14px rgba(0,0,0,.7);cursor:pointer;
+    opacity:0;transform:translateY(6px);pointer-events:none;transition:.22s}
+  #cw-nudge.show{opacity:1;transform:none;pointer-events:auto}
+  #cw-nudge:after{content:'';position:absolute;right:20px;bottom:-7px;width:13px;height:13px;
+    background:var(--navy-2);border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);transform:rotate(45deg)}
+  @media(max-width:480px){ #cw-nudge{max-width:calc(100vw - 24px);font-size:13px;padding:9px 12px} }
 
   /* ---- Privacy modal ---- */
   .pm-bg{position:fixed;inset:0;z-index:250;background:rgba(3,6,12,.72);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:20px}
@@ -298,19 +309,46 @@
     .ring-card{flex-direction:row;justify-content:center;gap:16px}
   }
   @media(max-width:680px){
+    .wrap{padding:0 18px}
     .hero h1{font-size:33px}
+    .hero{padding:56px 0 52px}
     .sec-head h2,.cta h2,.about h2{font-size:26px}
+    .sec-head{margin-bottom:40px}
+    section{padding:64px 0}
     .prod-grid,.sol-grid,.feat-grid{grid-template-columns:1fr 1fr}
     .ind-grid{grid-template-columns:1fr 1fr 1fr}
     .kpis{grid-template-columns:1fr 1fr}
     .foot-top{grid-template-columns:1fr 1fr}
     .bars{height:60px}
+    .preview{margin-top:40px}
+  }
+  @media(max-width:480px){
+    body{font-size:15px}
+    section{padding:56px 0}
+    .hero{padding:50px 0 46px}
+    .hero p.lead{font-size:16px}
+    .sec-head{margin-bottom:34px;text-align:center}
+    .sec-head h2,.cta h2,.about h2{font-size:25px}
+    .sec-head p{font-size:15.5px}
+    .sol-grid,.prod-grid,.feat-grid,.prices{grid-template-columns:1fr;gap:16px}
+    .sol,.prod,.price{text-align:center}
+    .sol .ic,.prod-ic{margin-left:auto;margin-right:auto}
+    .prod-top{justify-content:center;gap:10px}
+    .sol .badge{position:static;display:inline-block;margin:0 auto 10px;transform:none;left:auto;top:auto;right:auto}
+    .price .fbadge{position:static;display:inline-block;margin:0 auto 12px;transform:none;left:auto;top:auto}
+    .price ul,.price li,.about li,.sol p{text-align:left}
+    .ind-grid{grid-template-columns:1fr 1fr;gap:12px}
+    .kpis{grid-template-columns:1fr 1fr;gap:12px}
+    .feat{text-align:center}
+    .btn{min-height:46px}
+    .btn-lg,.hero-cta .btn,.cta .btn{width:100%;justify-content:center;min-height:48px}
+    .hero-cta{flex-direction:column;align-items:stretch;gap:12px}
+    .cta{padding:40px 20px}
+    .cta > div[style]{flex-direction:column}
+    .preview{margin-top:34px}
   }
   @media(max-width:430px){
     .hero h1{font-size:29px}
-    .sol-grid,.prod-grid{grid-template-columns:1fr}
-    .feat-grid{grid-template-columns:1fr 1fr}
-    .ind-grid{grid-template-columns:1fr 1fr}
     .foot-top{grid-template-columns:1fr}
     .glass{padding:12px}.dash{padding:14px}
   }
@@ -344,7 +382,7 @@
     <div class="tagline"><span>One Platform</span><span>Total Protection</span><span>Compliance in Minutes</span></div>
     <p class="lead">Digital solutions for Quality, Health, Safety &amp; Environment that simplify compliance, inspections, reporting and operational excellence. Built for the way industrial teams actually work.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary btn-lg" href="https://tfms.jt3rdegre3.com">Try the Fleet App free</a>
+      <a class="btn btn-primary btn-lg" href="https://tfms.jt3rdegre3.com">Try the app free</a>
       <a class="btn btn-ghost btn-lg" href="#solutions">Explore Solutions</a>
     </div>
     <div class="hero-note"><b>✓</b> Built on real QHSE expertise &nbsp;·&nbsp; Secure &amp; GDPR-ready &nbsp;·&nbsp; Works on any device</div>
@@ -435,7 +473,6 @@
       <div class="prod reveal"><div class="prod-top"><div class="prod-ic">🪪</div><span class="status soon">Coming soon</span></div><h3>Digital Safety Passport</h3><p>Every worker's training and competencies, verifiable by QR code on site.</p><a class="btn btn-ghost" href="#contact">Get notified</a></div>
       <div class="prod reveal"><div class="prod-top"><div class="prod-ic">🛎️</div><span class="status soon">Coming soon</span></div><h3>Visitor Management</h3><p>Sign in visitors, capture inductions, and keep an accurate site record.</p><a class="btn btn-ghost" href="#contact">Get notified</a></div>
       <div class="prod reveal"><div class="prod-top"><div class="prod-ic">🛡️</div><span class="status soon">Coming soon</span></div><h3>Risk Assessment Generator</h3><p>Create professional risk assessments and method statements in minutes.</p><a class="btn btn-ghost" href="#contact">Get notified</a></div>
-      <div class="prod reveal"><div class="prod-top"><div class="prod-ic">🌱</div><span class="status soon">Coming soon</span></div><h3>Environmental Monitoring</h3><p>Track environmental duties, readings and compliance dates with clear records.</p><a class="btn btn-ghost" href="#contact">Get notified</a></div>
     </div>
   </div>
 </section>
@@ -482,7 +519,7 @@
   <div class="wrap about-in">
     <div class="reveal">
       <div class="kicker">Why JT.3rDegre3</div>
-      <h2>Software built by QHSE people, for QHSE people</h2>
+      <h2>Purpose-built by QHSE experts to simplify QHSE management</h2>
       <p class="sub">We don't build generic software and bolt on safety features. QHSE is our expertise — so every app is shaped by how the work really happens on the ground.</p>
       <ul>
         <li><span class="ck">✓</span> <span><b>Real expertise.</b> Designed around genuine Quality, Health, Safety &amp; Environment practice.</span></li>
@@ -533,7 +570,7 @@
           <li><span class="ck">✓</span> One-click data backup</li>
           <li><span class="ck">✓</span> Priority support · cancel any time</li>
         </ul>
-        <a class="btn btn-primary" id="buy-mo" href="https://buy.stripe.com/test_28EaEWazD4jj2induU7bW01" target="_blank" rel="noopener">Pay monthly</a>
+        <a class="btn btn-primary" id="buy-mo" href="https://buy.stripe.com/test_eVq3cucHLeXXe15eyY7bW00" target="_blank" rel="noopener">Pay monthly</a>
       </div>
       <div class="price reveal">
         <h3>Yearly</h3>
@@ -546,7 +583,7 @@
           <li><span class="ck">✓</span> One simple annual renewal</li>
           <li><span class="ck">✓</span> Priority support</li>
         </ul>
-        <a class="btn btn-ghost" id="buy-yr" href="https://buy.stripe.com/test_eVq3cucHLeXXe15eyY7bW00" target="_blank" rel="noopener">Pay yearly</a>
+        <a class="btn btn-ghost" id="buy-yr" href="https://buy.stripe.com/test_28EaEWazD4jj2induU7bW01" target="_blank" rel="noopener">Pay yearly</a>
       </div>
     </div>
     <p class="price-note">Questions? Email <a href="mailto:support@jt3rdegre3.com">support@jt3rdegre3.com</a>. Your data is never deleted when a plan lapses; simply reactivate.</p>
@@ -559,7 +596,7 @@
       <h2>Transform your safety management today.</h2>
       <p>Try the Fleet Management System free, or get in touch and we'll set up your fleet with you.</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <a class="btn btn-primary btn-lg" href="https://tfms.jt3rdegre3.com">Try the Fleet App free</a>
+        <a class="btn btn-primary btn-lg" href="https://tfms.jt3rdegre3.com">Try the app free</a>
         <a class="btn btn-ghost btn-lg" href="mailto:support@jt3rdegre3.com?subject=JT3rDegre3%20QHSE%20-%20Enquiry">Talk to us</a>
       </div>
     </div>
@@ -657,7 +694,7 @@ function detectCur(){
   }catch(e){ return 'USD'; }
 }
 var STRIPE_LINKS={
-  EUR:{mo:'https://buy.stripe.com/test_28EaEWazD4jj2induU7bW01',yr:'https://buy.stripe.com/test_eVq3cucHLeXXe15eyY7bW00'},
+  EUR:{mo:'https://buy.stripe.com/test_eVq3cucHLeXXe15eyY7bW00',yr:'https://buy.stripe.com/test_28EaEWazD4jj2induU7bW01'},
   USD:{mo:'https://buy.stripe.com/test_00wbJ08rv177g9dfD27bW02',yr:'https://buy.stripe.com/test_4gMdR8dLPeXXg9d0I87bW03'},
   PHP:{mo:'https://buy.stripe.com/test_5kQdR86jn4jj6yD1Mc7bW04',yr:'https://buy.stripe.com/test_9B628q5fjg211ejeyY7bW05'}
 };
@@ -670,6 +707,9 @@ var STRIPE_LINKS={
   s('p-mo',p.mo); s('p-mo-reg',p.moReg); s('p-yr',p.yr); s('p-yr-reg',p.yrReg);
   var h=function(id,u){var el=document.getElementById(id); if(el)el.setAttribute('href',u);};
   h('buy-mo',lk.mo); h('buy-yr',lk.yr);
+  var t=function(id,txt){var el=document.getElementById(id); if(el)el.textContent=txt;};
+  t('buy-mo','Pay monthly — '+p.sym+p.mo);
+  t('buy-yr','Pay yearly — '+p.sym+p.yr);
 })();
 /* scroll reveal */
 (function(){
@@ -795,11 +835,61 @@ var STRIPE_LINKS={
   function finish(f,name){
     f.remove();
     bot('✅ Thanks, '+name+"! We've got your details and we'll be in touch very soon. Meantime you can start your free trial any time.");
-    chips([{label:'Try the Fleet App free',onClick:function(){window.open('https://tfms.jt3rdegre3.com','_blank');}},{label:'Ask a question',onClick:function(){bot('What would you like to know?');menu();}}]);
+    chips([{label:'Try the app free',onClick:function(){window.open('https://tfms.jt3rdegre3.com','_blank');}},{label:'Ask a question',onClick:function(){bot('What would you like to know?');menu();}}]);
   }
-  function openCw(){ panel.classList.add('open'); toggle.classList.add('open'); start(); }
+  function openCw(){ hideNudge(); panel.classList.add('open'); toggle.classList.add('open'); start(); }
   function closeCw(){ panel.classList.remove('open'); toggle.classList.remove('open'); }
-  toggle.addEventListener('click',function(){ panel.classList.contains('open')?closeCw():openCw(); });
+
+  /* --- auto nudge bubble --- */
+  var nudge=document.createElement('div');
+  nudge.id='cw-nudge'; nudge.setAttribute('role','button'); nudge.setAttribute('tabindex','0');
+  nudge.textContent='How may I help you?';
+  document.body.appendChild(nudge);
+  var nudgeTimer=null;
+  function positionNudge(){
+    var r=toggle.getBoundingClientRect();
+    var right=Math.max(8, window.innerWidth - r.right);
+    nudge.style.left='auto'; nudge.style.top='auto';
+    nudge.style.right=right+'px';
+    nudge.style.bottom=(window.innerHeight - r.top + 12)+'px';
+  }
+  function showNudge(){
+    if(panel.classList.contains('open')) return;
+    positionNudge();
+    nudge.classList.add('show');
+    clearTimeout(nudgeTimer);
+    nudgeTimer=setTimeout(hideNudge,8000);
+  }
+  function hideNudge(){ nudge.classList.remove('show'); clearTimeout(nudgeTimer); }
+  nudge.addEventListener('click',function(){ hideNudge(); if(!panel.classList.contains('open')) openCw(); });
+  setTimeout(showNudge,6000);
+  setInterval(showNudge,300000);
+
+  /* --- draggable toggle (pointer events) --- */
+  var drag=null, wasDrag=false, DTH=6;
+  toggle.addEventListener('pointerdown',function(e){
+    wasDrag=false;
+    var r=toggle.getBoundingClientRect();
+    drag={ox:e.clientX-r.left,oy:e.clientY-r.top,w:r.width,h:r.height,x0:e.clientX,y0:e.clientY};
+    try{ toggle.setPointerCapture(e.pointerId); }catch(_){}
+  });
+  toggle.addEventListener('pointermove',function(e){
+    if(!drag) return;
+    if(!wasDrag && Math.abs(e.clientX-drag.x0)<DTH && Math.abs(e.clientY-drag.y0)<DTH) return;
+    wasDrag=true; hideNudge();
+    var nl=e.clientX-drag.ox, nt=e.clientY-drag.oy;
+    nl=Math.max(0,Math.min(nl, window.innerWidth-drag.w));
+    nt=Math.max(0,Math.min(nt, window.innerHeight-drag.h));
+    toggle.style.left=nl+'px'; toggle.style.top=nt+'px';
+    toggle.style.right='auto'; toggle.style.bottom='auto';
+  });
+  function endDrag(e){ if(drag){ try{ toggle.releasePointerCapture(e.pointerId); }catch(_){} } drag=null; }
+  toggle.addEventListener('pointerup',endDrag);
+  toggle.addEventListener('pointercancel',endDrag);
+  toggle.addEventListener('click',function(e){
+    if(wasDrag){ wasDrag=false; e.preventDefault(); e.stopPropagation(); return; }
+    panel.classList.contains('open')?closeCw():openCw();
+  });
   panel.querySelector('.cw-close').addEventListener('click',closeCw);
 })();
 
