@@ -504,22 +504,22 @@
 <section id="pricing" class="pricing">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div class="kicker">Fleet Management · Pricing</div>
+      <div class="kicker">Simple, honest pricing</div>
       <h2>Founding Member offer — 50% for life</h2>
-      <p>The first 20 companies lock in half price forever. Unlimited drivers, unlimited trucks, every feature.</p>
+      <p>The first 20 companies lock in half price forever. Every feature unlocked, unlimited use, on any app. Prices show automatically in your local currency.</p>
     </div>
     <div class="prices">
       <div class="price reveal">
         <h3>Free Trial</h3>
-        <div class="desc">Try the full system with your real fleet.</div>
+        <div class="desc">Try the full system with your real data.</div>
         <div class="amt">Free<small> / 30 days</small></div>
         <div class="was">No card required</div>
         <ul>
           <li><span class="ck">✓</span> Every feature unlocked</li>
-          <li><span class="ck">✓</span> Unlimited drivers &amp; trucks</li>
+          <li><span class="ck">✓</span> Unlimited users &amp; records</li>
           <li><span class="ck">✓</span> Keep your data if you upgrade</li>
         </ul>
-        <a class="btn btn-ghost" href="https://tfms.jt3rdegre3.com">Start free trial</a>
+        <a class="btn btn-ghost" href="#products">Start free trial</a>
       </div>
       <div class="price feature reveal">
         <div class="fbadge">★ Founding Member · 50% off</div>
@@ -533,7 +533,7 @@
           <li><span class="ck">✓</span> One-click data backup</li>
           <li><span class="ck">✓</span> Priority support · cancel any time</li>
         </ul>
-        <a class="btn btn-primary" href="mailto:support@jt3rdegre3.com?subject=Founding%20Monthly%20-%20Fleet%20App">Claim founding price</a>
+        <a class="btn btn-primary" id="buy-mo" href="https://buy.stripe.com/test_28EaEWazD4jj2induU7bW01" target="_blank" rel="noopener">Pay monthly</a>
       </div>
       <div class="price reveal">
         <h3>Yearly</h3>
@@ -546,7 +546,7 @@
           <li><span class="ck">✓</span> One simple annual renewal</li>
           <li><span class="ck">✓</span> Priority support</li>
         </ul>
-        <a class="btn btn-ghost" href="mailto:support@jt3rdegre3.com?subject=Founding%20Yearly%20-%20Fleet%20App">Claim founding price</a>
+        <a class="btn btn-ghost" id="buy-yr" href="https://buy.stripe.com/test_eVq3cucHLeXXe15eyY7bW00" target="_blank" rel="noopener">Pay yearly</a>
       </div>
     </div>
     <p class="price-note">Questions? Email <a href="mailto:support@jt3rdegre3.com">support@jt3rdegre3.com</a>. Your data is never deleted when a plan lapses; simply reactivate.</p>
@@ -641,9 +641,9 @@
 document.documentElement.classList.add('js');
 /* Silent currency auto-detect (display only) — no switcher shown */
 var PRICES={
-  PHP:{sym:'₱',mo:'1,999',moReg:'3,999',yr:'19,990',yrReg:'39,990'},
+  PHP:{sym:'₱',mo:'1,499',moReg:'2,998',yr:'14,990',yrReg:'29,980'},
   EUR:{sym:'€',mo:'59',moReg:'118',yr:'590',yrReg:'1,180'},
-  USD:{sym:'$',mo:'59',moReg:'118',yr:'590',yrReg:'1,180'}
+  USD:{sym:'$',mo:'49',moReg:'98',yr:'490',yrReg:'980'}
 };
 function detectCur(){
   try{
@@ -656,11 +656,20 @@ function detectCur(){
     return 'USD';
   }catch(e){ return 'USD'; }
 }
+var STRIPE_LINKS={
+  EUR:{mo:'https://buy.stripe.com/test_28EaEWazD4jj2induU7bW01',yr:'https://buy.stripe.com/test_eVq3cucHLeXXe15eyY7bW00'},
+  USD:{mo:'https://buy.stripe.com/test_00wbJ08rv177g9dfD27bW02',yr:'https://buy.stripe.com/test_4gMdR8dLPeXXg9d0I87bW03'},
+  PHP:{mo:'https://buy.stripe.com/test_5kQdR86jn4jj6yD1Mc7bW04',yr:'https://buy.stripe.com/test_9B628q5fjg211ejeyY7bW05'}
+};
 (function(){
-  var p=PRICES[detectCur()]||PRICES.USD;
+  var cur=detectCur();
+  var p=PRICES[cur]||PRICES.USD;
+  var lk=STRIPE_LINKS[cur]||STRIPE_LINKS.EUR;
   document.querySelectorAll('[data-sym]').forEach(function(el){el.textContent=p.sym;});
   var s=function(id,v){var el=document.getElementById(id); if(el)el.textContent=v;};
   s('p-mo',p.mo); s('p-mo-reg',p.moReg); s('p-yr',p.yr); s('p-yr-reg',p.yrReg);
+  var h=function(id,u){var el=document.getElementById(id); if(el)el.setAttribute('href',u);};
+  h('buy-mo',lk.mo); h('buy-yr',lk.yr);
 })();
 /* scroll reveal */
 (function(){
