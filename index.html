@@ -271,6 +271,15 @@
   .cw-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
   @media(max-width:480px){ #cw-panel{right:12px;left:12px;width:auto;bottom:84px;height:70vh} #cw-toggle{right:16px;bottom:16px} }
 
+  /* ---- Privacy modal ---- */
+  .pm-bg{position:fixed;inset:0;z-index:250;background:rgba(3,6,12,.72);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:20px}
+  .pm-bg.open{display:flex}
+  .pm{background:var(--navy-2);border:1px solid var(--line-2);border-radius:18px;max-width:560px;width:100%;max-height:85vh;overflow:auto;padding:30px;box-shadow:var(--shadow)}
+  .pm h3{margin:0 0 14px;font-size:20px}
+  .pm p{color:var(--steel);font-size:14.5px;margin:0 0 12px;line-height:1.6}
+  .pm a{color:var(--blue)}
+  .pm .pm-close{margin-top:6px;background:var(--blue);color:#00121b;border:0;border-radius:10px;padding:11px 20px;font-weight:700;cursor:pointer;font-family:inherit}
+
   /* ---------- responsive ---------- */
   @media(max-width:1080px){ .sol-grid{grid-template-columns:repeat(4,1fr)} }
   @media(max-width:920px){
@@ -588,6 +597,7 @@
         <a href="#about">About</a>
         <a href="mailto:support@jt3rdegre3.com">Contact</a>
         <a href="#pricing">Pricing</a>
+        <a href="#" id="privLink">Privacy</a>
       </div>
     </div>
     <div class="foot-bot">
@@ -596,6 +606,17 @@
     </div>
   </div>
 </footer>
+
+<!-- Privacy modal -->
+<div class="pm-bg" id="privModal" role="dialog" aria-label="Privacy">
+  <div class="pm">
+    <h3>Privacy — how we handle your details</h3>
+    <p>When you send an enquiry through this website, we collect your <b>name and email</b> (and any message you add) for one reason only: to reply to your enquiry about JT.3rDegre3.</p>
+    <p>Your details are stored securely in our database, hosted in the EU, and are never sold or shared. We keep them only as long as needed to help you.</p>
+    <p>You can ask to see or delete your details at any time — just email <a href="mailto:support@jt3rdegre3.com">support@jt3rdegre3.com</a>.</p>
+    <button class="pm-close" type="button">Got it</button>
+  </div>
+</div>
 
 <!-- Help & Sales chat widget -->
 <button id="cw-toggle" aria-label="Ask us a question">
@@ -706,18 +727,20 @@ function detectCur(){
     bot("Great — leave your details and we'll email you within minutes.");
     var f=document.createElement('form'); f.className='cw-form'; f.setAttribute('novalidate','');
     f.innerHTML='<input class="cw-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">'+
-      '<div><label>Your name</label><input name="name" autocomplete="name"></div>'+
-      '<div><label>Email</label><input name="email" type="email" autocomplete="email"></div>'+
+      '<div><label>Your name</label><input name="name" maxlength="120" autocomplete="name"></div>'+
+      '<div><label>Email</label><input name="email" type="email" maxlength="254" autocomplete="email"></div>'+
       '<div><label>What do you need?</label><select name="need"><option>Fleet compliance for my company</option><option>Pricing for my fleet</option><option>A quick demo</option><option>Question about the QHSE apps</option><option>Something else</option></select></div>'+
-      '<div><label>Message (optional)</label><textarea name="message" placeholder="Roughly how many trucks / your industry..."></textarea></div>'+
+      '<div><label>Message (optional)</label><textarea name="message" maxlength="1000" placeholder="Roughly how many trucks / your industry..."></textarea></div>'+
       '<label class="cw-consent"><input type="checkbox" name="consent"> I agree JT.3rDegre3 can use my details to contact me about my enquiry.</label>'+
       '<div class="cw-err"></div><button class="cw-send" type="submit">Send</button>';
-    body.appendChild(f); scroll();
+    body.appendChild(f); f.dataset.t0=String(Date.now()); scroll();
     f.addEventListener('submit',function(e){e.preventDefault();submitLead(f);});
   }
   function submitLead(f){
     var err=f.querySelector('.cw-err'); err.style.display='none';
-    if(f.hp.value){ finish(f,'there'); return; }   // honeypot: silently accept bots
+    if(f.hp.value){ finish(f, f.name.value.trim()||'there'); return; }   // honeypot: silently accept bots
+    var t0=+f.dataset.t0||0;
+    if(t0 && (Date.now()-t0) < 2500){ finish(f, f.name.value.trim()||'there'); return; }   // submitted too fast = bot
     var name=f.name.value.trim(), email=f.email.value.trim(), need=f.need.value, message=f.message.value.trim();
     if(!name||!email){ err.textContent='Please add your name and email.'; err.style.display='block'; return; }
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Please check your email address.'; err.style.display='block'; return; }
@@ -742,6 +765,15 @@ function detectCur(){
   function closeCw(){ panel.classList.remove('open'); toggle.classList.remove('open'); }
   toggle.addEventListener('click',function(){ panel.classList.contains('open')?closeCw():openCw(); });
   panel.querySelector('.cw-close').addEventListener('click',closeCw);
+})();
+
+/* ---- Privacy modal ---- */
+(function(){
+  var link=document.getElementById('privLink'), modal=document.getElementById('privModal');
+  if(!link||!modal) return;
+  link.addEventListener('click',function(e){ e.preventDefault(); modal.classList.add('open'); });
+  modal.addEventListener('click',function(e){ if(e.target===modal||e.target.classList.contains('pm-close')) modal.classList.remove('open'); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') modal.classList.remove('open'); });
 })();
 </script>
 </body>
