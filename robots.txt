@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jt3rdegre3.com/sitemap.xml
