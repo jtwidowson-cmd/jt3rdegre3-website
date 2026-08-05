@@ -398,6 +398,31 @@
   .mq-name{font-size:11.5px;color:var(--steel);text-align:center;font-weight:600;line-height:1.2}
   @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   @media(prefers-reduced-motion:reduce){ .marquee-track{animation:none} }
+  /* bigger badges on laptop/desktop so ~6 show at once */
+  @media(min-width:820px){
+    .mq-item{width:172px}
+    .mq-badge{width:92px;height:92px;font-size:42px}
+    .mq-name{font-size:14px}
+    .marquee-track{gap:36px}
+    .trustbar{padding:46px 0 10px}
+  }
+  /* clickable Solutions + Platform cards */
+  #solutions .sol,#features .feat{cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+  #solutions .sol:hover,#features .feat:hover{transform:translateY(-3px);border-color:var(--blue);box-shadow:0 14px 40px rgba(0,0,0,.28)}
+  /* light-up hover on trust strip + footer links */
+  .trust-in span{padding:8px 15px;border-radius:999px;border:1px solid transparent;transition:.18s ease;cursor:default}
+  .trust-in span:hover{color:var(--white);border-color:var(--line-2);background:rgba(255,255,255,.05);transform:translateY(-2px);box-shadow:0 10px 26px -12px var(--blue-glow)}
+  .foot-col a,.foot-bot a{transition:.16s ease}
+  .foot-col a:hover{color:var(--blue);transform:translateX(3px);text-shadow:0 0 18px var(--blue-glow)}
+  .foot-bot a{color:var(--steel)}
+  .foot-bot a:hover{color:var(--blue);text-shadow:0 0 18px var(--blue-glow)}
+  /* info modal reuses privacy-modal look */
+  #infoModal .pm{max-width:520px}
+  #infoModal .im-ic{font-size:38px;margin-bottom:6px}
+  #infoModal .im-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:10px}
+  #infoModal .im-tag.live{background:rgba(16,185,129,.15);color:var(--emerald)}
+  #infoModal .im-tag.soon{background:rgba(143,163,184,.15);color:var(--steel)}
+  #infoModal .im-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
 </style>
 </head>
 <body>
@@ -429,7 +454,7 @@
     <div class="tagline"><span>One Platform</span><span>Total Protection</span><span>Compliance in Minutes</span></div>
     <p class="lead">Digital solutions for Quality, Health, Safety &amp; Environment that simplify compliance, inspections, reporting and operational excellence. Built for the way industrial teams actually work.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary btn-lg" href="https://tfms.jt3rdegre3.com">Try the app free</a>
+      <a class="btn btn-primary btn-lg" href="#products">Try the app free</a>
       <a class="btn btn-ghost btn-lg" href="#solutions">Explore Solutions</a>
     </div>
     <div class="hero-note"><b>✓</b> Built on real QHSE expertise &nbsp;·&nbsp; Secure &amp; GDPR-ready &nbsp;·&nbsp; Works on any device</div>
@@ -613,7 +638,7 @@
       <h2>Transform your safety management today.</h2>
       <p>Try the Fleet Management System free, or get in touch and we'll set up your fleet with you.</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <a class="btn btn-primary btn-lg" href="https://tfms.jt3rdegre3.com">Try the app free</a>
+        <a class="btn btn-primary btn-lg" href="#products">Try the app free</a>
         <a class="btn btn-ghost btn-lg" href="mailto:support@jt3rdegre3.com?subject=JT3rDegre3%20QHSE%20-%20Enquiry">Talk to us</a>
       </div>
     </div>
@@ -662,7 +687,7 @@
     </div>
     <div class="foot-bot">
       <span>© 2026 JT.3rDegre3. All rights reserved.</span>
-      <span>support@jt3rdegre3.com</span>
+      <a href="mailto:support@jt3rdegre3.com">support@jt3rdegre3.com</a>
     </div>
   </div>
 </footer>
@@ -675,6 +700,20 @@
     <p>Your details are stored securely in our database, hosted in the EU, and are never sold or shared. We keep them only as long as needed to help you.</p>
     <p>You can ask to see or delete your details at any time — just email <a href="mailto:support@jt3rdegre3.com">support@jt3rdegre3.com</a>.</p>
     <button class="pm-close" type="button">Got it</button>
+  </div>
+</div>
+
+<!-- Solutions / Platform info modal -->
+<div class="pm-bg" id="infoModal" role="dialog" aria-label="Details">
+  <div class="pm">
+    <div class="im-ic" id="imIc">✨</div>
+    <span class="im-tag live" id="imTag">Live now</span>
+    <h3 id="imTitle">Title</h3>
+    <p id="imBody">Details…</p>
+    <div class="im-actions">
+      <a class="btn btn-primary" id="imCta" style="display:none">See features &amp; pricing</a>
+      <button class="pm-close" type="button">Close</button>
+    </div>
   </div>
 </div>
 
@@ -805,6 +844,53 @@ function buildTrustbar(){
 buildTrustbar();
 pricingGrid();
 route();
+
+/* ===== Solutions / Platform "learn more" popups ===== */
+var INFO={
+  'Fleet Management':{ic:'🚛',live:true,app:'fleet',body:"Every driver runs their daily walkaround check from their own phone in under a minute, and any defect is logged with a photo straight to the office. The live dashboard shows who has checked in, which vehicles are roadworthy, and what is due — roadworthiness test, service, tacho and 13-week inspections — before anything lapses. It is live today, works offline on site, and keeps a full audit trail for compliance."},
+  'Plant & Equipment Inspection':{ic:'🏗️',live:true,app:'plant',body:"Operators complete a pre-use check on each machine — excavator, loader, telehandler — before it is started, and defects are tracked through to close-out. Statutory items like Thorough Examination, service, insurance, CE and fire-extinguisher dates sit on one compliance dashboard with automatic reminders. Live now, it works offline on site and produces printable review and defect reports."},
+  'Risk Assessments':{ic:'🛡️',live:true,app:'risk',body:"Build a professional risk assessment or method statement in minutes from a built-in hazard-and-control library covering 15 industry sectors. Score each hazard on a 5×5 matrix before and after controls, add your company logo, and generate a print-ready A4 RAMS document. Live today and reusable — clone an assessment and adapt it for the next job."},
+  'Permit to Work':{ic:'📋',live:true,app:'permit',body:"Issue Hot Work, Confined Space, Working-at-Height, LOTO and other permits with the correct precautions checklist built in for each type. Authorisers and acceptors sign digitally, and every permit moves cleanly through draft, issue, accept and close with a printable A4 record. Live now, with a dashboard showing what is active, expiring or overdue."},
+  'Digital Inspection':{ic:'📸',live:true,app:'inspection',body:"Walk the site, photograph what you see, and the app drafts the observation, hazards, controls and a risk rating for you — add as many observations as you like. Then generate a full inspection report in Word or PDF to share. Live today; the AI is optional (bring your own key) and manual entry works offline on site."},
+  'Incident Reporting':{ic:'⚠️',live:false,body:"Log incidents and near-misses the moment they happen, capture evidence, and drive them through investigation to corrective actions and close-out. A full audit trail shows what happened, who acted, and what changed to prevent a repeat. This app is in active development — tell us you are interested and we will notify you first."},
+  'Safety Observations':{ic:'👁️',live:false,body:"Turn every worker into a set of eyes: capture unsafe acts, unsafe conditions and near-misses on the spot from a phone. Each observation becomes a trackable action so nothing is forgotten, and trends show where to focus. Coming soon — let us know and we will keep you posted."},
+  'Document Control':{ic:'📁',live:false,body:"Keep policies, procedures, certificates and records in one controlled, searchable place with the right version always to hand. No more chasing the latest copy across email and shared drives. In active development — register your interest to be an early user."},
+  'Key Performance Indicators':{ic:'📈',live:false,body:"See the QHSE metrics that matter — inspections completed, defects open, permits active, compliance due — at a glance on one screen. Spot problems early and show performance to management without building spreadsheets. Coming soon; tell us the metrics you care about most."},
+  'Compliance Dashboard':{ic:'✅',live:false,body:"Every duty date across your operation — inspections, servicing, statutory exams, permit expiries — in a single live view, colour-coded by what is due. Nothing slips through the cracks, and you always know your compliance position. In active development — get notified when it lands."},
+  'Real-time dashboards':{ic:'📊',live:true,body:"The office sees today's activity live — checks completed, defects raised, permits active, dates falling due — the moment it happens on site. No waiting for paperwork to come back at the end of the day. Every app in the platform feeds the same live picture."},
+  'Install as an app':{ic:'📱',live:true,body:"Add any JT.3rDegre3 app to a phone, tablet or laptop home screen in one tap — no app store, no download queue. It opens full-screen like a native app and even works offline on site, syncing automatically when signal returns. The same smooth experience on Android and Apple."},
+  'Live notifications':{ic:'🔔',live:true,body:"Automatic email alerts go out before duties fall due — roadworthiness, servicing, statutory exams, permit expiries — so nothing is missed. Reminders reach the right people without anyone having to remember. Built into every app that tracks a due date."},
+  'Cloud storage':{ic:'☁️',live:true,body:"Your records are stored securely in the EU, synced across devices, and always available when you need them. Nothing important lives on a single phone that can be lost or broken. Backups and export keep your data firmly yours."},
+  'Multi-user access':{ic:'👥',live:true,body:"Give every member of the team their own secure login from one company invite code — set up in seconds on their own device. Everyone works in the same live system instead of scattered spreadsheets. Add or remove people as your team changes."},
+  'Role permissions':{ic:'🔑',live:true,body:"Admins, officers and frontline users each see exactly what they need and nothing they should not. A driver files a check, an officer manages the registers, an admin controls the company — enforced at the database, not just on screen. Security that holds even if someone pokes at the app."},
+  'Audit trail & retention':{ic:'🧾',live:true,body:"Every check, defect, permit and change is recorded with who did it and when, building a complete, searchable compliance history. When an auditor or client asks, the evidence is already there. Data is retained safely and never quietly deleted."},
+  'GDPR-ready security':{ic:'🇪🇺',live:true,body:"Each company's data is fully isolated and protected at the database level, so no one can ever see another company's records. Built EU-first with GDPR in mind, with a clear privacy policy and your right to access or delete. Security is designed in from the start, on both the front and back end."}
+};
+(function(){
+  var modal=document.getElementById('infoModal');
+  if(!modal) return;
+  var mIc=document.getElementById('imIc'),mTag=document.getElementById('imTag'),mTitle=document.getElementById('imTitle'),mBody=document.getElementById('imBody'),mCta=document.getElementById('imCta');
+  function openInfo(key){
+    var d=INFO[key]; if(!d) return;
+    mIc.textContent=d.ic||'✨';
+    mTag.textContent=d.live?'Live now':'Coming soon';
+    mTag.className='im-tag '+(d.live?'live':'soon');
+    mTitle.textContent=key;
+    mBody.textContent=d.body;
+    if(d.app){ mCta.style.display=''; mCta.setAttribute('href','#'+d.app); mCta.textContent='See features & pricing'; }
+    else { mCta.style.display='none'; }
+    modal.classList.add('open');
+  }
+  function closeInfo(){ modal.classList.remove('open'); }
+  document.addEventListener('click',function(e){
+    if(!e.target.closest) return;
+    var card=e.target.closest('#solutions .sol, #features .feat');
+    if(card){ var t=card.querySelector('h3,h4'); if(t) openInfo(t.textContent.trim()); return; }
+  });
+  mCta.addEventListener('click',closeInfo);
+  modal.addEventListener('click',function(e){ if(e.target===modal||e.target.classList.contains('pm-close')) closeInfo(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeInfo(); });
+})();
 /* scroll reveal */
 (function(){
   var els=document.querySelectorAll('.reveal');
@@ -883,7 +969,10 @@ route();
     {q:'Is my data safe?',a:"Very. Every company's data is isolated, protected at the database level, and the platform is GDPR-ready. Each driver also gets their own secure login."},
     {q:'What is QHSE?',a:"Quality, Health, Safety & Environment — the areas that keep industrial operations compliant and safe. We build simple apps for each, starting with Fleet Management."},
     {q:'How do drivers get access?',a:"You share one company invite code and each driver creates their own secure login in seconds, on their own phone."},
-    {q:'Which app is live now?',a:"Five apps are live today: Transport Fleet Management System, Plant & Equipment Inspection, Risk Assessment Generator, Permit to Work and Digital Inspection. More QHSE apps are on the way."}
+    {q:'Which app is live now?',a:"Five apps are live today: Transport Fleet Management System, Plant & Equipment Inspection, Risk Assessment Generator, Permit to Work and Digital Inspection. More QHSE apps are on the way."},
+    {q:'Does it work offline on site?',a:"Yes — every app is built for the field. You can complete checks, log defects, raise permits and add inspections with no signal, and everything syncs automatically the moment you're back online."},
+    {q:'Can I buy just one app?',a:"Absolutely. Each app is sold separately with its own price, so you only pay for what you need — start with one and add others anytime from your account."},
+    {q:'Do you work for my industry?',a:"Almost certainly — the platform is built for construction, transport, logistics, manufacturing, quarrying, mining, warehousing and oil & gas. The tools map to how QHSE work really happens on the ground in regulated, industrial operations."}
   ];
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function scroll(){body.scrollTop=body.scrollHeight;}
