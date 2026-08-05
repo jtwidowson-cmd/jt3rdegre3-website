@@ -361,6 +361,32 @@
     .glass{padding:12px}.dash{padding:14px}
   }
   @media(prefers-reduced-motion:reduce){ .scan{display:none} .bars .bar,.live .d,.status.on .d{animation:none} .ring .bar{transition:none} .bars .bar{transform:scaleY(1)} html.js .reveal{opacity:1;transform:none;transition:none} }
+
+  /* ===== Per-app landing pages ===== */
+  .prod.live{cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+  .prod.live:hover{transform:translateY(-3px);border-color:var(--blue);box-shadow:0 14px 40px rgba(0,0,0,.28)}
+  .app-hero{padding:80px 0 40px;position:relative}
+  .app-hero .back{display:inline-flex;align-items:center;gap:7px;color:var(--steel);font-size:14px;font-weight:600;margin-bottom:22px;text-decoration:none}
+  .app-hero .back:hover{color:var(--blue)}
+  .app-hero-in{max-width:760px}
+  .app-ic{width:76px;height:76px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:40px;background:linear-gradient(160deg,rgba(37,99,235,.18),rgba(16,185,129,.12));border:1px solid var(--line);margin-bottom:20px}
+  .app-hero h1{font-size:46px;line-height:1.06;font-weight:800;margin:12px 0 16px}
+  .app-hero p.lead{font-size:18.5px;line-height:1.6;color:var(--steel);margin:0 0 26px;max-width:640px}
+  .app-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .app-incl{padding:26px 0 6px}
+  .incl-list{list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:14px 30px}
+  .incl-list li{display:flex;gap:11px;align-items:flex-start;font-size:15.5px;color:var(--white);line-height:1.5}
+  .incl-list .ck{color:var(--emerald);font-weight:800;flex:0 0 auto}
+  /* pricing overview grid on the hub */
+  .price-apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:8px}
+  .price-app{display:flex;flex-direction:column;gap:6px;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--navy-2);text-decoration:none;color:inherit;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+  .price-app:hover{transform:translateY(-3px);border-color:var(--blue);box-shadow:0 14px 40px rgba(0,0,0,.24)}
+  .price-app .pa-ic{font-size:30px}
+  .price-app .pa-name{font-weight:700;font-size:15.5px;line-height:1.3}
+  .price-app .pa-price{color:var(--steel);font-size:14px}
+  .price-app .pa-price b{color:var(--white);font-size:20px}
+  .price-app .pa-link{margin-top:auto;color:var(--blue);font-weight:700;font-size:13.5px}
+  @media(max-width:640px){ .app-hero h1{font-size:34px} .incl-list{grid-template-columns:1fr} .app-cta .btn{width:100%;justify-content:center;min-height:48px} }
 </style>
 </head>
 <body>
@@ -381,6 +407,8 @@
 </header>
 
 <a id="top"></a>
+<section id="app-view" style="display:none"></section>
+<div id="hub">
 <section class="hero">
   <div class="hero-grid"></div>
   <div class="scan"></div>
@@ -465,23 +493,23 @@
       <p>Purpose-built apps for industrial QHSE — one login, one subscription, every tool. Five apps are live now: Transport Fleet Management System, Plant &amp; Equipment Inspection, Risk Assessment Generator, Permit to Work and Digital Workplace Inspection.<br>More are in active development.</p>
     </div>
     <div class="prod-grid">
-      <div class="prod live reveal">
+      <div class="prod live reveal" data-app="fleet">
         <div class="prod-top"><div class="prod-ic">🚛</div><span class="status on"><span class="d"></span>Live now</span></div>
         <h3>Transport Fleet Management System</h3>
         <p>Daily walkaround checks, defect reporting, roadworthiness &amp; service reminders, and a secure login for every driver — with a live dashboard for the office.</p>
-        <a class="btn btn-primary" href="https://tfms.jt3rdegre3.com">Open app</a>
+        <a class="btn btn-primary" href="#fleet">See features &amp; pricing</a>
       </div>
-      <div class="prod live reveal">
+      <div class="prod live reveal" data-app="plant">
         <div class="prod-top"><div class="prod-ic">🏗️</div><span class="status on"><span class="d"></span>Live now</span></div>
         <h3>Plant &amp; Equipment Inspection</h3>
         <p>Operator pre-use checks, statutory compliance (Thorough Examination, service, insurance, CE &amp; fire extinguisher), defect tracking, printable QR labels and a live dashboard — for excavators, loaders, telehandlers and more.</p>
-        <a class="btn btn-primary" href="https://plant.jt3rdegre3.com">Open app</a>
+        <a class="btn btn-primary" href="#plant">See features &amp; pricing</a>
       </div>
-      <div class="prod live reveal"><div class="prod-top"><div class="prod-ic">📸</div><span class="status on"><span class="d"></span>Live now</span></div><h3>Digital Workplace Inspection</h3><p>Walk the site, photograph what you see, and auto-generate observations, hazards and controls — then produce a full inspection report in Word or PDF.</p><a class="btn btn-primary" href="https://inspection.jt3rdegre3.com">Open app</a></div>
+      <div class="prod live reveal" data-app="inspection"><div class="prod-top"><div class="prod-ic">📸</div><span class="status on"><span class="d"></span>Live now</span></div><h3>Digital Workplace Inspection</h3><p>Walk the site, photograph what you see, and auto-generate observations, hazards and controls — then produce a full inspection report in Word or PDF.</p><a class="btn btn-primary" href="#inspection">See features &amp; pricing</a></div>
       <div class="prod reveal"><div class="prod-top"><div class="prod-ic">👷</div><span class="status soon">Coming soon</span></div><h3>Contractor &amp; Visitor Management</h3><p>Onboard, verify and track contractors and their documents, sign in visitors, capture inductions, and keep an accurate site record — all in one place.</p><a class="btn btn-ghost" href="#contact">Get notified</a></div>
       <div class="prod reveal"><div class="prod-top"><div class="prod-ic">🪪</div><span class="status soon">Coming soon</span></div><h3>Digital Safety Passport</h3><p>Every worker's training and competencies, verifiable by QR code on site.</p><a class="btn btn-ghost" href="#contact">Get notified</a></div>
-      <div class="prod live reveal"><div class="prod-top"><div class="prod-ic">🛡️</div><span class="status on"><span class="d"></span>Live now</span></div><h3>Risk Assessment Generator</h3><p>Create professional risk assessments &amp; method statements (RAMS) in minutes — a built-in hazard library for every industry, 5×5 risk matrix, and print-ready output.</p><a class="btn btn-primary" href="https://risk.jt3rdegre3.com">Open app</a></div>
-      <div class="prod live reveal"><div class="prod-top"><div class="prod-ic">📋</div><span class="status on"><span class="d"></span>Live now</span></div><h3>Permit to Work</h3><p>Issue, track and close safe-work permits — Hot Work, Confined Space, Working at Height, LOTO and more — with type-specific precautions, sign-offs and printable A4 permits.</p><a class="btn btn-primary" href="https://permit.jt3rdegre3.com">Open app</a></div>
+      <div class="prod live reveal" data-app="risk"><div class="prod-top"><div class="prod-ic">🛡️</div><span class="status on"><span class="d"></span>Live now</span></div><h3>Risk Assessment Generator</h3><p>Create professional risk assessments &amp; method statements (RAMS) in minutes — a built-in hazard library for every industry, 5×5 risk matrix, and print-ready output.</p><a class="btn btn-primary" href="#risk">See features &amp; pricing</a></div>
+      <div class="prod live reveal" data-app="permit"><div class="prod-top"><div class="prod-ic">📋</div><span class="status on"><span class="d"></span>Live now</span></div><h3>Permit to Work</h3><p>Issue, track and close safe-work permits — Hot Work, Confined Space, Working at Height, LOTO and more — with type-specific precautions, sign-offs and printable A4 permits.</p><a class="btn btn-primary" href="#permit">See features &amp; pricing</a></div>
     </div>
   </div>
 </section>
@@ -551,51 +579,11 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="kicker">Simple, honest pricing</div>
-      <h2>Founding Member offer — 50% for life</h2>
-      <p>The first 20 companies lock in half price forever. Every feature unlocked, unlimited use, on any app. Prices show automatically in your local currency.</p>
+      <h2>Pay only for the apps you need</h2>
+      <p>Every app is sold separately, each with its own simple price — start with one and add more as you grow. Every app comes with a <b>30-day free trial, no card required</b>. Prices show automatically in your local currency.</p>
     </div>
-    <div class="prices">
-      <div class="price reveal">
-        <h3>Free Trial</h3>
-        <div class="desc">Try the full system with your real data.</div>
-        <div class="amt">Free<small> / 30 days</small></div>
-        <div class="was">No card required</div>
-        <ul>
-          <li><span class="ck">✓</span> Every feature unlocked</li>
-          <li><span class="ck">✓</span> Unlimited users &amp; records</li>
-          <li><span class="ck">✓</span> Keep your data if you upgrade</li>
-        </ul>
-        <a class="btn btn-ghost" href="#products">Start free trial</a>
-      </div>
-      <div class="price feature reveal">
-        <div class="fbadge">★ Founding Member · 50% off</div>
-        <h3>Monthly</h3>
-        <div class="desc">Full access, billed month to month.</div>
-        <div class="amt"><span class="sym" data-sym></span><span id="p-mo"></span><small> / month</small></div>
-        <div class="was"><s><span class="sym" data-sym></span><span id="p-mo-reg"></span></s> &nbsp;<b>50% off, locked for life</b></div>
-        <ul>
-          <li><span class="ck">✓</span> Everything in the trial</li>
-          <li><span class="ck">✓</span> Email reminders to the office</li>
-          <li><span class="ck">✓</span> One-click data backup</li>
-          <li><span class="ck">✓</span> Priority support · cancel any time</li>
-        </ul>
-        <a class="btn btn-primary" id="buy-mo" href="https://buy.stripe.com/test_eVq3cucHLeXXe15eyY7bW00" target="_blank" rel="noopener">Pay monthly</a>
-      </div>
-      <div class="price reveal">
-        <h3>Yearly</h3>
-        <div class="desc">Best value — 2 months free.</div>
-        <div class="amt"><span class="sym" data-sym></span><span id="p-yr"></span><small> / year</small></div>
-        <div class="was"><s><span class="sym" data-sym></span><span id="p-yr-reg"></span></s> &nbsp;<b>2 months free</b></div>
-        <ul>
-          <li><span class="ck">✓</span> Everything in Monthly</li>
-          <li><span class="ck">✓</span> Best value for the year</li>
-          <li><span class="ck">✓</span> One simple annual renewal</li>
-          <li><span class="ck">✓</span> Priority support</li>
-        </ul>
-        <a class="btn btn-ghost" id="buy-yr" href="https://buy.stripe.com/test_28EaEWazD4jj2induU7bW01" target="_blank" rel="noopener">Pay yearly</a>
-      </div>
-    </div>
-    <p class="price-note">Questions? Email <a href="mailto:support@jt3rdegre3.com">support@jt3rdegre3.com</a>. Your data is never deleted when a plan lapses; simply reactivate.</p>
+    <div class="price-apps reveal" id="pricingGrid"></div>
+    <p class="price-note">Questions? Email <a href="mailto:support@jt3rdegre3.com">support@jt3rdegre3.com</a>. Cancel any time — your data is never deleted when a plan lapses; simply reactivate.</p>
   </div>
 </section>
 
@@ -621,6 +609,7 @@
     <span><b>🚀</b> New apps in development</span>
   </div>
 </div>
+</div><!-- /hub -->
 
 <footer class="site">
   <div class="wrap">
@@ -685,12 +674,8 @@
 
 <script>
 document.documentElement.classList.add('js');
-/* Silent currency auto-detect (display only) — no switcher shown */
-var PRICES={
-  PHP:{sym:'₱',mo:'1,499',moReg:'2,998',yr:'14,990',yrReg:'29,980'},
-  EUR:{sym:'€',mo:'59',moReg:'118',yr:'590',yrReg:'1,180'},
-  USD:{sym:'$',mo:'49',moReg:'98',yr:'490',yrReg:'980'}
-};
+/* ===== Per-app pricing + landing pages ===== */
+var DEFAULT_TITLE=document.title;
 function detectCur(){
   try{
     var tz=(Intl.DateTimeFormat().resolvedOptions().timeZone||'');
@@ -702,24 +687,97 @@ function detectCur(){
     return 'USD';
   }catch(e){ return 'USD'; }
 }
-var STRIPE_LINKS={
-  EUR:{mo:'https://buy.stripe.com/test_eVq3cucHLeXXe15eyY7bW00',yr:'https://buy.stripe.com/test_28EaEWazD4jj2induU7bW01'},
-  USD:{mo:'https://buy.stripe.com/test_00wbJ08rv177g9dfD27bW02',yr:'https://buy.stripe.com/test_4gMdR8dLPeXXg9d0I87bW03'},
-  PHP:{mo:'https://buy.stripe.com/test_5kQdR86jn4jj6yD1Mc7bW04',yr:'https://buy.stripe.com/test_9B628q5fjg211ejeyY7bW05'}
+var APP_DATA={
+  fleet:{name:'Transport Fleet Management System',ic:'🚛',url:'https://tfms.jt3rdegre3.com',
+    tag:'Daily vehicle checks, defect reporting and roadworthiness compliance — with a live office dashboard and a secure login for every driver.',
+    feat:['Unlimited vehicles, trailers & drivers','Daily walkaround / defect checks on any phone','Defect logging, tracking & sign-off','Roadworthiness, service, tacho & 13-week reminders','Automatic email alerts before duties fall due','Printable & exportable inspection and defect reports','Works offline on site — syncs when back online','Roles & permissions (admin / officer / driver)'],
+    price:{EUR:{sym:'€',mo:'39',yr:'390'},USD:{sym:'$',mo:'39',yr:'390'},PHP:{sym:'₱',mo:'299',yr:'2,990'}}},
+  plant:{name:'Plant & Equipment Inspection',ic:'🏗️',url:'https://plant.jt3rdegre3.com',
+    tag:'Operator pre-use checks and statutory compliance for excavators, loaders, telehandlers and more — with defect tracking and a live dashboard.',
+    feat:['Unlimited plant, equipment & operators','Operator pre-use inspections on any phone','Statutory compliance: Thorough Examination, service, insurance, CE & fire extinguisher','Defect logging & tracking','Compliance dashboard + daily reminder emails','Plant & equipment review with CSV export & print','Works offline on site — syncs when back online','Roles & multi-user access'],
+    price:{EUR:{sym:'€',mo:'19',yr:'190'},USD:{sym:'$',mo:'19',yr:'190'},PHP:{sym:'₱',mo:'299',yr:'2,990'}}},
+  risk:{name:'Risk Assessment Generator',ic:'🛡️',url:'https://risk.jt3rdegre3.com',
+    tag:'Create professional risk assessments and method statements (RAMS) in minutes, from a built-in hazard library covering every industry.',
+    feat:['Risk assessments with 5×5 before/after scoring','Built-in hazard & control library across 15 sectors','Method statements & combined MSRA documents','One-click A4 document generation & printing','Your company logo on every document','Reusable activities, hazards & controls','Works offline — syncs when back online','Roles & multi-user access'],
+    price:{EUR:{sym:'€',mo:'29',yr:'290'},USD:{sym:'$',mo:'29',yr:'290'},PHP:{sym:'₱',mo:'299',yr:'2,990'}}},
+  permit:{name:'Permit to Work',ic:'📋',url:'https://permit.jt3rdegre3.com',
+    tag:'Issue, track and close safe-work permits with type-specific precautions, digital sign-offs and printable A4 permits.',
+    feat:['7 permit types (Hot Work, Confined Space, Height, LOTO, Excavation, Lifting, General)','Type-specific precautions checklist built in','Digital signatures (authoriser + acceptor)','Full lifecycle: draft → issue → accept → close / cancel','Live dashboard: active / expiring / expired','Printable A4 permit with sign-off blocks','Works offline on site — syncs when back online','Roles & multi-user access'],
+    price:{EUR:{sym:'€',mo:'19',yr:'190'},USD:{sym:'$',mo:'19',yr:'190'},PHP:{sym:'₱',mo:'199',yr:'1,990'}}},
+  inspection:{name:'Digital Workplace Inspection',ic:'📸',url:'https://inspection.jt3rdegre3.com',
+    tag:'Walk the site, photograph what you see, and auto-generate observations, hazards and controls — then produce a full report in Word or PDF.',
+    feat:['Photo-driven inspections — snap a site photo','AI auto-generates observation, hazards, controls & risk rating','Bring your own AI key — or add observations manually','Multiple observations per inspection','Generate a full report in Word or PDF','Works offline on site — syncs when back online','Roles & multi-user access'],
+    price:{EUR:{sym:'€',mo:'19',yr:'190'},USD:{sym:'$',mo:'19',yr:'190'},PHP:{sym:'₱',mo:'199',yr:'1,990'}}}
 };
-(function(){
-  var cur=detectCur();
-  var p=PRICES[cur]||PRICES.USD;
-  var lk=STRIPE_LINKS[cur]||STRIPE_LINKS.EUR;
-  document.querySelectorAll('[data-sym]').forEach(function(el){el.textContent=p.sym;});
-  var s=function(id,v){var el=document.getElementById(id); if(el)el.textContent=v;};
-  s('p-mo',p.mo); s('p-mo-reg',p.moReg); s('p-yr',p.yr); s('p-yr-reg',p.yrReg);
-  var h=function(id,u){var el=document.getElementById(id); if(el)el.setAttribute('href',u);};
-  h('buy-mo',lk.mo); h('buy-yr',lk.yr);
-  var t=function(id,txt){var el=document.getElementById(id); if(el)el.textContent=txt;};
-  t('buy-mo','Pay monthly — '+p.sym+p.mo);
-  t('buy-yr','Pay yearly — '+p.sym+p.yr);
-})();
+var APP_ORDER=['fleet','plant','risk','permit','inspection'];
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function priceFor(a){var c=detectCur();return a.price[c]||a.price.EUR;}
+function pricingGrid(){
+  var el=document.getElementById('pricingGrid'); if(!el) return;
+  el.innerHTML=APP_ORDER.map(function(k){var a=APP_DATA[k];var p=priceFor(a);
+    return '<a class="price-app" href="#'+k+'"><div class="pa-ic">'+a.ic+'</div>'+
+      '<div class="pa-name">'+esc(a.name)+'</div>'+
+      '<div class="pa-price">from <b>'+p.sym+p.mo+'</b> / month</div>'+
+      '<span class="pa-link">See plans →</span></a>';
+  }).join('');
+}
+function renderApp(k){
+  var a=APP_DATA[k]; if(!a) return '';
+  var p=priceFor(a);
+  var contact='mailto:support@jt3rdegre3.com?subject='+encodeURIComponent('Purchase '+a.name+' — JT3rDegre3');
+  var feats=a.feat.map(function(f){return '<li><span class="ck">✓</span> '+esc(f)+'</li>';}).join('');
+  var few=a.feat.slice(0,4).map(function(f){return '<li><span class="ck">✓</span> '+esc(f)+'</li>';}).join('');
+  return '<section class="app-hero"><div class="wrap">'+
+    '<a class="back" href="#products">← All products</a>'+
+    '<div class="app-hero-in">'+
+      '<div class="app-ic">'+a.ic+'</div>'+
+      '<span class="badge live">Live now</span>'+
+      '<h1>'+esc(a.name)+'</h1>'+
+      '<p class="lead">'+esc(a.tag)+'</p>'+
+      '<div class="app-cta">'+
+        '<a class="btn btn-primary btn-lg" href="'+a.url+'">Start free trial</a>'+
+        '<a class="btn btn-ghost btn-lg" href="'+contact+'">Contact us to purchase</a>'+
+      '</div>'+
+      '<div class="hero-note"><b>✓</b> 30-day free trial · No card required · Works on any device</div>'+
+    '</div></div></section>'+
+    '<section class="app-incl"><div class="wrap">'+
+      '<div class="sec-head"><div class="kicker">What’s included</div><h2>Everything in '+esc(a.name)+'</h2></div>'+
+      '<ul class="incl-list">'+feats+'</ul>'+
+    '</div></section>'+
+    '<section class="pricing"><div class="wrap">'+
+      '<div class="sec-head"><div class="kicker">Simple pricing</div><h2>'+esc(a.name)+' plans</h2><p>Prices show automatically in your local currency. Cancel any time — your data is never deleted.</p></div>'+
+      '<div class="prices">'+
+        '<div class="price"><h3>Free Trial</h3><div class="desc">Try it with your real data.</div><div class="amt">Free<small> / 30 days</small></div><div class="was">No card required</div><ul>'+few+'</ul><a class="btn btn-ghost" href="'+a.url+'">Start free trial</a></div>'+
+        '<div class="price feature"><div class="fbadge">★ Most popular</div><h3>Monthly</h3><div class="desc">Full access, billed monthly.</div><div class="amt"><span class="sym">'+p.sym+'</span>'+p.mo+'<small> / month</small></div><div class="was">Everything unlocked · cancel any time</div><ul>'+few+'</ul><a class="btn btn-primary" href="'+a.url+'">Start free trial</a><a class="btn btn-ghost" style="margin-top:10px" href="'+contact+'">Contact us to purchase</a></div>'+
+        '<div class="price"><h3>Yearly</h3><div class="desc">Best value — 2 months free.</div><div class="amt"><span class="sym">'+p.sym+'</span>'+p.yr+'<small> / year</small></div><div class="was">Save 2 months vs monthly</div><ul>'+few+'</ul><a class="btn btn-primary" href="'+a.url+'">Start free trial</a><a class="btn btn-ghost" style="margin-top:10px" href="'+contact+'">Contact us to purchase</a></div>'+
+      '</div>'+
+    '</div></section>';
+}
+function route(){
+  var k=(location.hash||'').replace('#','').toLowerCase();
+  var view=document.getElementById('app-view');
+  var hub=document.getElementById('hub');
+  if(APP_DATA[k]){
+    view.innerHTML=renderApp(k);
+    view.style.display='block';
+    if(hub) hub.style.display='none';
+    window.scrollTo(0,0);
+    document.title='JT.3rDegre3 — '+APP_DATA[k].name;
+  } else {
+    view.style.display='none'; view.innerHTML='';
+    if(hub) hub.style.display='';
+    document.title=DEFAULT_TITLE;
+    if(k){ var t=document.getElementById(k); if(t){ setTimeout(function(){ t.scrollIntoView({block:'start'}); },0); } }
+  }
+}
+window.addEventListener('hashchange',route);
+document.addEventListener('click',function(e){
+  if(!e.target.closest) return;
+  var card=e.target.closest('.prod[data-app]');
+  if(card && !e.target.closest('a')){ location.hash='#'+card.getAttribute('data-app'); }
+});
+pricingGrid();
+route();
 /* scroll reveal */
 (function(){
   var els=document.querySelectorAll('.reveal');
