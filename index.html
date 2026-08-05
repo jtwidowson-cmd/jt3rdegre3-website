@@ -387,6 +387,17 @@
   .price-app .pa-price b{color:var(--white);font-size:20px}
   .price-app .pa-link{margin-top:auto;color:var(--blue);font-weight:700;font-size:13.5px}
   @media(max-width:640px){ .app-hero h1{font-size:34px} .incl-list{grid-template-columns:1fr} .app-cta .btn{width:100%;justify-content:center;min-height:48px} }
+  /* ===== Trusted-across-industry marquee ===== */
+  .trustbar{padding:36px 0 8px;overflow:hidden}
+  .trustbar .lbl{text-align:center;color:var(--steel);font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:22px}
+  .marquee{position:relative;width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+  .marquee-track{display:flex;gap:24px;width:max-content;animation:marq 46s linear infinite}
+  .trustbar:hover .marquee-track{animation-play-state:paused}
+  .mq-item{display:flex;flex-direction:column;align-items:center;gap:9px;flex:0 0 auto;width:96px}
+  .mq-badge{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:27px;background:linear-gradient(160deg,var(--navy-2),var(--navy));border:1px solid var(--line-2);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+  .mq-name{font-size:11.5px;color:var(--steel);text-align:center;font-weight:600;line-height:1.2}
+  @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){ .marquee-track{animation:none} }
 </style>
 </head>
 <body>
@@ -463,6 +474,13 @@
   </div>
 </section>
 
+<section class="trustbar" aria-label="Industries we serve">
+  <div class="wrap">
+    <div class="lbl">Trusted across every industry</div>
+  </div>
+  <div class="marquee"><div class="marquee-track" id="mqTrack"></div></div>
+</section>
+
 <section id="solutions">
   <div class="wrap">
     <div class="sec-head reveal">
@@ -472,12 +490,12 @@
     </div>
     <div class="sol-grid">
       <div class="sol reveal"><span class="badge live">Live</span><div class="ic">🚛</div><h3>Fleet Management</h3><p>Walkaround checks, defects &amp; compliance.</p></div>
-      <div class="sol reveal"><span class="badge soon">Soon</span><div class="ic">🔎</div><h3>Digital Inspections</h3><p>Custom checklists on any device.</p></div>
+      <div class="sol reveal"><span class="badge live">Live</span><div class="ic">🏗️</div><h3>Plant &amp; Equipment Inspection</h3><p>Operator checks &amp; statutory compliance.</p></div>
+      <div class="sol reveal"><span class="badge live">Live</span><div class="ic">🛡️</div><h3>Risk Assessments</h3><p>Build and share RAMS fast.</p></div>
+      <div class="sol reveal"><span class="badge live">Live</span><div class="ic">📋</div><h3>Permit to Work</h3><p>Control high-risk tasks safely.</p></div>
+      <div class="sol reveal"><span class="badge live">Live</span><div class="ic">📸</div><h3>Digital Inspection</h3><p>Photo inspections with auto observations.</p></div>
       <div class="sol reveal"><span class="badge soon">Soon</span><div class="ic">⚠️</div><h3>Incident Reporting</h3><p>Log, investigate, close out.</p></div>
-      <div class="sol reveal"><span class="badge soon">Soon</span><div class="ic">📝</div><h3>Permit to Work</h3><p>Control high-risk tasks safely.</p></div>
-      <div class="sol reveal"><span class="badge soon">Soon</span><div class="ic">🛡️</div><h3>Risk Assessments</h3><p>Build and share RAMS fast.</p></div>
       <div class="sol reveal"><span class="badge soon">Soon</span><div class="ic">👁️</div><h3>Safety Observations</h3><p>Capture near-misses instantly.</p></div>
-      <div class="sol reveal"><span class="badge soon">Soon</span><div class="ic">🏗️</div><h3>Asset Management</h3><p>Track plant &amp; equipment.</p></div>
       <div class="sol reveal"><span class="badge soon">Soon</span><div class="ic">📁</div><h3>Document Control</h3><p>One source of truth for records.</p></div>
       <div class="sol reveal"><span class="badge soon">Soon</span><div class="ic">📈</div><h3>Key Performance Indicators</h3><p>The metrics that matter, at a glance.</p></div>
       <div class="sol reveal"><span class="badge soon">Soon</span><div class="ic">✅</div><h3>Compliance Dashboard</h3><p>Every duty date in one view.</p></div>
@@ -490,7 +508,7 @@
     <div class="sec-head reveal">
       <div class="kicker">Products</div>
       <h2>The JT.3rDegre3 product family</h2>
-      <p>Purpose-built apps for industrial QHSE — one login, one subscription, every tool. Five apps are live now: Transport Fleet Management System, Plant &amp; Equipment Inspection, Risk Assessment Generator, Permit to Work and Digital Workplace Inspection.<br>More are in active development.</p>
+      <p>Purpose-built apps for industrial QHSE — one login, one subscription, every tool. Five apps are live now: Transport Fleet Management System, Plant &amp; Equipment Inspection, Risk Assessment Generator, Permit to Work and Digital Inspection.<br>More are in active development.</p>
     </div>
     <div class="prod-grid">
       <div class="prod live reveal" data-app="fleet">
@@ -505,11 +523,13 @@
         <p>Operator pre-use checks, statutory compliance (Thorough Examination, service, insurance, CE &amp; fire extinguisher), defect tracking, printable QR labels and a live dashboard — for excavators, loaders, telehandlers and more.</p>
         <a class="btn btn-primary" href="#plant">See features &amp; pricing</a>
       </div>
-      <div class="prod live reveal" data-app="inspection"><div class="prod-top"><div class="prod-ic">📸</div><span class="status on"><span class="d"></span>Live now</span></div><h3>Digital Workplace Inspection</h3><p>Walk the site, photograph what you see, and auto-generate observations, hazards and controls — then produce a full inspection report in Word or PDF.</p><a class="btn btn-primary" href="#inspection">See features &amp; pricing</a></div>
-      <div class="prod reveal"><div class="prod-top"><div class="prod-ic">👷</div><span class="status soon">Coming soon</span></div><h3>Contractor &amp; Visitor Management</h3><p>Onboard, verify and track contractors and their documents, sign in visitors, capture inductions, and keep an accurate site record — all in one place.</p><a class="btn btn-ghost" href="#contact">Get notified</a></div>
-      <div class="prod reveal"><div class="prod-top"><div class="prod-ic">🪪</div><span class="status soon">Coming soon</span></div><h3>Digital Safety Passport</h3><p>Every worker's training and competencies, verifiable by QR code on site.</p><a class="btn btn-ghost" href="#contact">Get notified</a></div>
       <div class="prod live reveal" data-app="risk"><div class="prod-top"><div class="prod-ic">🛡️</div><span class="status on"><span class="d"></span>Live now</span></div><h3>Risk Assessment Generator</h3><p>Create professional risk assessments &amp; method statements (RAMS) in minutes — a built-in hazard library for every industry, 5×5 risk matrix, and print-ready output.</p><a class="btn btn-primary" href="#risk">See features &amp; pricing</a></div>
       <div class="prod live reveal" data-app="permit"><div class="prod-top"><div class="prod-ic">📋</div><span class="status on"><span class="d"></span>Live now</span></div><h3>Permit to Work</h3><p>Issue, track and close safe-work permits — Hot Work, Confined Space, Working at Height, LOTO and more — with type-specific precautions, sign-offs and printable A4 permits.</p><a class="btn btn-primary" href="#permit">See features &amp; pricing</a></div>
+      <div class="prod live reveal" data-app="inspection"><div class="prod-top"><div class="prod-ic">📸</div><span class="status on"><span class="d"></span>Live now</span></div><h3>Digital Inspection</h3><p>Walk the site, photograph what you see, and auto-generate observations, hazards and controls — then produce a full inspection report in Word or PDF.</p><a class="btn btn-primary" href="#inspection">See features &amp; pricing</a></div>
+      <div class="prod reveal"><div class="prod-top"><div class="prod-ic">👷</div><span class="status soon">Coming soon</span></div><h3>Contractor &amp; Visitor Management</h3><p>Onboard, verify and track contractors and their documents, sign in visitors, capture inductions, and keep an accurate site record — all in one place.</p><a class="btn btn-ghost" href="#contact">Get notified</a></div>
+      <div class="prod reveal"><div class="prod-top"><div class="prod-ic">🪪</div><span class="status soon">Coming soon</span></div><h3>Digital Safety Passport</h3><p>Every worker's training and competencies, verifiable by QR code on site.</p><a class="btn btn-ghost" href="#contact">Get notified</a></div>
+      <div class="prod reveal"><div class="prod-top"><div class="prod-ic">⚠️</div><span class="status soon">Coming soon</span></div><h3>Incident Reporting</h3><p>Log, investigate and close out incidents and near-misses — with corrective actions, evidence and a full audit trail.</p><a class="btn btn-ghost" href="#contact">Get notified</a></div>
+      <div class="prod reveal"><div class="prod-top"><div class="prod-ic">👁️</div><span class="status soon">Coming soon</span></div><h3>Safety Observations</h3><p>Capture unsafe acts, conditions and near-misses on the spot — turning frontline eyes into trackable actions.</p><a class="btn btn-ghost" href="#contact">Get notified</a></div>
     </div>
   </div>
 </section>
@@ -704,7 +724,7 @@ var APP_DATA={
     tag:'Issue, track and close safe-work permits with type-specific precautions, digital sign-offs and printable A4 permits.',
     feat:['7 permit types (Hot Work, Confined Space, Height, LOTO, Excavation, Lifting, General)','Type-specific precautions checklist built in','Digital signatures (authoriser + acceptor)','Full lifecycle: draft → issue → accept → close / cancel','Live dashboard: active / expiring / expired','Printable A4 permit with sign-off blocks','Works offline on site — syncs when back online','Roles & multi-user access'],
     price:{EUR:{sym:'€',mo:'19',yr:'190'},USD:{sym:'$',mo:'19',yr:'190'},PHP:{sym:'₱',mo:'199',yr:'1,990'}}},
-  inspection:{name:'Digital Workplace Inspection',ic:'📸',url:'https://inspection.jt3rdegre3.com',
+  inspection:{name:'Digital Inspection',ic:'📸',url:'https://inspection.jt3rdegre3.com',
     tag:'Walk the site, photograph what you see, and auto-generate observations, hazards and controls — then produce a full report in Word or PDF.',
     feat:['Photo-driven inspections — snap a site photo','AI auto-generates observation, hazards, controls & risk rating','Bring your own AI key — or add observations manually','Multiple observations per inspection','Generate a full report in Word or PDF','Works offline on site — syncs when back online','Roles & multi-user access'],
     price:{EUR:{sym:'€',mo:'19',yr:'190'},USD:{sym:'$',mo:'19',yr:'190'},PHP:{sym:'₱',mo:'199',yr:'1,990'}}}
@@ -776,6 +796,13 @@ document.addEventListener('click',function(e){
   var card=e.target.closest('.prod[data-app]');
   if(card && !e.target.closest('a')){ location.hash='#'+card.getAttribute('data-app'); }
 });
+var SECTORS=[['🏗️','Construction'],['🚚','Transport'],['📦','Logistics'],['🏭','Manufacturing'],['⛏️','Quarrying'],['⚒️','Mining'],['🏬','Warehousing'],['🛢️','Oil & Gas'],['💡','Utilities'],['🌱','Renewables'],['⚓','Marine'],['✈️','Aviation'],['🧪','Chemical'],['⚡','Power'],['♻️','Waste']];
+function buildTrustbar(){
+  var el=document.getElementById('mqTrack'); if(!el) return;
+  var one=SECTORS.map(function(s){return '<div class="mq-item"><div class="mq-badge">'+s[0]+'</div><div class="mq-name">'+esc(s[1])+'</div></div>';}).join('');
+  el.innerHTML=one+one;
+}
+buildTrustbar();
 pricingGrid();
 route();
 /* scroll reveal */
@@ -856,7 +883,7 @@ route();
     {q:'Is my data safe?',a:"Very. Every company's data is isolated, protected at the database level, and the platform is GDPR-ready. Each driver also gets their own secure login."},
     {q:'What is QHSE?',a:"Quality, Health, Safety & Environment — the areas that keep industrial operations compliant and safe. We build simple apps for each, starting with Fleet Management."},
     {q:'How do drivers get access?',a:"You share one company invite code and each driver creates their own secure login in seconds, on their own phone."},
-    {q:'Which app is live now?',a:"Five apps are live today: Transport Fleet Management System, Plant & Equipment Inspection, Risk Assessment Generator, Permit to Work and Digital Workplace Inspection. Contractor & Visitor Management and Digital Safety Passport are on the way."}
+    {q:'Which app is live now?',a:"Five apps are live today: Transport Fleet Management System, Plant & Equipment Inspection, Risk Assessment Generator, Permit to Work and Digital Inspection. More QHSE apps are on the way."}
   ];
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function scroll(){body.scrollTop=body.scrollHeight;}
@@ -875,8 +902,10 @@ route();
       '<div><label>What do you need?</label><select name="need"><option>Fleet compliance for my company</option><option>Pricing for my fleet</option><option>A quick demo</option><option>Question about the QHSE apps</option><option>Something else</option></select></div>'+
       '<div><label>Message (optional)</label><textarea name="message" maxlength="1000" placeholder="Roughly how many trucks / your industry..."></textarea></div>'+
       '<label class="cw-consent"><input type="checkbox" name="consent"> I agree JT.3rDegre3 can use my details to contact me about my enquiry.</label>'+
+      '<div class="cw-priv" style="font-size:11.5px;color:var(--steel);line-height:1.5;margin-top:4px">To give you the content requested, we need to store and process your personal data. For more information please review our <a href="#" class="cw-privlink" style="color:var(--blue);font-weight:600">Privacy Policy</a>.</div>'+
       '<div class="cw-err"></div><button class="cw-send" type="submit">Send</button>';
     body.appendChild(f); f.dataset.t0=String(Date.now()); scroll();
+    var pl=f.querySelector('.cw-privlink'); if(pl) pl.addEventListener('click',function(e){e.preventDefault();var m=document.getElementById('privModal'); if(m) m.classList.add('open');});
     f.addEventListener('submit',function(e){e.preventDefault();submitLead(f);});
   }
   function submitLead(f){
@@ -913,6 +942,19 @@ route();
   nudge.textContent='How may I help you?';
   document.body.appendChild(nudge);
   var nudgeTimer=null;
+  /* soft chime — browsers only allow sound after the first user interaction */
+  var _actx=null;
+  function unlockAudio(){ if(_actx) return; try{ _actx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ _actx=null; } }
+  document.addEventListener('pointerdown',unlockAudio);
+  document.addEventListener('keydown',unlockAudio);
+  function nudgeBeep(){ if(!_actx) return; try{
+    if(_actx.state==='suspended'){ _actx.resume(); }
+    var o=_actx.createOscillator(), g=_actx.createGain(), t=_actx.currentTime;
+    o.type='sine'; o.frequency.setValueAtTime(660,t); o.frequency.exponentialRampToValueAtTime(990,t+0.12);
+    o.connect(g); g.connect(_actx.destination);
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.07,t+0.03); g.gain.exponentialRampToValueAtTime(0.0001,t+0.30);
+    o.start(t); o.stop(t+0.32);
+  }catch(e){} }
   function positionNudge(){
     var r=toggle.getBoundingClientRect();
     var right=Math.max(8, window.innerWidth - r.right);
@@ -924,13 +966,14 @@ route();
     if(panel.classList.contains('open')) return;
     positionNudge();
     nudge.classList.add('show');
+    nudgeBeep();
     clearTimeout(nudgeTimer);
     nudgeTimer=setTimeout(hideNudge,8000);
   }
   function hideNudge(){ nudge.classList.remove('show'); clearTimeout(nudgeTimer); }
   nudge.addEventListener('click',function(){ hideNudge(); if(!panel.classList.contains('open')) openCw(); });
   setTimeout(showNudge,6000);
-  setInterval(showNudge,300000);
+  setInterval(showNudge,90000);
 
   /* --- draggable toggle (pointer events) --- */
   var drag=null, wasDrag=false, DTH=6;
