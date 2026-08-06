@@ -365,7 +365,8 @@
   /* ===== Per-app landing pages ===== */
   .prod.live{cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
   .prod.live:hover{transform:translateY(-3px);border-color:var(--blue);box-shadow:0 14px 40px rgba(0,0,0,.28)}
-  .app-hero{padding:80px 0 40px;position:relative}
+  .app-hero{padding:40px 0 34px;position:relative}
+  @media(max-width:560px){.app-hero{padding:20px 0 26px}.app-ic{width:60px;height:60px;font-size:32px;margin-bottom:14px}}
   .app-hero .back{display:inline-flex;align-items:center;gap:7px;color:var(--steel);font-size:14px;font-weight:600;margin-bottom:22px;text-decoration:none}
   .app-hero .back:hover{color:var(--blue)}
   .app-hero-in{max-width:760px}
@@ -386,6 +387,35 @@
   .price-app .pa-price{color:var(--steel);font-size:14px}
   .price-app .pa-price b{color:var(--white);font-size:20px}
   .price-app .pa-link{margin-top:auto;color:var(--blue);font-weight:700;font-size:13.5px}
+  /* sign-in nav button */
+  .nav-signin{border:1px solid var(--line);border-radius:999px;padding:8px 16px !important;color:var(--white) !important;font-weight:600;transition:.18s}
+  .nav-signin:hover{border-color:var(--blue);background:rgba(0,174,239,.10)}
+  /* Premium All-Access banner */
+  .premium-banner{position:relative;margin:0 auto 30px;border-radius:26px;padding:2px;
+    background:linear-gradient(135deg,var(--blue),#7b61ff 55%,var(--emerald));
+    box-shadow:0 32px 70px -30px var(--blue-glow)}
+  .premium-inner{position:relative;background:linear-gradient(160deg,#0b1a2a,#0a1420);border-radius:24px;padding:34px 36px;overflow:hidden}
+  .premium-inner::before{content:"";position:absolute;top:-40%;right:-10%;width:420px;height:420px;border-radius:50%;
+    background:radial-gradient(circle,rgba(0,174,239,.18),transparent 70%);pointer-events:none}
+  .pb-badge{display:inline-block;background:linear-gradient(90deg,var(--blue),#7b61ff);color:#00121b;font-weight:800;
+    font-size:12px;letter-spacing:.02em;padding:7px 15px;border-radius:999px;margin-bottom:18px}
+  .pb-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:34px;align-items:center;position:relative}
+  .pb-k{color:var(--blue);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+  .pb-grid h3{font-family:'Sora';font-size:26px;line-height:1.2;margin:0 0 10px}
+  .pb-grid p{color:var(--steel);font-size:14.5px;margin:0 0 16px;max-width:52ch}
+  .pb-feats{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 20px}
+  .pb-feats li{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:#d3e0ea}
+  .pb-feats .ck{color:var(--emerald);font-weight:800;flex:none}
+  .pb-right{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:18px;padding:24px;text-align:center}
+  .pb-price{display:flex;align-items:baseline;justify-content:center;gap:2px;line-height:1}
+  .pb-sym{font-size:26px;font-weight:700;color:var(--white)}
+  .pb-amt{font-family:'Sora';font-size:56px;font-weight:800;color:var(--white)}
+  .pb-per{font-size:15px;color:var(--steel);font-weight:600;margin-left:3px}
+  .pb-yr{color:var(--steel);font-size:14px;margin:10px 0 18px}
+  .pb-yr b{color:var(--emerald);font-weight:700}
+  .pb-right .btn{width:100%;justify-content:center}
+  .pb-note{color:var(--steel-2);font-size:12.5px;margin-top:11px}
+  @media(max-width:720px){ .pb-grid{grid-template-columns:1fr;gap:22px} .pb-feats{grid-template-columns:1fr} .premium-inner{padding:26px 22px} .pb-grid h3{font-size:22px} }
   @media(max-width:640px){ .app-hero h1{font-size:34px} .incl-list{grid-template-columns:1fr} .app-cta .btn{width:100%;justify-content:center;min-height:48px} }
   /* ===== Trusted-across-industry marquee ===== */
   .trustbar{padding:36px 0 8px;overflow:hidden}
@@ -467,6 +497,7 @@
       <a href="#pricing">Pricing</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
+      <a class="nav-signin" href="https://app.jt3rdegre3.com">Sign in →</a>
     </nav>
   </div>
 </header>
@@ -654,9 +685,11 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="kicker">Simple, honest pricing</div>
-      <h2>Pay only for the apps you need</h2>
-      <p>Every app is sold separately, each with its own simple price — start with one and add more as you grow. Every app comes with a <b>30-day free trial, no card required</b>. Prices show automatically in your local currency.</p>
+      <h2>Go all-in, or pay only for what you need</h2>
+      <p>Get <b>every app</b> with one Premium All-Access subscription — the best value — or buy apps <b>separately</b> and add more as you grow. Every plan comes with a <b>30-day free trial, no card required</b>. Prices show automatically in your local currency.</p>
     </div>
+    <div class="premium-banner reveal" id="premiumBanner"></div>
+    <div class="sec-head reveal" style="margin-bottom:14px"><div class="kicker">Or buy apps separately</div></div>
     <div class="price-apps reveal" id="pricingGrid"></div>
     <p class="price-note">Questions? Email <a href="mailto:support@jt3rdegre3.com">support@jt3rdegre3.com</a>. Cancel any time — your data is never deleted when a plan lapses; simply reactivate.</p>
   </div>
@@ -695,9 +728,11 @@
       </div>
       <div class="foot-col">
         <h4>Products</h4>
-        <a href="https://tfms.jt3rdegre3.com">Fleet Management</a>
-        <a href="#products">Product family</a>
-        <a href="#solutions">Solutions</a>
+        <a href="#fleet">Transport Fleet</a>
+        <a href="#plant">Plant &amp; Equipment</a>
+        <a href="#risk">Risk Assessment</a>
+        <a href="#permit">Permit to Work</a>
+        <a href="#inspection">Digital Inspection</a>
         <a href="#pricing">Pricing</a>
       </div>
       <div class="foot-col">
@@ -801,6 +836,35 @@ var APP_DATA={
 var APP_ORDER=['fleet','plant','risk','permit','inspection'];
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function priceFor(a){var c=detectCur();return a.price[c]||a.price.EUR;}
+var PREMIUM={ EUR:{sym:'€',mo:'89',yr:'890'}, USD:{sym:'$',mo:'99',yr:'990'}, PHP:{sym:'₱',mo:'899',yr:'8,990'} };
+function premiumFor(){var c=detectCur();return PREMIUM[c]||PREMIUM.EUR;}
+function premiumBanner(){
+  var el=document.getElementById('premiumBanner'); if(!el) return;
+  var p=premiumFor();
+  el.innerHTML='<div class="premium-inner">'+
+    '<div class="pb-badge">★ Best value — all 5 apps, one price</div>'+
+    '<div class="pb-grid">'+
+      '<div class="pb-left">'+
+        '<div class="pb-k">Premium All-Access</div>'+
+        '<h3>Every app. One login. One dashboard.</h3>'+
+        '<p>Unlock Transport Fleet, Plant &amp; Equipment, Risk Assessment, Permit to Work and Digital Inspection — plus every new app we add — all managed from your Management Dashboard.</p>'+
+        '<ul class="pb-feats">'+
+          '<li><span class="ck">✓</span> All 5 apps included — and future apps</li>'+
+          '<li><span class="ck">✓</span> One secure login across everything</li>'+
+          '<li><span class="ck">✓</span> Unlimited users &amp; roles per company</li>'+
+          '<li><span class="ck">✓</span> Works offline on site · syncs later</li>'+
+          '<li><span class="ck">✓</span> Central billing &amp; subscription control</li>'+
+          '<li><span class="ck">✓</span> Cheaper than buying apps separately</li>'+
+        '</ul>'+
+      '</div>'+
+      '<div class="pb-right">'+
+        '<div class="pb-price"><span class="pb-sym">'+p.sym+'</span><span class="pb-amt">'+p.mo+'</span><span class="pb-per">/month</span></div>'+
+        '<div class="pb-yr">or '+p.sym+p.yr+' / year — <b>2 months free</b></div>'+
+        '<a class="btn btn-primary btn-lg" href="https://app.jt3rdegre3.com">Start 30-day free trial</a>'+
+        '<div class="pb-note">No card required · Cancel any time</div>'+
+      '</div>'+
+    '</div></div>';
+}
 function pricingGrid(){
   var el=document.getElementById('pricingGrid'); if(!el) return;
   el.innerHTML=APP_ORDER.map(function(k){var a=APP_DATA[k];var p=priceFor(a);
@@ -895,6 +959,7 @@ function buildPhone(){
 }
 buildPhone();
 buildTrustbar();
+premiumBanner();
 pricingGrid();
 route();
 
