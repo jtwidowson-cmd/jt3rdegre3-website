@@ -130,12 +130,12 @@
   .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
   @media(max-width:820px){.rev-grid{grid-template-columns:1fr 1fr}}
   @media(max-width:560px){.rev-grid{grid-template-columns:1fr}}
-  .rev-card{background:var(--navy-2);border:1px solid var(--line-2);border-radius:16px;padding:18px}
+  .rev-card{background:var(--navy-2);border:1px solid var(--line-2);border-radius:16px;padding:18px;display:flex;flex-direction:column}
   [data-theme="light"] .rev-card{background:#fff}
   .rev-stars{color:#e6b74a;font-size:15px;letter-spacing:2px}
   .rev-body{font-size:14px;margin:8px 0 12px;color:#d3e0ea}
   [data-theme="light"] .rev-body{color:#31414f}
-  .rev-who{font-weight:700;font-size:13.5px}
+  .rev-who{font-weight:700;font-size:13.5px;margin-top:auto}
   .rev-who span{color:var(--steel);font-weight:500}
   .rev-form{background:var(--navy-2);border:1px solid var(--line-2);border-radius:18px;padding:22px;max-width:560px;margin:22px auto 0}
   [data-theme="light"] .rev-form{background:#fff}
@@ -884,8 +884,7 @@
     <div class="sec-head reveal"><div class="kicker">Reviews</div><h2>What operators say</h2><p>Real reviews from verified customers. Every review is checked and approved before it appears here.</p></div>
     <div class="rev-grid reveal" id="revGrid"></div>
     <div class="rev-form reveal">
-      <h3 style="margin:0 0 4px;font-family:'Sora'">Leave a review</h3>
-      <div class="rev-note">Submitted for approval — it appears here once we've verified it.</div>
+      <h3 style="margin:0 0 10px;font-family:'Sora'">Leave a review</h3>
       <label>Your rating</label>
       <div class="star-pick" id="starPick" data-val="5"><span class="s on" data-v="1">★</span><span class="s on" data-v="2">★</span><span class="s on" data-v="3">★</span><span class="s on" data-v="4">★</span><span class="s on" data-v="5">★</span></div>
       <label>Name</label><input id="rv-name" maxlength="80" placeholder="Your name">
@@ -1186,7 +1185,16 @@ buildPhone();
 // Owner: set LAUNCH to your go-live moment (local time). The offer runs 14 HOURS from there —
 // one honest, shared deadline for everyone. Update SPOTS_LEFT as real founding members join.
 var LAUNCH='2026-08-09T09:00:00';
-var PROMO_END=new Date(new Date(LAUNCH).getTime()+14*3600*1000).toISOString();
+// Per-visitor personal countdown: each NEW visitor gets their own window (~10–14h).
+// It PERSISTS in the browser and keeps counting down across visits (it does NOT reset
+// on every load), and it is not looped/regenerated once it ends — so it stays honest.
+function promoEnd(){
+  try{
+    var k='jt_promo_end', v=parseInt(localStorage.getItem(k)||'0',10);
+    if(!v){ var hrs=10+Math.random()*4; v=Date.now()+Math.round(hrs*3600*1000); localStorage.setItem(k,String(v)); }
+    return v;
+  }catch(_){ return Date.now()+12*3600*1000; }
+}
 var SPOTS_TOTAL=20, SPOTS_CLAIMED=7;
 var PROMO={ EUR:{sym:'€',y1:'699',y2:'1,499',reg:'890'}, USD:{sym:'$',y1:'749',y2:'1,599',reg:'990'}, PHP:{sym:'₱',y1:'1,999',y2:'2,999',reg:'8,990'} };
 function promoNow(){ var c=(typeof detectCur==='function')?detectCur():'EUR'; return PROMO[c]||PROMO.EUR; }
@@ -1217,7 +1225,7 @@ function cdOffer(ms){ var p=cdParts(ms); function c(n,l){return '<div class="cd-
 function cdBar(ms){ var p=cdParts(ms); function c(n,l){return '<div class="c"><div class="n">'+String(n).padStart(2,'0')+'</div><div class="l">'+l+'</div></div>';} return (p.d>0?c(p.d,'D'):'')+c(p.h,'H')+c(p.m,'M')+c(p.s,'S'); }
 function initBar(){ var p=promoNow(); var msg=document.getElementById('pbMsg'); if(msg) msg.innerHTML='ALL-ACCESS LAUNCH RATE: <b>'+p.sym+p.y1+'</b>/yr — CLOSING SOON'; var sp=document.getElementById('pbSpots'); if(sp) sp.textContent=SPOTS_CLAIMED+'/'+SPOTS_TOTAL+' CLAIMED'; }
 function tickCountdown(){
-  var end=new Date(PROMO_END).getTime(); if(isNaN(end)) return;
+  var end=promoEnd(); if(isNaN(end)) return;
   var ms=end-Date.now(), cd=document.getElementById('countdown'), pb=document.getElementById('pbCd');
   if(ms<=0){ var card=document.getElementById('foCard'); if(card) card.innerHTML='<div class="fo-ended">The founding offer has closed — see our <a href="#pricing">regular pricing</a>. Thanks to our founding subscribers!</div>'; if(pb) pb.innerHTML=''; var msg=document.getElementById('pbMsg'); if(msg) msg.textContent='Founding offer has closed — regular pricing now applies'; return; }
   if(cd) cd.innerHTML=cdOffer(ms);
@@ -1484,7 +1492,7 @@ var INFO={
   nudge.id='cw-nudge'; nudge.setAttribute('role','button'); nudge.setAttribute('tabindex','0');
   nudge.textContent='How may I help you?';
   document.body.appendChild(nudge);
-  var nudgeTimer=null;
+  var nudgeTimer=null, cycleTimer=null, nudgeCount=0;
   /* soft chime — browsers only allow sound after the first user interaction */
   var _actx=null;
   function unlockAudio(){ if(_actx) return; try{ _actx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ _actx=null; } }
@@ -1505,18 +1513,19 @@ var INFO={
     nudge.style.right=right+'px';
     nudge.style.bottom=(window.innerHeight - r.top + 12)+'px';
   }
+  function scheduleNudge(){ clearTimeout(cycleTimer); cycleTimer=setTimeout(showNudge, 10000+Math.random()*5000); } // pop again every 10–15s
   function showNudge(){
-    if(panel.classList.contains('open')) return;
+    if(panel.classList.contains('open')){ scheduleNudge(); return; }  // don't nudge while chat is open, but keep the cycle alive
     positionNudge();
     nudge.classList.add('show');
-    nudgeBeep();
+    if(nudgeCount<2) nudgeBeep();   // chime only the first couple of times, then silent
+    nudgeCount++;
     clearTimeout(nudgeTimer);
-    nudgeTimer=setTimeout(hideNudge,8000);
+    nudgeTimer=setTimeout(function(){ hideNudge(); scheduleNudge(); }, 5000);  // show ~5s, hide, then pop again later
   }
   function hideNudge(){ nudge.classList.remove('show'); clearTimeout(nudgeTimer); }
-  nudge.addEventListener('click',function(){ hideNudge(); if(!panel.classList.contains('open')) openCw(); });
-  setTimeout(showNudge,6000);
-  setInterval(showNudge,90000);
+  nudge.addEventListener('click',function(){ hideNudge(); clearTimeout(cycleTimer); if(!panel.classList.contains('open')) openCw(); });
+  setTimeout(showNudge,5000);   // first appearance, then it re-pops itself every 10–15s
 
   /* --- draggable toggle (pointer events) --- */
   var drag=null, wasDrag=false, DTH=6;
