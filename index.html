@@ -325,10 +325,10 @@
   .about ul{list-style:none;padding:0;margin:0}
   .about li{display:flex;gap:14px;align-items:flex-start;padding:11px 0;font-size:15.5px}
   .about li .ck{width:28px;height:28px;border-radius:9px;background:rgba(16,185,129,.14);color:var(--emerald);display:grid;place-items:center;font-weight:800;flex:none;font-size:14px}
-  .about-panel{border-radius:22px;padding:32px;background:linear-gradient(160deg,var(--navy-3),var(--navy));border:1px solid var(--line-2);box-shadow:var(--shadow);position:relative;overflow:hidden}
-  .about-panel:before{content:"";position:absolute;inset:0;background:radial-gradient(320px 220px at 90% 0%,rgba(0,174,239,.16),transparent 60%)}
-  .about-panel .pt{position:relative;font-family:'Sora';font-weight:800;font-size:26px;background:linear-gradient(100deg,#fff,#7fd8f7);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .about-panel .ptag{position:relative;font-family:'Sora';font-weight:600;font-size:14px;color:var(--blue);margin:6px 0 4px}
+  .about-panel{border-radius:22px;padding:24px 22px 20px;background:linear-gradient(160deg,var(--navy-3),var(--navy));border:1px solid var(--line-2);box-shadow:var(--shadow);position:relative;overflow:hidden;text-align:center}
+  .about-panel:before{content:"";position:absolute;inset:0;background:radial-gradient(360px 240px at 50% 0%,rgba(0,174,239,.16),transparent 62%)}
+  .about-panel .pt{position:relative;font-family:'Sora';font-weight:800;font-size:23px;line-height:1.15;background:linear-gradient(100deg,#fff,#7fd8f7);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .about-panel .ptag{position:relative;font-family:'Sora';font-weight:600;font-size:13.5px;color:var(--blue);margin:7px 0 0}
   .about-panel .sub2{position:relative;color:var(--steel);font-size:13.5px}
   .qbox{position:relative;display:flex;gap:13px;align-items:center;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:15px;margin-top:14px}
   .qbox .em{font-size:22px}.qbox b{display:block;font-size:14.5px}.qbox span{font-size:12.5px;color:var(--steel)}
@@ -567,7 +567,7 @@
   .trustbar{padding:36px 0 8px;overflow:hidden}
   .trustbar .lbl{text-align:center;color:var(--steel);font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:22px}
   .marquee{position:relative;width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
-  .marquee-track{display:flex;gap:24px;width:max-content;animation:marq 46s linear infinite}
+  .marquee-track{display:flex;gap:24px;width:max-content;animation:marq 46s linear infinite;animation-direction:reverse}
   .trustbar:hover .marquee-track{animation-play-state:paused}
   .mq-item{display:flex;flex-direction:column;align-items:center;gap:9px;flex:0 0 auto;width:96px}
   .mq-badge{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:27px;background:linear-gradient(160deg,var(--navy-2),var(--navy));border:1px solid var(--line-2);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
@@ -608,8 +608,8 @@
   .sec-head p,.hero p.lead{color:#c2cede}
 
   /* ===== Phone demo (About panel) ===== */
-  .phone-wrap{position:relative;display:flex;justify-content:center;margin-top:20px}
-  .phone{position:relative;width:210px;max-width:70%;aspect-ratio:9/19;background:#05090f;border:2px solid #263449;border-radius:30px;padding:10px;box-shadow:0 26px 60px -18px rgba(0,0,0,.7),inset 0 0 0 2px rgba(255,255,255,.03)}
+  .phone-wrap{position:relative;display:flex;justify-content:center;margin-top:14px}
+  .phone{position:relative;width:210px;max-width:70%;aspect-ratio:9/16;background:#05090f;border:2px solid #263449;border-radius:30px;padding:10px;box-shadow:0 26px 60px -18px rgba(0,0,0,.7),inset 0 0 0 2px rgba(255,255,255,.03)}
   .phone:before{content:"";position:absolute;top:12px;left:50%;transform:translateX(-50%);width:74px;height:15px;background:#05090f;border-radius:0 0 12px 12px;border:1px solid #263449;border-top:none;z-index:3}
   .phone-screen{position:relative;width:100%;height:100%;border-radius:22px;overflow:hidden;background:#0b1220}
   .demo-slide{position:absolute;inset:0;opacity:0;transform:scale(1.02);transition:opacity .6s ease,transform .6s ease;display:flex;flex-direction:column;padding:26px 12px 14px}
@@ -624,7 +624,8 @@
   .ds-row{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:9px;padding:8px 9px;margin-bottom:7px}
   .ds-row .t{font-size:10px;color:#cfdae8}
   .ds-pill{font-size:8.5px;font-weight:700;padding:2px 7px;border-radius:999px}
-  .phone-dots{display:flex;gap:6px;justify-content:center;margin-top:14px}
+  .ds-foot{margin-top:auto;text-align:center;font-size:10px;font-weight:700;border-radius:9px;padding:9px;letter-spacing:.02em}
+  .phone-dots{display:flex;gap:6px;justify-content:center;margin-top:12px}
   .phone-dots i{width:7px;height:7px;border-radius:50%;background:var(--line-2);transition:.2s;cursor:pointer}
   .phone-dots i.on{background:var(--blue);transform:scale(1.25)}
   @media(min-width:900px){ .phone{width:250px} }
@@ -639,7 +640,6 @@
   <span class="pb-lim">LIMITED</span>
   <span class="pb-msg" id="pbMsg">Founding member pricing — closing soon</span>
   <div class="pb-cd" id="pbCd"></div>
-  <span class="pb-spots" id="pbSpots"></span>
   <a class="pb-go" href="#offer" aria-label="See the founding offer">↗</a>
 </div></div>
 <header class="site">
@@ -678,7 +678,7 @@
       <a class="btn btn-primary btn-lg" href="#products">Try the app free</a>
       <a class="btn btn-ghost btn-lg" href="#solutions">Explore Solutions</a>
     </div>
-    <div class="hero-note"><b>✓</b> Built on real QHSE expertise &nbsp;·&nbsp; Secure &amp; GDPR-ready &nbsp;·&nbsp; Works on any device</div>
+    <div class="hero-note">Built on real QHSE expertise &nbsp;·&nbsp; Secure &amp; GDPR-ready &nbsp;·&nbsp; Works on any device</div>
 
     <div class="preview reveal">
       <div class="glass">
@@ -1143,18 +1143,18 @@ function buildTrustbar(){
 }
 /* ===== Phone demo carousel (About panel) ===== */
 var PHONE=[
-  {n:'Fleet Management',ic:'🚛',c:'#00AEEF',tiles:[['90%','Fleet compliant'],['2','Due soon']],rows:[['142-D · Walkaround','Passed','#10B981'],['Roadworthiness · 151-C','Due 9d','#00AEEF'],['Brake defect · 161-D','Action','#EF4444']]},
-  {n:'Plant & Equipment',ic:'🏗️',c:'#f4a72b',tiles:[['12','Machines'],['3','Due']],rows:[['Excavator · pre-use','Passed','#10B981'],['Thorough Exam · TH-04','Due 14d','#00AEEF'],['Hydraulic leak · LD-2','Action','#EF4444']]},
-  {n:'Risk Assessment',ic:'🛡️',c:'#f4a72b',tiles:[['24','Assessments'],['5×5','Matrix']],rows:[['Working at height','High→Med','#f4a72b'],['Hot works · MSRA','Ready','#10B981'],['Manual handling','Low','#10B981']]},
-  {n:'Permit to Work',ic:'📋',c:'#00AEEF',tiles:[['4','Active'],['1','Expiring']],rows:[['Hot Work · PTW-118','Active','#10B981'],['Confined Space · 119','Signed','#00AEEF'],['Excavation · 120','Draft','#8492a6']]},
-  {n:'Digital Inspection',ic:'📸',c:'#12b7a6',tiles:[['8','Observations'],['1','Report']],rows:[['Trip hazard · cable','Medium','#f4a72b'],['Missing guard · saw','High','#EF4444'],['PPE in use · zone A','Good','#10B981']]}
+  {n:'Fleet Management',ic:'🚛',c:'#00AEEF',tiles:[['90%','Fleet compliant'],['2','Due soon']],rows:[['142-D · Walkaround','Passed','#10B981'],['Roadworthiness · 151-C','Due 9d','#00AEEF'],['Brake defect · 161-D','Action','#EF4444'],['Service · 172-A','Booked','#8492a6']]},
+  {n:'Plant & Equipment',ic:'🏗️',c:'#f4a72b',tiles:[['12','Machines'],['3','Due']],rows:[['Excavator · pre-use','Passed','#10B981'],['Thorough Exam · TH-04','Due 14d','#00AEEF'],['Hydraulic leak · LD-2','Action','#EF4444'],['LOLER · crane','Due 30d','#8492a6']]},
+  {n:'Risk Assessment',ic:'🛡️',c:'#f4a72b',tiles:[['24','Assessments'],['5×5','Matrix']],rows:[['Working at height','High→Med','#f4a72b'],['Hot works · MSRA','Ready','#10B981'],['Manual handling','Low','#10B981'],['COSHH · solvents','Med','#f4a72b']]},
+  {n:'Permit to Work',ic:'📋',c:'#00AEEF',tiles:[['4','Active'],['1','Expiring']],rows:[['Hot Work · PTW-118','Active','#10B981'],['Confined Space · 119','Signed','#00AEEF'],['Excavation · 120','Draft','#8492a6'],['Working at Height','Active','#10B981']]},
+  {n:'Digital Inspection',ic:'📸',c:'#12b7a6',tiles:[['8','Observations'],['1','Report']],rows:[['Trip hazard · cable','Medium','#f4a72b'],['Missing guard · saw','High','#EF4444'],['PPE in use · zone A','Good','#10B981'],['Housekeeping · yard','Good','#10B981']]}
 ];
 function buildPhone(){
   var scr=document.getElementById('phoneScreen'), dots=document.getElementById('phoneDots'); if(!scr) return;
   scr.innerHTML=PHONE.map(function(a,i){
     var tiles=a.tiles.map(function(t){return '<div class="ds-tile"><div class="n">'+esc(t[0])+'</div><div class="l">'+esc(t[1])+'</div></div>';}).join('');
     var rows=a.rows.map(function(r){return '<div class="ds-row"><span class="t">'+esc(r[0])+'</span><span class="ds-pill" style="background:'+r[2]+'22;color:'+r[2]+'">'+esc(r[1])+'</span></div>';}).join('');
-    return '<div class="demo-slide'+(i===0?' active':'')+'"><div class="ds-head"><div class="ds-ic" style="background:'+a.c+'22;color:'+a.c+'">'+a.ic+'</div><div class="ds-name">'+esc(a.n)+'</div></div><div class="ds-tiles">'+tiles+'</div>'+rows+'</div>';
+    return '<div class="demo-slide'+(i===0?' active':'')+'"><div class="ds-head"><div class="ds-ic" style="background:'+a.c+'22;color:'+a.c+'">'+a.ic+'</div><div class="ds-name">'+esc(a.n)+'</div></div><div class="ds-tiles">'+tiles+'</div>'+rows+'<div class="ds-foot" style="background:'+a.c+'1e;border:1px solid '+a.c+'55;color:'+a.c+'">Open dashboard →</div></div>';
   }).join('');
   dots.innerHTML=PHONE.map(function(_,i){return '<i class="'+(i===0?'on':'')+'" data-i="'+i+'" role="button" aria-label="Show app '+(i+1)+'"></i>';}).join('');
   var slides=scr.querySelectorAll('.demo-slide'), dd=dots.querySelectorAll('i'), cur=0, timer=null;
@@ -1182,20 +1182,12 @@ buildPhone();
 })();
 
 /* ===== Founding offer + countdown ===== */
-// Owner: set LAUNCH to your go-live moment (local time). The offer runs 14 HOURS from there —
-// one honest, shared deadline for everyone. Update SPOTS_LEFT as real founding members join.
+// Owner: set LAUNCH to your go-live moment. The offer runs for 25 DAYS from there —
+// ONE honest, shared deadline for everyone. When it ends the site shows the offer has
+// closed; you can then start a fresh promo by moving LAUNCH forward.
 var LAUNCH='2026-08-09T09:00:00';
-// Per-visitor personal countdown: each NEW visitor gets their own window (~10–14h).
-// It PERSISTS in the browser and keeps counting down across visits (it does NOT reset
-// on every load), and it is not looped/regenerated once it ends — so it stays honest.
-function promoEnd(){
-  try{
-    var k='jt_promo_end', v=parseInt(localStorage.getItem(k)||'0',10);
-    if(!v){ var hrs=10+Math.random()*4; v=Date.now()+Math.round(hrs*3600*1000); localStorage.setItem(k,String(v)); }
-    return v;
-  }catch(_){ return Date.now()+12*3600*1000; }
-}
-var SPOTS_TOTAL=20, SPOTS_CLAIMED=7;
+var PROMO_END=new Date(new Date(LAUNCH).getTime()+25*24*3600*1000).getTime();  // 25-day founding window
+function promoEnd(){ return PROMO_END; }
 var PROMO={ EUR:{sym:'€',y1:'699',y2:'1,499',reg:'890'}, USD:{sym:'$',y1:'749',y2:'1,599',reg:'990'}, PHP:{sym:'₱',y1:'1,999',y2:'2,999',reg:'8,990'} };
 function promoNow(){ var c=(typeof detectCur==='function')?detectCur():'EUR'; return PROMO[c]||PROMO.EUR; }
 function foInclude(){ return ['Every current app — Fleet, Plant, Risk, Permit, Inspection, Visitor & Contractor','Every future app we launch — included free','Unlimited users & roles per company','Works offline on site','Founding price locked for your whole term']; }
@@ -1223,7 +1215,7 @@ function renderOffer(){
 function cdParts(ms){ return { d:Math.floor(ms/864e5), h:Math.floor(ms%864e5/36e5), m:Math.floor(ms%36e5/6e4), s:Math.floor(ms%6e4/1e3) }; }
 function cdOffer(ms){ var p=cdParts(ms); function c(n,l){return '<div class="cd-cell"><div class="n">'+String(n).padStart(2,'0')+'</div><div class="l">'+l+'</div></div>';} return (p.d>0?c(p.d,'days'):'')+c(p.h,'hrs')+c(p.m,'min')+c(p.s,'sec'); }
 function cdBar(ms){ var p=cdParts(ms); function c(n,l){return '<div class="c"><div class="n">'+String(n).padStart(2,'0')+'</div><div class="l">'+l+'</div></div>';} return (p.d>0?c(p.d,'D'):'')+c(p.h,'H')+c(p.m,'M')+c(p.s,'S'); }
-function initBar(){ var p=promoNow(); var msg=document.getElementById('pbMsg'); if(msg) msg.innerHTML='ALL-ACCESS LAUNCH RATE: <b>'+p.sym+p.y1+'</b>/yr — CLOSING SOON'; var sp=document.getElementById('pbSpots'); if(sp) sp.textContent=SPOTS_CLAIMED+'/'+SPOTS_TOTAL+' CLAIMED'; }
+function initBar(){ var p=promoNow(); var msg=document.getElementById('pbMsg'); if(msg) msg.innerHTML='ALL-ACCESS LAUNCH RATE: <b>'+p.sym+p.y1+'</b>/yr — CLOSING SOON'; }
 function tickCountdown(){
   var end=promoEnd(); if(isNaN(end)) return;
   var ms=end-Date.now(), cd=document.getElementById('countdown'), pb=document.getElementById('pbCd');
