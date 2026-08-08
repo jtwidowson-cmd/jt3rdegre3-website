@@ -31,6 +31,76 @@
     --shadow:0 30px 60px -30px rgba(0,0,0,.8);
     --r:20px;
   }
+  /* ===== LIGHT THEME (modern) ===== */
+  [data-theme="light"]{
+    --navy:#eef3f9; --navy-2:#ffffff; --navy-3:#e7eef6;
+    --steel:#47586a; --steel-2:#647688; --white:#0e1826;
+    --line:rgba(12,32,60,.10); --line-2:rgba(12,32,60,.16);
+    --shadow:0 24px 50px -28px rgba(20,45,80,.26);
+  }
+  [data-theme="light"] body{background:var(--navy);color:var(--white)}
+  [data-theme="light"] header.site{background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border-bottom-color:var(--line)}
+  [data-theme="light"] .brand,[data-theme="light"] .nav-links a:hover,[data-theme="light"] .nav-links a.active{color:#0e1826}
+  [data-theme="light"] .btn-ghost{background:#ffffff;color:#0e1826;border-color:var(--line-2)}
+  [data-theme="light"] .btn-ghost:hover{background:#f1f6fb}
+  [data-theme="light"] .eyebrow{color:#1f6f9c;background:rgba(0,174,239,.08);border-color:rgba(0,174,239,.22)}
+  [data-theme="light"] .brand small,[data-theme="light"] .hero .lead,[data-theme="light"] .sol p,[data-theme="light"] .prod .pd,[data-theme="light"] .feat p{color:var(--steel)}
+  [data-theme="light"] .tagline span{color:#31414f}
+  [data-theme="light"] .pop{background:#ffffff}
+  /* neutralise dark hero/section veils in light mode */
+  [data-theme="light"] .hero::after{background:radial-gradient(760px 420px at 50% -6%, rgba(0,174,239,.14), transparent 60%),linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.5) 72%, var(--navy)) !important}
+  [data-theme="light"] .hero-grid{opacity:.5}
+  [data-theme="light"] .glass,[data-theme="light"] .dash{background:#ffffff !important;border-color:var(--line) !important}
+  [data-theme="light"] .prod,[data-theme="light"] .sol,[data-theme="light"] .feat,[data-theme="light"] .price,[data-theme="light"] .price-app,[data-theme="light"] .chip,[data-theme="light"] .about li{background:#ffffff}
+  [data-theme="light"] .prod::after,[data-theme="light"] .sol::after,[data-theme="light"] .feat::after,[data-theme="light"] .price::after{mix-blend-mode:normal}
+  [data-theme="light"] .trustbar,[data-theme="light"] .mq-badge{background:#ffffff}
+  [data-theme="light"] .cta-wrap,[data-theme="light"] section#pricing,[data-theme="light"] .about{background:transparent}
+  [data-theme="light"] .premium-inner{background:linear-gradient(160deg,#ffffff,#f2f7fc) !important;color:#0e1826}
+  [data-theme="light"] .pb-grid h3,[data-theme="light"] .pb-amt,[data-theme="light"] .pb-sym{color:#0e1826}
+  [data-theme="light"] .pb-feats li{color:#31414f}
+  [data-theme="light"] footer,[data-theme="light"] footer *{color:var(--steel)}
+  [data-theme="light"] .app-hero,[data-theme="light"] .app-incl{background:transparent}
+  /* theme toggle button */
+  #themeToggle{border:1px solid var(--line-2);background:rgba(255,255,255,.06);color:inherit;width:40px;height:40px;border-radius:999px;cursor:pointer;font-size:16px;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
+  #themeToggle:hover{border-color:var(--blue)}
+  [data-theme="light"] #themeToggle{background:#ffffff}
+  /* ===== FOUNDING OFFER ===== */
+  .founding{padding:46px 0 8px}
+  .fo-card{position:relative;background:linear-gradient(160deg,var(--navy-2),var(--navy-3));border:1px solid var(--line-2);border-radius:26px;padding:30px;overflow:hidden;box-shadow:var(--shadow)}
+  .fo-ribbon{display:inline-block;background:linear-gradient(90deg,#ff5d5d,#ff8a3d);color:#2a0b00;font-weight:800;font-size:12px;letter-spacing:.03em;padding:7px 15px;border-radius:999px;margin-bottom:14px}
+  .fo-top{display:grid;grid-template-columns:1.3fr 1fr;gap:26px;align-items:center}
+  @media(max-width:760px){.fo-top{grid-template-columns:1fr}}
+  .fo-top h2{font-size:27px;margin:2px 0 8px}
+  .countdown{display:flex;gap:10px;margin-top:14px}
+  .cd-cell{background:var(--navy);border:1px solid var(--line-2);border-radius:12px;padding:10px 12px;text-align:center;min-width:64px}
+  [data-theme="light"] .cd-cell{background:#f1f6fb}
+  .cd-cell .n{font-family:'Sora';font-size:26px;font-weight:800;line-height:1}
+  .cd-cell .l{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--steel)}
+  .fo-plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+  @media(max-width:620px){.fo-plans{grid-template-columns:1fr}}
+  .fo-plan{background:var(--navy);border:1px solid var(--line-2);border-radius:18px;padding:22px;position:relative}
+  [data-theme="light"] .fo-plan{background:#f6f9fc}
+  .fo-plan.best{border-color:var(--blue);box-shadow:0 20px 44px -24px var(--blue-glow)}
+  .fo-plan .term{font-weight:700;font-size:14px;color:var(--blue)}
+  .fo-plan .amt{font-family:'Sora';font-size:38px;font-weight:800;line-height:1;margin:6px 0 2px}
+  .fo-plan .amt small{font-size:14px;font-weight:600;color:var(--steel)}
+  .fo-plan .was{font-size:13px;color:var(--steel-2)}
+  .fo-plan .was b{color:var(--emerald)}
+  .fo-plan ul{list-style:none;padding:0;margin:12px 0 16px}
+  .fo-plan li{display:flex;gap:9px;font-size:13.5px;padding:5px 0}
+  .fo-plan li .ck{color:var(--blue);font-weight:800;flex:none}
+  .fo-plan .btn{width:100%;justify-content:center}
+  .fo-spots{font-size:13px;color:var(--steel);margin-top:14px}
+  .fo-spots b{color:var(--white)}
+  .fo-ended{text-align:center;padding:20px;font-weight:700}
+  /* ===== fading promo pop-ups (top-right) ===== */
+  #popStack{position:fixed;top:76px;right:14px;z-index:200;display:flex;flex-direction:column;gap:8px;max-width:280px;pointer-events:none}
+  .pop{background:var(--navy-2);border:1px solid var(--line-2);border-radius:12px;padding:10px 13px;font-size:13px;box-shadow:var(--shadow);opacity:0;transform:translateY(-6px);transition:opacity .5s,transform .5s;display:flex;gap:9px;align-items:flex-start}
+  .pop.show{opacity:1;transform:none}
+  .pop .pi{font-size:17px;flex:none}
+  .pop .pt{line-height:1.35}
+  .pop .pt b{color:var(--blue)}
+  @media(max-width:560px){#popStack{display:none}}
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{margin:0;background:var(--navy);color:var(--white);
@@ -494,13 +564,16 @@
       <a href="#solutions">Solutions</a>
       <a href="#products">Products</a>
       <a href="#industries">Industries</a>
+      <a href="#offer">Offer</a>
       <a href="#pricing">Pricing</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
       <a class="nav-signin" href="https://app.jt3rdegre3.com">Sign in →</a>
+      <button id="themeToggle" type="button" aria-label="Toggle light or dark">🌙</button>
     </nav>
   </div>
 </header>
+<div id="popStack"></div>
 
 <a id="top"></a>
 <section id="app-view" style="display:none"></section>
@@ -554,6 +627,24 @@
           <div class="drow"><span>Roadworthiness test · 151-C-8890</span><span class="pill warn">Due in 9 days</span></div>
           <div class="drow"><span>Brake light defect · 161-D-4402</span><span class="pill due">Action needed</span></div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDING OFFER -->
+<section class="founding" id="offer">
+  <div class="wrap">
+    <div class="fo-card reveal" id="foCard">
+      <div class="fo-top">
+        <div>
+          <span class="fo-ribbon">🔥 Founding offer · first 20 subscribers</span>
+          <h2>Lock in <span class="g">All-Access</span> at the founding rate</h2>
+          <p style="color:var(--steel);margin:0 0 4px;">Every app you have today <b>plus every app we ever launch</b> — included. Pick a 1- or 2-year term at the founding price. When your term ends it simply renews at the regular price.</p>
+          <div class="countdown" id="countdown" aria-label="Offer countdown"></div>
+          <div class="fo-spots" id="foSpots">Founding places are strictly limited to <b>20 companies</b>.</div>
+        </div>
+        <div class="fo-plans" id="foPlans"></div>
       </div>
     </div>
   </div>
@@ -958,6 +1049,70 @@ function buildPhone(){
   restart();
 }
 buildPhone();
+
+/* ===== Light / dark theme ===== */
+(function(){
+  var btn=document.getElementById('themeToggle'); if(!btn) return;
+  function apply(t){ if(t==='light'){ document.documentElement.setAttribute('data-theme','light'); btn.textContent='☀️'; } else { document.documentElement.removeAttribute('data-theme'); btn.textContent='🌙'; } }
+  var saved='dark'; try{ saved=localStorage.getItem('jt_site_theme')||'dark'; }catch(_){}
+  apply(saved);
+  btn.addEventListener('click',function(){ var cur=document.documentElement.getAttribute('data-theme')==='light'?'light':'dark'; var nx=cur==='light'?'dark':'light'; apply(nx); try{localStorage.setItem('jt_site_theme',nx);}catch(_){} });
+})();
+
+/* ===== Founding offer + countdown ===== */
+// Owner: change PROMO_END to your real offer deadline (a single shared date — honest urgency).
+var PROMO_END='2026-09-30T23:59:59';
+var PROMO={ EUR:{sym:'€',y1:'699',y2:'1,499',reg:'890'}, PHP:{sym:'₱',y1:'999',y2:'1,999',reg:'8,990'} };
+function promoNow(){ var c=(typeof detectCur==='function')?detectCur():'EUR'; return PROMO[c]||PROMO.EUR; }
+function foInclude(){ return ['Every current app — Fleet, Plant, Risk, Permit, Inspection, Visitor & Contractor','Every future app we launch — included free','Unlimited users & roles per company','Works offline on site','Founding price locked for your whole term']; }
+function renderOffer(){
+  var el=document.getElementById('foPlans'); if(!el) return;
+  var p=promoNow();
+  var li=foInclude().slice(0,4).map(function(f){return '<li><span class="ck">✓</span> '+esc(f)+'</li>';}).join('');
+  el.innerHTML=
+    '<div class="fo-plan"><div class="term">1-YEAR FOUNDING</div><div class="amt">'+p.sym+p.y1+'<small> / first year</small></div><div class="was">then renews at '+p.sym+p.reg+'/yr regular</div><ul>'+li+'</ul><a class="btn btn-primary" href="https://app.jt3rdegre3.com">Claim 1-year spot</a></div>'+
+    '<div class="fo-plan best"><div class="term">2-YEAR FOUNDING · BEST VALUE</div><div class="amt">'+p.sym+p.y2+'<small> / two years</small></div><div class="was"><b>Best value</b> · then '+p.sym+p.reg+'/yr regular</div><ul>'+li+'</ul><a class="btn btn-primary" href="https://app.jt3rdegre3.com">Claim 2-year spot</a></div>';
+}
+function tickCountdown(){
+  var cd=document.getElementById('countdown'); if(!cd) return;
+  var end=new Date(PROMO_END).getTime(), now=Date.now(), ms=end-now;
+  if(isNaN(end)) return;
+  if(ms<=0){ var card=document.getElementById('foCard'); if(card) card.innerHTML='<div class="fo-ended">The founding offer has closed — see our <a href="#pricing">regular pricing</a>. Thanks to our founding subscribers!</div>'; return; }
+  var d=Math.floor(ms/864e5), h=Math.floor(ms%864e5/36e5), m=Math.floor(ms%36e5/6e4), s=Math.floor(ms%6e4/1e3);
+  function cell(n,l){ return '<div class="cd-cell"><div class="n">'+String(n).padStart(2,'0')+'</div><div class="l">'+l+'</div></div>'; }
+  cd.innerHTML=cell(d,'days')+cell(h,'hrs')+cell(m,'min')+cell(s,'sec');
+}
+renderOffer(); tickCountdown(); setInterval(tickCountdown,1000);
+
+/* ===== Honest fading promo pop-ups (top-right) ===== */
+(function(){
+  var stack=document.getElementById('popStack'); if(!stack) return;
+  function pool(){ var p=promoNow(); return [
+    {i:'🔒',t:'Founding <b>1-year</b> All-Access — '+p.sym+p.y1+', every app included'},
+    {i:'🔒',t:'Founding <b>2-year</b> All-Access — '+p.sym+p.y2+', best value'},
+    {i:'⏳',t:'Founding offer — only <b>20 places</b>, then regular pricing'},
+    {i:'✅',t:'One login for <b>every</b> QHSE app you use'},
+    {i:'🪪',t:'QR <b>visitor &amp; contractor</b> sign-in with permit-to-work'},
+    {i:'📴',t:'Works <b>offline</b> on site — syncs when you’re back online'},
+    {i:'🛡️',t:'Built for construction, quarrying, transport &amp; oil &amp; gas'},
+    {i:'📄',t:'Risk assessments &amp; method statements in <b>minutes</b>'},
+    {i:'🔥',t:'Premium includes <b>every future app</b> we ever launch'},
+    {i:'🚚',t:'Daily vehicle &amp; plant checks from any phone'},
+    {i:'🏗️',t:'Statutory plant compliance, tracked automatically'},
+    {i:'📸',t:'Photo-driven site inspections → full report'}
+  ]; }
+  var idx=0;
+  function popOnce(){
+    var arr=pool(); var it=arr[idx%arr.length]; idx++;
+    var el=document.createElement('div'); el.className='pop';
+    el.innerHTML='<span class="pi">'+it.i+'</span><span class="pt">'+it.t+'</span>';
+    stack.appendChild(el);
+    requestAnimationFrame(function(){ el.classList.add('show'); });
+    setTimeout(function(){ el.classList.remove('show'); setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); },600); },7000);
+  }
+  setTimeout(popOnce,4000);
+  setInterval(popOnce,60000);
+})();
 buildTrustbar();
 premiumBanner();
 pricingGrid();
