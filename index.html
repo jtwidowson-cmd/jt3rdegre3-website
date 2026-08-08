@@ -1182,11 +1182,13 @@ buildPhone();
 })();
 
 /* ===== Founding offer + countdown ===== */
-// Owner: set LAUNCH to your go-live moment. The offer runs for 25 DAYS from there —
-// ONE honest, shared deadline for everyone. When it ends the site shows the offer has
-// closed; you can then start a fresh promo by moving LAUNCH forward.
+// ── ONE real deadline everyone sees. Owner-controlled; honest as long as you honor it. ──
+//  • To EXTEND: change PROMO_END_STR to a later date (do it genuinely / occasionally — NOT daily).
+//  • To END the promo (raise prices): just let this date pass — the site auto-switches to
+//    "founding offer closed → regular pricing". Then set your next promo when you're ready.
 var LAUNCH='2026-08-09T09:00:00';
-var PROMO_END=new Date(new Date(LAUNCH).getTime()+25*24*3600*1000).getTime();  // 25-day founding window
+var PROMO_END_STR='2026-08-15T23:59:59';   // 7-day launch window — edit this date to extend
+var PROMO_END=new Date(PROMO_END_STR).getTime();
 function promoEnd(){ return PROMO_END; }
 var PROMO={ EUR:{sym:'€',y1:'699',y2:'1,499',reg:'890'}, USD:{sym:'$',y1:'749',y2:'1,599',reg:'990'}, PHP:{sym:'₱',y1:'1,999',y2:'2,999',reg:'8,990'} };
 function promoNow(){ var c=(typeof detectCur==='function')?detectCur():'EUR'; return PROMO[c]||PROMO.EUR; }
