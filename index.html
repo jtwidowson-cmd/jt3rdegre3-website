@@ -904,7 +904,7 @@
       <p>Try the Fleet Management System free, or get in touch and we'll set up your fleet with you.</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
         <a class="btn btn-primary btn-lg" href="#products">Try the app free</a>
-        <a class="btn btn-ghost btn-lg" href="mailto:support@jt3rdegre3.com?subject=JT3rDegre3%20QHSE%20-%20Enquiry">Talk to us</a>
+        <a class="btn btn-ghost btn-lg" id="talkBtn" href="mailto:support@jt3rdegre3.com?subject=JT3rDegre3%20QHSE%20-%20Enquiry">Talk to us</a>
       </div>
     </div>
   </div>
@@ -1202,8 +1202,14 @@ function renderOffer(){
   var p=promoNow();
   var li=foInclude().slice(0,4).map(function(f){return '<li><span class="ck">✓</span> '+esc(f)+'</li>';}).join('');
   el.innerHTML=
-    '<div class="fo-plan"><div class="term">1-YEAR LAUNCH RATE</div><div class="amt">'+p.sym+p.y1+'<small> / first year</small></div><div class="was">then renews at '+p.sym+p.reg+'/yr regular</div><ul>'+li+'</ul><a class="btn btn-primary" href="'+claimHref('1')+'">Claim 1-year spot</a></div>'+
-    '<div class="fo-plan best"><div class="term">2-YEAR LAUNCH RATE · BEST VALUE</div><div class="amt">'+p.sym+p.y2+'<small> / two years</small></div><div class="was"><b>Best value</b> · then '+p.sym+p.reg+'/yr regular</div><ul>'+li+'</ul><a class="btn btn-primary" href="'+claimHref('2')+'">Claim 2-year spot</a></div>';
+    '<div class="fo-plan"><div class="term">1-YEAR LAUNCH RATE</div><div class="amt">'+p.sym+p.y1+'<small> / first year</small></div><div class="was">then renews at '+p.sym+p.reg+'/yr regular</div><ul>'+li+'</ul><a class="btn btn-primary" href="#reviews" data-enq="1">Claim 1-year spot</a></div>'+
+    '<div class="fo-plan best"><div class="term">2-YEAR LAUNCH RATE · BEST VALUE</div><div class="amt">'+p.sym+p.y2+'<small> / two years</small></div><div class="was"><b>Best value</b> · then '+p.sym+p.reg+'/yr regular</div><ul>'+li+'</ul><a class="btn btn-primary" href="#reviews" data-enq="2">Claim 2-year spot</a></div>';
+  var pp=promoNow();
+  el.querySelectorAll('a[data-enq]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault();
+    var t=a.getAttribute('data-enq');
+    var need=(t==='1' ? 'All-Access Launch Rate — 1 year ('+pp.sym+pp.y1+')' : 'All-Access Launch Rate — 2 years ('+pp.sym+pp.y2+')');
+    if(window.jtEnquire){ window.jtEnquire(need); } else { window.location.href=claimHref(t); }
+  }); });
 }
 function cdParts(ms){ return { d:Math.floor(ms/864e5), h:Math.floor(ms%864e5/36e5), m:Math.floor(ms%36e5/6e4), s:Math.floor(ms%6e4/1e3) }; }
 function cdOffer(ms){ var p=cdParts(ms); function c(n,l){return '<div class="cd-cell"><div class="n">'+String(n).padStart(2,'0')+'</div><div class="l">'+l+'</div></div>';} return (p.d>0?c(p.d,'days'):'')+c(p.h,'hrs')+c(p.m,'min')+c(p.s,'sec'); }
@@ -1427,8 +1433,8 @@ var INFO={
   function menu(){ chips(FAQ.map(function(f){return {label:f.q,onClick:function(){usr(f.q);bot(f.a);setTimeout(followup,280);}};}).concat([{label:'💬 Talk to us / Get founding price',onClick:leadForm}])); }
   function followup(){ chips([{label:'Ask another question',onClick:function(){bot('Sure — what would you like to know?');menu();}},{label:'💬 Talk to us',onClick:leadForm}]); }
   function start(){ if(started)return; started=true; bot("👋 Hi! I'm the JT.3rDegre3 assistant. Pick a question below, or leave your details and we'll get back to you fast."); menu(); }
-  function leadForm(){
-    bot("Great — leave your details and we'll email you within minutes.");
+  function leadForm(preNeed){
+    bot(preNeed ? ("Great choice — leave your details for the "+preNeed+" and we'll email you the payment details within minutes.") : "Great — leave your details and we'll email you within minutes.");
     var f=document.createElement('form'); f.className='cw-form'; f.setAttribute('novalidate','');
     f.innerHTML='<input class="cw-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">'+
       '<div><label>Your name</label><input name="name" maxlength="120" autocomplete="name"></div>'+
@@ -1438,7 +1444,9 @@ var INFO={
       '<label class="cw-consent"><input type="checkbox" name="consent"> I agree JT.3rDegre3 can use my details to contact me about my enquiry.</label>'+
       '<div class="cw-priv" style="font-size:11.5px;color:var(--steel);line-height:1.5;margin-top:4px">To give you the content requested, we need to store and process your personal data. For more information please review our <a href="#" class="cw-privlink" style="color:var(--blue);font-weight:600">Privacy Policy</a>.</div>'+
       '<div class="cw-err"></div><button class="cw-send" type="submit">Send</button>';
-    body.appendChild(f); f.dataset.t0=String(Date.now()); scroll();
+    body.appendChild(f); f.dataset.t0=String(Date.now());
+    if(preNeed){ var sel=f.querySelector('select[name=need]'); if(sel){ var op=document.createElement('option'); op.textContent=preNeed; op.selected=true; sel.insertBefore(op, sel.firstChild); } }
+    scroll();
     var pl=f.querySelector('.cw-privlink'); if(pl) pl.addEventListener('click',function(e){e.preventDefault();var m=document.getElementById('privModal'); if(m) m.classList.add('open');});
     f.addEventListener('submit',function(e){e.preventDefault();submitLead(f);});
   }
@@ -1535,6 +1543,11 @@ var INFO={
     panel.classList.contains('open')?closeCw():openCw();
   });
   panel.querySelector('.cw-close').addEventListener('click',closeCw);
+
+  /* --- open the enquiry form from anywhere (Claim buttons, Talk to us) --- */
+  window.jtEnquire=function(preNeed){ openCw(); setTimeout(function(){ leadForm(preNeed); },60); };
+  var _tb=document.getElementById('talkBtn');
+  if(_tb) _tb.addEventListener('click',function(e){ e.preventDefault(); window.jtEnquire('A demo / question'); });
 })();
 
 /* ---- Privacy modal ---- */
