@@ -65,34 +65,48 @@
   #themeToggle:hover{border-color:var(--blue)}
   [data-theme="light"] #themeToggle{background:#ffffff}
   /* ===== FOUNDING OFFER ===== */
-  .founding{padding:46px 0 8px}
-  .fo-card{position:relative;background:linear-gradient(160deg,var(--navy-2),var(--navy-3));border:1px solid var(--line-2);border-radius:26px;padding:30px;overflow:hidden;box-shadow:var(--shadow)}
-  .fo-ribbon{display:inline-block;background:linear-gradient(90deg,#ff5d5d,#ff8a3d);color:#2a0b00;font-weight:800;font-size:12px;letter-spacing:.03em;padding:7px 15px;border-radius:999px;margin-bottom:14px}
-  .fo-top{display:grid;grid-template-columns:1.3fr 1fr;gap:26px;align-items:center}
-  @media(max-width:760px){.fo-top{grid-template-columns:1fr}}
-  .fo-top h2{font-size:27px;margin:2px 0 8px}
-  .countdown{display:flex;gap:10px;margin-top:14px}
-  .cd-cell{background:var(--navy);border:1px solid var(--line-2);border-radius:12px;padding:10px 12px;text-align:center;min-width:64px}
+  .founding{padding:34px 0 4px}
+  .fo-card{position:relative;background:linear-gradient(160deg,var(--navy-2),var(--navy-3));border:1px solid var(--line-2);border-radius:26px;padding:30px 28px;overflow:hidden;box-shadow:var(--shadow)}
+  .fo-head{text-align:center;max-width:760px;margin:0 auto}
+  .fo-ribbon{display:inline-block;background:linear-gradient(90deg,#ff5d5d,#ff8a3d);color:#2a0b00;font-weight:800;font-size:16px;letter-spacing:.02em;padding:11px 24px;border-radius:999px;margin-bottom:14px;box-shadow:0 10px 26px -10px rgba(255,109,60,.6);transform-origin:center;will-change:transform;animation:foPulse 40s ease-in-out infinite}
+  @keyframes foPulse{0%,84%,100%{transform:scale(1)}92%{transform:scale(1.12)}}
+  @media(prefers-reduced-motion:reduce){.fo-ribbon{animation:none}}
+  .fo-head h2{font-size:30px;margin:6px 0 10px}
+  .fo-desc{color:var(--steel);max-width:640px;margin:0 auto 8px;font-size:15px}
+  .fo-tag{font-weight:800;font-size:16.5px;margin:6px 0 0}
+  .countdown{display:flex;gap:10px;margin-top:16px;justify-content:center}
+  .cd-cell{background:var(--navy);border:1px solid var(--line-2);border-radius:12px;padding:10px 14px;text-align:center;min-width:74px}
   [data-theme="light"] .cd-cell{background:#f1f6fb}
-  .cd-cell .n{font-family:'Sora';font-size:26px;font-weight:800;line-height:1}
+  .cd-cell .n{font-family:'Sora';font-size:28px;font-weight:800;line-height:1}
   .cd-cell .l{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--steel)}
-  .fo-plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+  .fo-plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px auto 0;max-width:760px}
   @media(max-width:620px){.fo-plans{grid-template-columns:1fr}}
-  .fo-plan{background:var(--navy);border:1px solid var(--line-2);border-radius:18px;padding:22px;position:relative}
+  .fo-plan{background:var(--navy);border:1px solid var(--line-2);border-radius:18px;padding:22px;position:relative;display:flex;flex-direction:column}
   [data-theme="light"] .fo-plan{background:#f6f9fc}
   .fo-plan.best{border-color:var(--blue);box-shadow:0 20px 44px -24px var(--blue-glow)}
-  .fo-plan .term{font-weight:700;font-size:14px;color:var(--blue)}
-  .fo-plan .amt{font-family:'Sora';font-size:38px;font-weight:800;line-height:1;margin:6px 0 2px}
+  .fo-plan .term{font-weight:700;font-size:13px;color:var(--blue);letter-spacing:.02em}
+  .fo-plan .amt{font-family:'Sora';font-size:40px;font-weight:800;line-height:1;margin:8px 0 2px}
   .fo-plan .amt small{font-size:14px;font-weight:600;color:var(--steel)}
   .fo-plan .was{font-size:13px;color:var(--steel-2)}
   .fo-plan .was b{color:var(--emerald)}
-  .fo-plan ul{list-style:none;padding:0;margin:12px 0 16px}
+  .fo-plan ul{list-style:none;padding:0;margin:14px 0 16px;flex:1}
   .fo-plan li{display:flex;gap:9px;font-size:13.5px;padding:5px 0}
   .fo-plan li .ck{color:var(--blue);font-weight:800;flex:none}
-  .fo-plan .btn{width:100%;justify-content:center}
-  .fo-spots{font-size:13px;color:var(--steel);margin-top:14px}
-  .fo-spots b{color:var(--white)}
+  .fo-plan .btn{width:100%;justify-content:center;min-height:48px}
   .fo-ended{text-align:center;padding:20px;font-weight:700}
+  /* mobile hamburger */
+  .nav-actions{display:flex;align-items:center;gap:10px}
+  .nav-burger{display:none;background:rgba(255,255,255,.05);border:1px solid var(--line-2);color:inherit;width:42px;height:42px;border-radius:11px;font-size:19px;cursor:pointer;align-items:center;justify-content:center}
+  [data-theme="light"] .nav-burger{background:#ffffff}
+  @media(max-width:920px){
+    .nav-burger{display:inline-flex}
+    #navLinks{position:absolute;top:100%;left:0;right:0;background:var(--navy);border-top:1px solid var(--line);border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;padding:6px 0;display:none;box-shadow:var(--shadow)}
+    #navLinks.open{display:flex}
+    #navLinks a{padding:13px 22px;font-size:15.5px}
+    .nav-signin{display:none}
+    [data-theme="light"] #navLinks{background:#ffffff}
+    header.site{position:sticky}
+  }
   /* ===== fading promo pop-ups (top-right) ===== */
   #popStack{position:fixed;top:76px;right:14px;z-index:200;display:flex;flex-direction:column;gap:8px;max-width:280px;pointer-events:none}
   .pop{background:var(--navy-2);border:1px solid var(--line-2);border-radius:12px;padding:10px 13px;font-size:13px;box-shadow:var(--shadow);opacity:0;transform:translateY(-6px);transition:opacity .5s,transform .5s;display:flex;gap:9px;align-items:flex-start}
@@ -430,6 +444,14 @@
     .foot-top{grid-template-columns:1fr}
     .glass{padding:12px}.dash{padding:14px}
   }
+  @media(max-width:560px){
+    .foot-bot{flex-direction:column;text-align:center;align-items:center;gap:8px}
+    .fo-card{padding:24px 18px}
+    .fo-head h2{font-size:24px}
+    .fo-ribbon{font-size:14px;padding:10px 18px}
+    .cd-cell{min-width:0;flex:1;padding:10px 6px}
+    .cd-cell .n{font-size:24px}
+  }
   @media(prefers-reduced-motion:reduce){ .scan{display:none} .bars .bar,.live .d,.status.on .d{animation:none} .ring .bar{transition:none} .bars .bar{transform:scaleY(1)} html.js .reveal{opacity:1;transform:none;transition:none} }
 
   /* ===== Per-app landing pages ===== */
@@ -560,7 +582,7 @@
 <header class="site">
   <div class="wrap nav">
     <a class="brand" href="#top"><span class="logo"></span><span>JT.3rDegre3<small>QHSE Software</small></span></a>
-    <nav class="nav-links">
+    <nav class="nav-links" id="navLinks">
       <a href="#solutions">Solutions</a>
       <a href="#products">Products</a>
       <a href="#industries">Industries</a>
@@ -569,8 +591,11 @@
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
       <a class="nav-signin" href="https://app.jt3rdegre3.com">Sign in →</a>
-      <button id="themeToggle" type="button" aria-label="Toggle light or dark">🌙</button>
     </nav>
+    <div class="nav-actions">
+      <button id="themeToggle" type="button" aria-label="Toggle light or dark">🌙</button>
+      <button id="navToggle" class="nav-burger" type="button" aria-label="Open menu">☰</button>
+    </div>
   </div>
 </header>
 <div id="popStack"></div>
@@ -636,16 +661,14 @@
 <section class="founding" id="offer">
   <div class="wrap">
     <div class="fo-card reveal" id="foCard">
-      <div class="fo-top">
-        <div>
-          <span class="fo-ribbon">🔥 Founding offer · first 20 subscribers</span>
-          <h2>Lock in <span class="g">All-Access</span> at the founding rate</h2>
-          <p style="color:var(--steel);margin:0 0 4px;">Every app you have today <b>plus every app we ever launch</b> — included. Pick a 1- or 2-year term at the founding price. When your term ends it simply renews at the regular price.</p>
-          <div class="countdown" id="countdown" aria-label="Offer countdown"></div>
-          <div class="fo-spots" id="foSpots">Founding places are strictly limited to <b>20 companies</b>.</div>
-        </div>
-        <div class="fo-plans" id="foPlans"></div>
+      <div class="fo-head">
+        <span class="fo-ribbon">🔥 Founding offer · first 20 subscribers</span>
+        <h2>Lock in <span class="g">All-Access</span> at the founding rate</h2>
+        <p class="fo-desc">Get every app we offer today—and every app we ever launch—included. Lock in our exclusive founding price for 1 or 2 years. When your term ends, your plan simply renews at the regular rate. Cancel anytime.</p>
+        <p class="fo-tag">One price. Every app. Everything we build next.</p>
+        <div class="countdown" id="countdown" aria-label="Offer countdown"></div>
       </div>
+      <div class="fo-plans" id="foPlans"></div>
     </div>
   </div>
 </section>
@@ -1059,28 +1082,42 @@ buildPhone();
   btn.addEventListener('click',function(){ var cur=document.documentElement.getAttribute('data-theme')==='light'?'light':'dark'; var nx=cur==='light'?'dark':'light'; apply(nx); try{localStorage.setItem('jt_site_theme',nx);}catch(_){} });
 })();
 
+/* ===== Mobile menu ===== */
+(function(){
+  var b=document.getElementById('navToggle'), menu=document.getElementById('navLinks'); if(!b||!menu) return;
+  b.addEventListener('click',function(){ menu.classList.toggle('open'); b.textContent=menu.classList.contains('open')?'✕':'☰'; });
+  menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ menu.classList.remove('open'); b.textContent='☰'; }); });
+})();
+
 /* ===== Founding offer + countdown ===== */
 // Owner: change PROMO_END to your real offer deadline (a single shared date — honest urgency).
 var PROMO_END='2026-09-30T23:59:59';
 var PROMO={ EUR:{sym:'€',y1:'699',y2:'1,499',reg:'890'}, PHP:{sym:'₱',y1:'999',y2:'1,999',reg:'8,990'} };
 function promoNow(){ var c=(typeof detectCur==='function')?detectCur():'EUR'; return PROMO[c]||PROMO.EUR; }
 function foInclude(){ return ['Every current app — Fleet, Plant, Risk, Permit, Inspection, Visitor & Contractor','Every future app we launch — included free','Unlimited users & roles per company','Works offline on site','Founding price locked for your whole term']; }
+function claimHref(term){
+  var p=promoNow(); var label=(term==='1'?'1-Year':'2-Year');
+  var price=(term==='1'? p.sym+p.y1+' for 1 year' : p.sym+p.y2+' for 2 years');
+  var subj='Founding Offer — '+label+' All-Access';
+  var body='Hi JT.3rDegre3 team,\n\nI would like to claim the founding offer:\n- Plan: '+label+' All-Access ('+price+')\n- Company name: \n- Contact name: \n- Phone: \n\nPlease send me the payment details to get set up. Thank you!';
+  return 'mailto:support@jt3rdegre3.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+}
 function renderOffer(){
   var el=document.getElementById('foPlans'); if(!el) return;
   var p=promoNow();
   var li=foInclude().slice(0,4).map(function(f){return '<li><span class="ck">✓</span> '+esc(f)+'</li>';}).join('');
   el.innerHTML=
-    '<div class="fo-plan"><div class="term">1-YEAR FOUNDING</div><div class="amt">'+p.sym+p.y1+'<small> / first year</small></div><div class="was">then renews at '+p.sym+p.reg+'/yr regular</div><ul>'+li+'</ul><a class="btn btn-primary" href="https://app.jt3rdegre3.com">Claim 1-year spot</a></div>'+
-    '<div class="fo-plan best"><div class="term">2-YEAR FOUNDING · BEST VALUE</div><div class="amt">'+p.sym+p.y2+'<small> / two years</small></div><div class="was"><b>Best value</b> · then '+p.sym+p.reg+'/yr regular</div><ul>'+li+'</ul><a class="btn btn-primary" href="https://app.jt3rdegre3.com">Claim 2-year spot</a></div>';
+    '<div class="fo-plan"><div class="term">1-YEAR FOUNDING</div><div class="amt">'+p.sym+p.y1+'<small> / first year</small></div><div class="was">then renews at '+p.sym+p.reg+'/yr regular</div><ul>'+li+'</ul><a class="btn btn-primary" href="'+claimHref('1')+'">Claim 1-year spot</a></div>'+
+    '<div class="fo-plan best"><div class="term">2-YEAR FOUNDING · BEST VALUE</div><div class="amt">'+p.sym+p.y2+'<small> / two years</small></div><div class="was"><b>Best value</b> · then '+p.sym+p.reg+'/yr regular</div><ul>'+li+'</ul><a class="btn btn-primary" href="'+claimHref('2')+'">Claim 2-year spot</a></div>';
 }
 function tickCountdown(){
   var cd=document.getElementById('countdown'); if(!cd) return;
   var end=new Date(PROMO_END).getTime(), now=Date.now(), ms=end-now;
   if(isNaN(end)) return;
   if(ms<=0){ var card=document.getElementById('foCard'); if(card) card.innerHTML='<div class="fo-ended">The founding offer has closed — see our <a href="#pricing">regular pricing</a>. Thanks to our founding subscribers!</div>'; return; }
-  var d=Math.floor(ms/864e5), h=Math.floor(ms%864e5/36e5), m=Math.floor(ms%36e5/6e4), s=Math.floor(ms%6e4/1e3);
+  var totalH=Math.floor(ms/36e5), m=Math.floor(ms%36e5/6e4), s=Math.floor(ms%6e4/1e3);
   function cell(n,l){ return '<div class="cd-cell"><div class="n">'+String(n).padStart(2,'0')+'</div><div class="l">'+l+'</div></div>'; }
-  cd.innerHTML=cell(d,'days')+cell(h,'hrs')+cell(m,'min')+cell(s,'sec');
+  cd.innerHTML=cell(totalH,'hours')+cell(m,'min')+cell(s,'sec');
 }
 renderOffer(); tickCountdown(); setInterval(tickCountdown,1000);
 
