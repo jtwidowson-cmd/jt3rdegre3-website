@@ -1152,29 +1152,37 @@ document.documentElement.classList.add('js');
    While empty, forms work exactly as before (server also fails open until
    its TURNSTILE_SECRET is set). Set BOTH keys to switch protection on. */
 var TURNSTILE_SITE_KEY='0x4AAAAAAEPHjVhkLk5T9_iv';   // Cloudflare Turnstile SITE key (public) for jt3rdegre3.com
-var __tsLoaded=false, __tsWidgets=[];
+var __tsLoad=false, __tsReady=false, __tsQueue=[];
 function tsActive(){ return !!TURNSTILE_SITE_KEY; }
+/* Cloudflare calls this once the Turnstile API is ready (official onload hook). */
+window.onloadTurnstileCallback=function(){ __tsReady=true; var q=__tsQueue; __tsQueue=[]; q.forEach(function(fn){ try{fn();}catch(e){} }); };
 function tsLoadScript(){
-  if(!tsActive()||__tsLoaded) return;
-  __tsLoaded=true;
+  if(!tsActive()||__tsLoad) return; __tsLoad=true;
   var s=document.createElement('script');
-  s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+  s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit';
   s.async=true; s.defer=true; document.head.appendChild(s);
 }
-/* Render a widget into `el` once the API is ready.
-   Returns a controller: token() reads the current response, reset() clears it. */
+/* Render a widget into `el`. Returns a controller: token() returns the solved
+   token (captured via the widget's own callback, so it's ready at submit time),
+   reset() clears it. Rendering is queued until the API signals it's ready — no polling race. */
 function tsRender(el){
-  var ctl={ token:function(){ return ''; }, reset:function(){} };
-  if(!tsActive()||!el) return ctl;
-  var id=null;
-  function go(){
-    if(window.turnstile && id===null){
-      try{ id=window.turnstile.render(el,{sitekey:TURNSTILE_SITE_KEY,theme:'auto',size:'flexible'}); }catch(e){}
-    } else if(id===null){ setTimeout(go,200); }
+  var ctl={ _t:'', _id:null,
+    token:function(){ return ctl._t||''; },
+    reset:function(){ ctl._t=''; try{ if(window.turnstile&&ctl._id!=null) window.turnstile.reset(ctl._id); }catch(e){} } };
+  if(!tsActive()||!el){ ctl.token=function(){ return ''; }; return ctl; }
+  function doRender(){
+    if(ctl._id!=null) return;
+    try{
+      ctl._id=window.turnstile.render(el,{
+        sitekey:TURNSTILE_SITE_KEY, theme:'auto', size:'flexible',
+        callback:function(t){ ctl._t=t||''; if(typeof ctl.onToken==='function') ctl.onToken(ctl._t); },
+        'expired-callback':function(){ ctl._t=''; },
+        'error-callback':function(){ ctl._t=''; }
+      });
+    }catch(e){}
   }
-  tsLoadScript(); go();
-  ctl.token=function(){ try{ return (window.turnstile&&id!==null)?(window.turnstile.getResponse(id)||''):''; }catch(e){ return ''; } };
-  ctl.reset=function(){ try{ if(window.turnstile&&id!==null) window.turnstile.reset(id); }catch(e){} };
+  tsLoadScript();
+  if(__tsReady && window.turnstile) doRender(); else __tsQueue.push(doRender);
   return ctl;
 }
 /* ===== Per-app pricing + landing pages ===== */
