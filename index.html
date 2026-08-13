@@ -1162,19 +1162,29 @@ function tsLoadScript(){
   s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit';
   s.async=true; s.defer=true; document.head.appendChild(s);
 }
-/* Render a widget into `el`. Returns a controller: token() returns the solved
-   token (captured via the widget's own callback, so it's ready at submit time),
-   reset() clears it. Rendering is queued until the API signals it's ready — no polling race. */
+/* Render a widget into `el`. Returns a controller:
+     token()    -> the solved token (captured via the widget callback)
+     rendered() -> true once the widget actually mounted
+     reset()    -> clear the token / re-challenge
+   Rendering is queued until the API signals it's ready (no polling race). */
 function tsRender(el){
   var ctl={ _t:'', _id:null,
     token:function(){ return ctl._t||''; },
+    rendered:function(){ return ctl._id!=null; },
     reset:function(){ ctl._t=''; try{ if(window.turnstile&&ctl._id!=null) window.turnstile.reset(ctl._id); }catch(e){} } };
-  if(!tsActive()||!el){ ctl.token=function(){ return ''; }; return ctl; }
+  if(!tsActive()||!el){ ctl.token=function(){ return ''; }; ctl.rendered=function(){ return false; }; return ctl; }
+  el.setAttribute('data-ts-loading','1');
+  el.style.minHeight='68px';
+  el.textContent='Loading security check…';
+  el.style.font='12px Inter,system-ui,sans-serif'; el.style.color='#7d93a8'; el.style.display='flex';
+  el.style.alignItems='center'; el.style.justifyContent='center';
   function doRender(){
     if(ctl._id!=null) return;
     try{
+      el.textContent=''; el.style.minHeight=''; el.style.display='';
       ctl._id=window.turnstile.render(el,{
-        sitekey:TURNSTILE_SITE_KEY, theme:'auto', size:'flexible',
+        sitekey:TURNSTILE_SITE_KEY, theme:'auto', size:'normal',
+        retry:'auto', 'refresh-expired':'auto',
         callback:function(t){ ctl._t=t||''; if(typeof ctl.onToken==='function') ctl.onToken(ctl._t); },
         'expired-callback':function(){ ctl._t=''; },
         'error-callback':function(){ ctl._t=''; }
@@ -1185,6 +1195,7 @@ function tsRender(el){
   if(__tsReady && window.turnstile) doRender(); else __tsQueue.push(doRender);
   return ctl;
 }
+if(tsActive()) tsLoadScript();   // eager: start fetching the Turnstile script immediately
 /* ===== Per-app pricing + landing pages ===== */
 var DEFAULT_TITLE=document.title;
 function detectCur(){
@@ -1475,7 +1486,7 @@ initBar(); renderOffer(); tickCountdown(); setInterval(tickCountdown,1000);
     if(!name){ msg.style.color='var(--blue)'; msg.textContent='Please add your name.'; return; }
     if(body.length<8){ msg.style.color='var(--blue)'; msg.textContent='Please write a short review.'; return; }
     var tok=rvTs.token();
-    if(tsActive() && !tok){ msg.style.color='var(--blue)'; msg.textContent='Please complete the "I’m human" check, then submit.'; return; }
+    if(tsActive() && !tok){ msg.style.color='var(--blue)'; msg.textContent=(rvTs.rendered()?'Please complete the "I’m human" check, then submit.':'Security check is still loading — give it a moment, then submit.'); return; }
     btn.disabled=true; msg.textContent='Sending…';
     fetch(SBU+'/functions/v1/web-forms',{method:'POST',headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'},body:JSON.stringify({action:'review',name:name,company:document.getElementById('rv-company').value.trim(),rating:rating,body:body,hp:document.getElementById('rv-hp').value,turnstileToken:tok})})
       .then(function(r){ btn.disabled=false; rvTs.reset();
@@ -1659,7 +1670,15 @@ var INFO={
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Please check your email address.'; err.style.display='block'; return; }
     if(!f.consent.checked){ err.textContent='Please tick the consent box so we can reply.'; err.style.display='block'; return; }
     var tok=(f._ts?f._ts.token():'');
-    if(tsActive() && !tok){ err.textContent='Please complete the "I’m human" check, then send.'; err.style.display='block'; return; }
+    if(tsActive() && !tok){
+      // If the widget mounted but isn't solved yet, ask them to complete it.
+      if(f._ts && f._ts.rendered()){ err.textContent='Please complete the "I’m human" check above, then send.'; err.style.display='block'; return; }
+      // If the security check couldn't load at all, don't trap them — send via email instead.
+      var sub0=encodeURIComponent('New enquiry from '+name);
+      var bdy0=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nNeed: '+need+'\nMessage: '+message);
+      try{ window.location.href='mailto:support@jt3rdegre3.com?subject='+sub0+'&body='+bdy0; }catch(e){}
+      finish(f,name); return;
+    }
     var btn=f.querySelector('.cw-send'); btn.disabled=true; btn.textContent='Sending…';
     var payload={action:'lead',name:name,email:email,need:need,message:message,hp:f.hp.value,turnstileToken:tok};
     fetch(SB_URL+'/functions/v1/web-forms',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(payload)})
