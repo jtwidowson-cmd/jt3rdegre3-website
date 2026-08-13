@@ -1622,6 +1622,7 @@ var INFO={
   function followup(){ chips([{label:'Ask another question',onClick:function(){bot('Sure — what would you like to know?');menu();}},{label:'💬 Talk to us',onClick:leadForm}]); }
   function start(){ if(started)return; started=true; bot("👋 Hi! I'm the JT.3rDegre3 assistant. Pick a question below, or leave your details and we'll get back to you fast."); menu(); }
   function leadForm(preNeed){
+    if(typeof preNeed!=='string') preNeed='';   // guard: chip onclick passes a PointerEvent — ignore it
     bot(preNeed ? ("Great choice — leave your details for the "+preNeed+" and we'll email you the payment details within minutes.") : "Great — leave your details and we'll email you within minutes.");
     var f=document.createElement('form'); f.className='cw-form'; f.setAttribute('novalidate','');
     f.innerHTML='<input class="cw-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">'+
