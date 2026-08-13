@@ -1152,32 +1152,30 @@ document.documentElement.classList.add('js');
    While empty, forms work exactly as before (server also fails open until
    its TURNSTILE_SECRET is set). Set BOTH keys to switch protection on. */
 var TURNSTILE_SITE_KEY='0x4AAAAAAEPHjVhkLk5T9_iv';   // Cloudflare Turnstile SITE key (public) for jt3rdegre3.com
-var __tsLoad=false, __tsReady=false, __tsQueue=[];
+var __tsLoad=false;
 function tsActive(){ return !!TURNSTILE_SITE_KEY; }
-/* Cloudflare calls this once the Turnstile API is ready (official onload hook). */
-window.onloadTurnstileCallback=function(){ __tsReady=true; var q=__tsQueue; __tsQueue=[]; q.forEach(function(fn){ try{fn();}catch(e){} }); };
 function tsLoadScript(){
   if(!tsActive()||__tsLoad) return; __tsLoad=true;
   var s=document.createElement('script');
-  s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit';
+  s.src='https://challenges.cloudflare.com/turnstile/v0/api.js';   // plain load; we poll for window.turnstile
   s.async=true; s.defer=true; document.head.appendChild(s);
 }
 /* Render a widget into `el`. Returns a controller:
      token()    -> the solved token (captured via the widget callback)
      rendered() -> true once the widget actually mounted
+     failed()   -> true if the API never loaded after ~15s (so callers can degrade gracefully)
      reset()    -> clear the token / re-challenge
-   Rendering is queued until the API signals it's ready (no polling race). */
+   We POLL for window.turnstile (robust: does not depend on Cloudflare's onload hook firing). */
 function tsRender(el){
-  var ctl={ _t:'', _id:null,
+  var ctl={ _t:'', _id:null, _dead:false,
     token:function(){ return ctl._t||''; },
     rendered:function(){ return ctl._id!=null; },
+    failed:function(){ return ctl._dead && ctl._id==null; },
     reset:function(){ ctl._t=''; try{ if(window.turnstile&&ctl._id!=null) window.turnstile.reset(ctl._id); }catch(e){} } };
   if(!tsActive()||!el){ ctl.token=function(){ return ''; }; ctl.rendered=function(){ return false; }; return ctl; }
-  el.setAttribute('data-ts-loading','1');
-  el.style.minHeight='68px';
+  el.style.minHeight='68px'; el.style.display='flex'; el.style.alignItems='center'; el.style.justifyContent='center';
+  el.style.font='12px Inter,system-ui,sans-serif'; el.style.color='#7d93a8';
   el.textContent='Loading security check…';
-  el.style.font='12px Inter,system-ui,sans-serif'; el.style.color='#7d93a8'; el.style.display='flex';
-  el.style.alignItems='center'; el.style.justifyContent='center';
   function doRender(){
     if(ctl._id!=null) return;
     try{
@@ -1192,7 +1190,13 @@ function tsRender(el){
     }catch(e){}
   }
   tsLoadScript();
-  if(__tsReady && window.turnstile) doRender(); else __tsQueue.push(doRender);
+  var tries=0;
+  (function poll(){
+    if(ctl._id!=null) return;
+    if(window.turnstile && window.turnstile.render){ doRender(); return; }
+    if(tries++ < 120){ setTimeout(poll,150); }                 // poll ~18s
+    else { ctl._dead=true; el.textContent=''; el.style.minHeight=''; el.style.display=''; }  // give up quietly
+  })();
   return ctl;
 }
 if(tsActive()) tsLoadScript();   // eager: start fetching the Turnstile script immediately
@@ -1671,13 +1675,16 @@ var INFO={
     if(!f.consent.checked){ err.textContent='Please tick the consent box so we can reply.'; err.style.display='block'; return; }
     var tok=(f._ts?f._ts.token():'');
     if(tsActive() && !tok){
-      // If the widget mounted but isn't solved yet, ask them to complete it.
-      if(f._ts && f._ts.rendered()){ err.textContent='Please complete the "I’m human" check above, then send.'; err.style.display='block'; return; }
-      // If the security check couldn't load at all, don't trap them — send via email instead.
-      var sub0=encodeURIComponent('New enquiry from '+name);
-      var bdy0=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nNeed: '+need+'\nMessage: '+message);
-      try{ window.location.href='mailto:support@jt3rdegre3.com?subject='+sub0+'&body='+bdy0; }catch(e){}
-      finish(f,name); return;
+      if(f._ts && f._ts.failed()){
+        // The security check genuinely couldn't load — don't trap them; send via email instead.
+        var sub0=encodeURIComponent('New enquiry from '+name);
+        var bdy0=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nNeed: '+need+'\nMessage: '+message);
+        try{ window.location.href='mailto:support@jt3rdegre3.com?subject='+sub0+'&body='+bdy0; }catch(e){}
+        finish(f,name); return;
+      }
+      if(f._ts && f._ts.rendered()){ err.textContent='Please complete the "I’m human" check above, then send.'; }
+      else { err.textContent='Security check is still loading — give it a moment, then send.'; }
+      err.style.display='block'; return;
     }
     var btn=f.querySelector('.cw-send'); btn.disabled=true; btn.textContent='Sending…';
     var payload={action:'lead',name:name,email:email,need:need,message:message,hp:f.hp.value,turnstileToken:tok};
