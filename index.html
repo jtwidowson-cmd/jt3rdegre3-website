@@ -656,23 +656,22 @@
               box-shadow:0 12px 34px -20px rgba(16,24,38,.28)}
   header.site.scrolled .wrap.nav{padding-top:9px;padding-bottom:9px}
 
-  /* ---- Nav entrance: brand + links + actions ease down once, on load ---- */
+  /* ---- Nav entrance: brand + links + actions ease down once, on load.
+     Pure CSS (animation always completes) so the header can never get
+     stuck hidden even if scripting fails. ---- */
+  @keyframes navReveal{from{opacity:0;transform:translateY(-9px)}to{opacity:1;transform:none}}
   html.js header.site .brand,
   html.js header.site .nav-links a,
-  html.js header.site .nav-actions>*{opacity:0;transform:translateY(-9px)}
-  header.site.nav-in .brand,
-  header.site.nav-in .nav-links a,
-  header.site.nav-in .nav-actions>*{opacity:1;transform:none;
-              transition:opacity var(--t-med) var(--ease),transform var(--t-med) var(--ease)}
-  header.site.nav-in .brand{transition-delay:.04s}
-  header.site.nav-in .nav-links a:nth-child(1){transition-delay:.10s}
-  header.site.nav-in .nav-links a:nth-child(2){transition-delay:.15s}
-  header.site.nav-in .nav-links a:nth-child(3){transition-delay:.20s}
-  header.site.nav-in .nav-links a:nth-child(4){transition-delay:.25s}
-  header.site.nav-in .nav-links a:nth-child(5){transition-delay:.30s}
-  header.site.nav-in .nav-links a:nth-child(6){transition-delay:.35s}
-  header.site.nav-in .nav-links a:nth-child(7){transition-delay:.40s}
-  header.site.nav-in .nav-actions>*{transition-delay:.40s}
+  html.js header.site .nav-actions>*{animation:navReveal var(--t-med) var(--ease) both}
+  html.js header.site .brand{animation-delay:.04s}
+  html.js header.site .nav-links a:nth-child(1){animation-delay:.10s}
+  html.js header.site .nav-links a:nth-child(2){animation-delay:.15s}
+  html.js header.site .nav-links a:nth-child(3){animation-delay:.20s}
+  html.js header.site .nav-links a:nth-child(4){animation-delay:.25s}
+  html.js header.site .nav-links a:nth-child(5){animation-delay:.30s}
+  html.js header.site .nav-links a:nth-child(6){animation-delay:.35s}
+  html.js header.site .nav-links a:nth-child(7){animation-delay:.40s}
+  html.js header.site .nav-actions>*{animation-delay:.40s}
   /* nav links: animated underline that grows from the centre */
   .nav-links a{position:relative}
   .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;
@@ -1764,11 +1763,9 @@ var INFO={
 (function(){
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var header = document.querySelector('header.site');
+  /* Nav entrance is pure-CSS (see navReveal) — no JS needed here. */
 
-  /* 1) Nav entrance — play the staggered header reveal once on load */
-  if(header){ requestAnimationFrame(function(){ requestAnimationFrame(function(){ header.classList.add('nav-in'); }); }); }
-
-  /* 2) Sticky header condense/shadow on scroll (rAF-throttled) + scroll progress */
+  /* Sticky header condense/shadow on scroll (rAF-throttled) + scroll progress */
   var prog=document.createElement('div'); prog.id='scrollProg'; document.body.appendChild(prog);
   var ticking=false;
   function onScroll(){
