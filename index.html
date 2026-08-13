@@ -891,6 +891,7 @@
       <label>Company (optional)</label><input id="rv-company" maxlength="80" placeholder="Company">
       <label>Your review</label><textarea id="rv-body" rows="4" maxlength="600" placeholder="How has JT.3rDegre3 helped your team?"></textarea>
       <input class="hp" id="rv-hp" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Leave blank">
+      <div id="ts-review" style="margin-top:12px"></div>
       <button class="btn btn-primary" id="rv-submit" style="margin-top:14px;width:100%;justify-content:center">Submit review</button>
       <div class="rev-note" id="rv-msg"></div>
     </div>
@@ -1000,6 +1001,36 @@
 
 <script>
 document.documentElement.classList.add('js');
+/* ===== Cloudflare Turnstile (bot protection for public forms) =====
+   Leave TURNSTILE_SITE_KEY empty until you create a Turnstile site key.
+   While empty, forms work exactly as before (server also fails open until
+   its TURNSTILE_SECRET is set). Set BOTH keys to switch protection on. */
+var TURNSTILE_SITE_KEY='';                 // <-- paste your Cloudflare Turnstile SITE key here
+var __tsLoaded=false, __tsWidgets=[];
+function tsActive(){ return !!TURNSTILE_SITE_KEY; }
+function tsLoadScript(){
+  if(!tsActive()||__tsLoaded) return;
+  __tsLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+  s.async=true; s.defer=true; document.head.appendChild(s);
+}
+/* Render a widget into `el` once the API is ready.
+   Returns a controller: token() reads the current response, reset() clears it. */
+function tsRender(el){
+  var ctl={ token:function(){ return ''; }, reset:function(){} };
+  if(!tsActive()||!el) return ctl;
+  var id=null;
+  function go(){
+    if(window.turnstile && id===null){
+      try{ id=window.turnstile.render(el,{sitekey:TURNSTILE_SITE_KEY,theme:'auto',size:'flexible'}); }catch(e){}
+    } else if(id===null){ setTimeout(go,200); }
+  }
+  tsLoadScript(); go();
+  ctl.token=function(){ try{ return (window.turnstile&&id!==null)?(window.turnstile.getResponse(id)||''):''; }catch(e){ return ''; } };
+  ctl.reset=function(){ try{ if(window.turnstile&&id!==null) window.turnstile.reset(id); }catch(e){} };
+  return ctl;
+}
 /* ===== Per-app pricing + landing pages ===== */
 var DEFAULT_TITLE=document.title;
 function detectCur(){
@@ -1280,17 +1311,24 @@ initBar(); renderOffer(); tickCountdown(); setInterval(tickCountdown,1000);
       }).catch(function(){});
   }
   var btn=document.getElementById('rv-submit');
+  var rvTs=tsRender(document.getElementById('ts-review'));   // Turnstile (no-op until a site key is set)
   if(btn){ btn.addEventListener('click',function(){
     var msg=document.getElementById('rv-msg'); msg.style.color='var(--steel)';
-    if(document.getElementById('rv-hp').value){ return; } // honeypot
+    if(document.getElementById('rv-hp').value){ return; } // honeypot: silently accept bots
     var name=document.getElementById('rv-name').value.trim(), body=document.getElementById('rv-body').value.trim();
     var rating=+(document.getElementById('starPick').getAttribute('data-val')||5);
     if(!name){ msg.style.color='var(--blue)'; msg.textContent='Please add your name.'; return; }
     if(body.length<8){ msg.style.color='var(--blue)'; msg.textContent='Please write a short review.'; return; }
+    var tok=rvTs.token();
+    if(tsActive() && !tok){ msg.style.color='var(--blue)'; msg.textContent='Please complete the "I’m human" check, then submit.'; return; }
     btn.disabled=true; msg.textContent='Sending…';
-    fetch(SBU+'/rest/v1/rpc/submit_review',{method:'POST',headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'},body:JSON.stringify({p_name:name,p_company:document.getElementById('rv-company').value.trim(),p_rating:rating,p_body:body})})
-      .then(function(r){ btn.disabled=false; if(r.ok){ msg.style.color='var(--emerald)'; msg.textContent='Thank you! Your review is pending approval and will appear here once verified.'; document.getElementById('rv-name').value='';document.getElementById('rv-company').value='';document.getElementById('rv-body').value=''; } else { msg.style.color='var(--blue)'; msg.textContent='Could not send — please email support@jt3rdegre3.com.'; } })
-      .catch(function(){ btn.disabled=false; msg.style.color='var(--blue)'; msg.textContent='Could not send — please email support@jt3rdegre3.com.'; });
+    fetch(SBU+'/functions/v1/web-forms',{method:'POST',headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json'},body:JSON.stringify({action:'review',name:name,company:document.getElementById('rv-company').value.trim(),rating:rating,body:body,hp:document.getElementById('rv-hp').value,turnstileToken:tok})})
+      .then(function(r){ btn.disabled=false; rvTs.reset();
+        if(r.ok){ msg.style.color='var(--emerald)'; msg.textContent='Thank you! Your review is pending approval and will appear here once verified.'; document.getElementById('rv-name').value='';document.getElementById('rv-company').value='';document.getElementById('rv-body').value=''; }
+        else if(r.status===429){ msg.style.color='var(--blue)'; msg.textContent='You’ve sent a few reviews already — please try again a little later.'; }
+        else if(r.status===403){ msg.style.color='var(--blue)'; msg.textContent='Could not verify you’re human — please refresh and try again.'; }
+        else { msg.style.color='var(--blue)'; msg.textContent='Could not send — please email support@jt3rdegre3.com.'; } })
+      .catch(function(){ btn.disabled=false; rvTs.reset(); msg.style.color='var(--blue)'; msg.textContent='Could not send — please email support@jt3rdegre3.com.'; });
   }); }
   loadReviews();
 })();
@@ -1446,8 +1484,10 @@ var INFO={
       '<div><label>Message (optional)</label><textarea name="message" maxlength="1000" placeholder="Roughly how many trucks / your industry..."></textarea></div>'+
       '<label class="cw-consent"><input type="checkbox" name="consent"> I agree JT.3rDegre3 can use my details to contact me about my enquiry.</label>'+
       '<div class="cw-priv" style="font-size:11.5px;color:var(--steel);line-height:1.5;margin-top:4px">To give you the content requested, we need to store and process your personal data. For more information please review our <a href="#" class="cw-privlink" style="color:var(--blue);font-weight:600">Privacy Policy</a>.</div>'+
+      '<div class="cw-ts" style="margin-top:6px"></div>'+
       '<div class="cw-err"></div><button class="cw-send" type="submit">Send</button>';
     body.appendChild(f); f.dataset.t0=String(Date.now());
+    f._ts=tsRender(f.querySelector('.cw-ts'));   // Turnstile (no-op until a site key is set)
     if(preNeed){ var sel=f.querySelector('select[name=need]'); if(sel){ var op=document.createElement('option'); op.textContent=preNeed; op.selected=true; sel.insertBefore(op, sel.firstChild); } }
     scroll();
     var pl=f.querySelector('.cw-privlink'); if(pl) pl.addEventListener('click',function(e){e.preventDefault();var m=document.getElementById('privModal'); if(m) m.classList.add('open');});
@@ -1462,11 +1502,19 @@ var INFO={
     if(!name||!email){ err.textContent='Please add your name and email.'; err.style.display='block'; return; }
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Please check your email address.'; err.style.display='block'; return; }
     if(!f.consent.checked){ err.textContent='Please tick the consent box so we can reply.'; err.style.display='block'; return; }
+    var tok=(f._ts?f._ts.token():'');
+    if(tsActive() && !tok){ err.textContent='Please complete the "I’m human" check, then send.'; err.style.display='block'; return; }
     var btn=f.querySelector('.cw-send'); btn.disabled=true; btn.textContent='Sending…';
-    var payload={name:name,email:email,need:need,message:message,source:'website'};
-    fetch(SB_URL+'/rest/v1/leads',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(payload)})
-      .then(function(r){ if(!r.ok) throw new Error('http'); finish(f,name); })
+    var payload={action:'lead',name:name,email:email,need:need,message:message,hp:f.hp.value,turnstileToken:tok};
+    fetch(SB_URL+'/functions/v1/web-forms',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(payload)})
+      .then(function(r){
+        if(r.status===429){ if(f._ts)f._ts.reset(); btn.disabled=false; btn.textContent='Send'; err.textContent='You’ve sent a few enquiries already — please try again in a few minutes.'; err.style.display='block'; return; }
+        if(r.status===403){ if(f._ts)f._ts.reset(); btn.disabled=false; btn.textContent='Send'; err.textContent='Could not verify you’re human — please refresh and try again.'; err.style.display='block'; return; }
+        if(!r.ok) throw new Error('http');
+        finish(f,name);
+      })
       .catch(function(){
+        // network / server unreachable — fall back to the visitor's email client so the enquiry is never lost
         var sub=encodeURIComponent('New enquiry from '+name);
         var bdy=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nNeed: '+need+'\nMessage: '+message);
         try{ window.location.href='mailto:support@jt3rdegre3.com?subject='+sub+'&body='+bdy; }catch(e){}
