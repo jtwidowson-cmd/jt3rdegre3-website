@@ -76,9 +76,13 @@ img{max-width:100%;display:block}
 .btn:active{transform:scale(.98)}
 .btn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(59,107,255,.45)}
 .btn-primary{background:var(--cobalt);color:#fff;box-shadow:0 8px 22px -10px rgba(59,107,255,.7),inset 0 1px 0 rgba(255,255,255,.18)}
-.btn-primary:hover{background:var(--cobalt-2)}
+.btn-primary:hover{background:var(--cobalt-2);box-shadow:0 12px 34px -8px rgba(59,107,255,.9),0 0 0 1px rgba(91,132,255,.55),0 0 26px -4px rgba(59,107,255,.75),inset 0 1px 0 rgba(255,255,255,.28)}
 .btn-ghost{background:var(--glass);color:var(--white);border-color:var(--line-2)}
-.btn-ghost:hover{border-color:var(--line-3);background:rgba(255,255,255,.05)}
+.btn-ghost:hover{border-color:var(--cobalt-line);background:rgba(59,107,255,.09);color:#fff;box-shadow:0 0 24px -6px rgba(59,107,255,.55),inset 0 0 0 1px rgba(59,107,255,.15)}
+/* premium sheen sweep on primary buttons */
+.btn-primary{position:relative;overflow:hidden}
+.btn-primary::after{content:"";position:absolute;top:0;left:-130%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-18deg);transition:left .55s var(--ease);pointer-events:none}
+.btn-primary:hover::after{left:150%}
 .btn-sm{padding:8px 14px;font-size:13px;min-height:38px;border-radius:9px}
 .btn-lg{padding:14px 26px;font-size:15.5px;border-radius:12px;min-height:50px}
 .btn-block{width:100%}
@@ -399,6 +403,22 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
 /* iPhone / safe-area alignment for fixed chrome */
 .nav{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
 @supports(padding:max(0px)){ .wrap{padding-left:max(26px,env(safe-area-inset-left));padding-right:max(26px,env(safe-area-inset-right))} }
+
+/* ============ FLOATING EQUIPMENT MARQUEE ============ */
+.eqbar{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;overflow:hidden;position:relative;background:var(--bg-2)}
+.eqbar::before,.eqbar::after{content:"";position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none}
+.eqbar::before{left:0;background:linear-gradient(90deg,var(--bg-2),transparent)}
+.eqbar::after{right:0;background:linear-gradient(270deg,var(--bg-2),transparent)}
+.eqbar .lbl{text-align:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray-2);margin-bottom:14px}
+.eq-track{display:flex;gap:13px;width:max-content;animation:eqscroll 40s linear infinite}
+.eqbar:hover .eq-track{animation-play-state:paused}
+@keyframes eqscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.eq-chip{display:flex;align-items:center;gap:10px;border:1px solid var(--line-2);border-radius:12px;background:var(--panel);padding:10px 16px;white-space:nowrap;font-weight:600;font-size:14px;transition:border-color .2s,transform .2s var(--ease),box-shadow .2s}
+.eq-chip:hover{border-color:var(--cobalt-line);transform:translateY(-2px);box-shadow:0 0 22px -8px rgba(59,107,255,.6)}
+.eq-chip .ic{font-size:19px;line-height:1}
+@media(prefers-reduced-motion:reduce){.eq-track{animation:none;flex-wrap:wrap;justify-content:center}.eqbar::before,.eqbar::after{display:none}}
+/* local pricing note */
+.price-note{font-family:var(--mono);font-size:11px;color:var(--gray-2);margin:-8px 0 16px;letter-spacing:.02em}
 </style>
 </head>
 <body>
@@ -429,7 +449,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="hero-eyebrow"><span class="dot"></span><span class="eyebrow">Quality · Health · Safety · Environment</span></span>
+        <span class="hero-eyebrow"><span class="eyebrow">Quality · Health · Safety · Environment</span></span>
         <h1>One Platform.<br><span class="b">Total Protection.</span><br>Compliance in Minutes.</h1>
         <p class="lead">Digital inspections, equipment records, reporting and QHSE workflows — built for real industrial operations.</p>
         <div class="hero-cta">
@@ -459,6 +479,11 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
       </div>
     </div>
   </section>
+
+  <div class="eqbar reveal">
+    <div class="wrap" style="padding:0"><div class="lbl">Equipment inspected with JT.3rDegre3</div></div>
+    <div class="eq-track" id="eqTrack"></div>
+  </div>
 
   <section class="sec-tight">
     <div class="wrap">
@@ -672,7 +697,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
         <div class="beta-card reveal">
           <span class="tag">● Paid Beta</span>
           <div style="font-size:15px;font-weight:600">Equipment Inspection</div>
-          <div class="price">€15<span>/month</span></div>
+          <div class="price" id="betaPrice">€15<span>/month</span></div>
+          <div class="price-note" id="betaPriceNote"></div>
           <div class="sub">For initial beta users.</div>
           <ul class="feat">
             <li><span class="c">✓</span>Digital equipment inspections</li>
@@ -771,6 +797,38 @@ var SB_KEY='sb_publishable_yYB5wciGbc7zJyc7oe1RYg_B9npEyqN';
 var TURNSTILE_SITE_KEY='0x4AAAAAAEPHjVhkLk5T9_iv';
 var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 document.getElementById('yr').textContent='2026';
+
+/* ---------- Auto-detect local pricing by country (base €15) ---------- */
+var CUR={EUR:{s:'€',r:1},GBP:{s:'£',r:.85},USD:{s:'$',r:1.08},AUD:{s:'A$',r:1.65},CAD:{s:'C$',r:1.48},PHP:{s:'₱',r:63},AED:{s:'AED ',r:4},ZAR:{s:'R',r:20},SGD:{s:'S$',r:1.45}};
+function detectCur(){
+  try{
+    var tz=(Intl.DateTimeFormat().resolvedOptions().timeZone||''), lang=(navigator.language||'').toLowerCase();
+    if(/Manila/i.test(tz)||/-ph$/.test(lang)) return 'PHP';
+    if(/Europe\/London|Belfast/i.test(tz)||/-gb$/.test(lang)) return 'GBP';
+    if(/America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage)/i.test(tz)||/-us$/.test(lang)) return 'USD';
+    if(/America\/(Toronto|Vancouver|Edmonton|Winnipeg)/i.test(tz)||/-ca$/.test(lang)) return 'CAD';
+    if(/Australia\//i.test(tz)||/-au$/.test(lang)) return 'AUD';
+    if(/Asia\/(Dubai|Abu_Dhabi)/i.test(tz)) return 'AED';
+    if(/Africa\/Johannesburg/i.test(tz)||/-za$/.test(lang)) return 'ZAR';
+    if(/Asia\/Singapore/i.test(tz)) return 'SGD';
+    if(/Europe\/|Atlantic\/(Canary|Madeira)/i.test(tz)) return 'EUR';
+  }catch(e){}
+  return 'EUR';
+}
+(function(){
+  var code=detectCur(), c=CUR[code]||CUR.EUR, base=15, amt=Math.round(base*c.r);
+  if(code==='PHP'||code==='ZAR') amt=Math.round(base*c.r/10)*10;   // round to nearest 10 for big-number currencies
+  var pe=document.getElementById('betaPrice'); if(pe) pe.innerHTML=c.s+amt+'<span>/month</span>';
+  var pn=document.getElementById('betaPriceNote'); if(pn) pn.textContent = code==='EUR' ? 'Billed monthly · shown in your local currency' : 'Approx. in your local currency · base €15/month';
+})();
+
+/* ---------- Floating equipment marquee ---------- */
+(function(){
+  var EQ=[['🚜','Excavator'],['🏗','Telehandler'],['🛗','MEWP'],['🚚','Loader'],['⚙️','Crusher'],['🚛','Truck'],['🚙','Trailer'],['🏗','Forklift'],['🛠','Lifting Equipment'],['⚙️','Production Machine']];
+  var el=document.getElementById('eqTrack'); if(!el) return;
+  var one=EQ.map(function(e){return '<div class="eq-chip"><span class="ic">'+e[0]+'</span>'+e[1]+'</div>';}).join('');
+  el.innerHTML=one+one;   // duplicate for seamless -50% loop
+})();
 
 /* ---------- ROUTER with fade page transitions ---------- */
 var PAGES=['home','product','industries','pricing'];
