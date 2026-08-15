@@ -355,6 +355,50 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
   .reveal{opacity:1!important;transform:none!important}
   #fade{display:none!important}
 }
+
+/* ============ FLOATING CHAT ASSISTANT ("Questions?") ============ */
+.cw-toggle{position:fixed;right:max(20px,env(safe-area-inset-right));bottom:calc(20px + env(safe-area-inset-bottom));z-index:90;
+  display:inline-flex;align-items:center;gap:9px;padding:11px 16px 11px 12px;border-radius:999px;border:1px solid var(--line-2);
+  background:linear-gradient(180deg,var(--panel-2),var(--panel));color:var(--white);cursor:pointer;font-weight:600;font-size:14px;
+  box-shadow:0 14px 34px -12px rgba(0,0,0,.8),0 0 0 1px rgba(59,107,255,.15);transition:transform .2s var(--ease),box-shadow .2s,opacity .2s}
+.cw-toggle:hover{transform:translateY(-2px);box-shadow:0 20px 40px -14px rgba(0,0,0,.85),0 0 0 1px var(--cobalt-line)}
+.cw-toggle:active{transform:scale(.97)}
+.cw-toggle.hide{opacity:0;pointer-events:none;transform:scale(.6)}
+.cw-ava{width:26px;height:26px;border-radius:50%;background:var(--cobalt);display:grid;place-items:center;font-size:15px;flex:none}
+.cw-panel{position:fixed;right:max(20px,env(safe-area-inset-right));bottom:calc(20px + env(safe-area-inset-bottom));z-index:91;
+  width:370px;max-width:calc(100vw - 32px);height:540px;max-height:calc(100vh - 40px);display:flex;flex-direction:column;overflow:hidden;
+  background:var(--panel);border:1px solid var(--line-2);border-radius:18px;box-shadow:0 30px 70px -20px rgba(0,0,0,.85);
+  opacity:0;transform:translateY(16px) scale(.98);pointer-events:none;transition:opacity .24s var(--ease),transform .24s var(--ease)}
+.cw-panel.open{opacity:1;transform:none;pointer-events:auto}
+.cw-head{display:flex;align-items:center;gap:11px;padding:15px 16px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel-2),var(--panel))}
+.cw-head b{font-size:14.5px;display:block}
+.cw-head .cw-st{font-size:11.5px;color:var(--ok);display:flex;align-items:center;gap:6px}
+.cw-head .cw-st i{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:pulse 1.8s infinite}
+.cw-close{margin-left:auto;width:32px;height:32px;border-radius:9px;border:1px solid var(--line-2);background:var(--glass);color:var(--gray);cursor:pointer;font-size:15px}
+.cw-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch}
+.cw-msg{max-width:88%;padding:11px 13px;border-radius:13px;font-size:13.6px;line-height:1.5}
+.cw-msg.bot{align-self:flex-start;background:var(--bg-2);border:1px solid var(--line)}
+.cw-msg.user{align-self:flex-end;background:var(--cobalt);color:#fff;font-weight:500}
+.cw-chips{display:flex;flex-wrap:wrap;gap:8px}
+.cw-chip{background:var(--cobalt-dim);border:1px solid var(--cobalt-line);color:var(--cobalt-2);font-size:12.5px;font-weight:600;padding:8px 12px;border-radius:10px;cursor:pointer;transition:.18s;text-align:left;font-family:inherit}
+.cw-chip:hover{background:rgba(59,107,255,.2);color:#fff}
+.cw-form{align-self:stretch;background:var(--bg-2);border:1px solid var(--line);border-radius:13px;padding:13px;display:flex;flex-direction:column;gap:9px}
+.cw-form label{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--gray)}
+.cw-form input,.cw-form select,.cw-form textarea{width:100%;background:var(--panel);border:1px solid var(--line-2);border-radius:9px;color:#fff;padding:10px 11px;font:inherit;font-size:14px}
+.cw-form input:focus,.cw-form select:focus,.cw-form textarea:focus{outline:none;border-color:var(--cobalt);box-shadow:0 0 0 3px rgba(59,107,255,.16)}
+.cw-form textarea{resize:vertical;min-height:52px}
+.cw-consent{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;color:var(--gray)}
+.cw-consent input{width:auto;margin-top:2px;accent-color:var(--cobalt)}
+.cw-err{color:var(--danger);font-size:11.5px;display:none}
+.cw-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+@media(max-width:640px){
+  .cw-panel{right:8px;left:8px;bottom:calc(10px + env(safe-area-inset-bottom));width:auto;max-width:none;height:min(76vh,560px)}
+  .cw-toggle{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));padding:10px 15px 10px 11px}
+}
+
+/* iPhone / safe-area alignment for fixed chrome */
+.nav{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+@supports(padding:max(0px)){ .wrap{padding-left:max(26px,env(safe-area-inset-left));padding-right:max(26px,env(safe-area-inset-right))} }
 </style>
 </head>
 <body>
@@ -699,6 +743,17 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
   </div>
 </footer>
 
+<!-- FLOATING CHAT ASSISTANT -->
+<button class="cw-toggle" id="cwToggle" aria-label="Questions? Chat with us"><span class="cw-ava">🙋</span><span class="cw-tt">Questions?</span></button>
+<div class="cw-panel" id="cwPanel" role="dialog" aria-label="JT.3rDegre3 Assistant" aria-hidden="true">
+  <div class="cw-head">
+    <span class="cw-ava" style="width:34px;height:34px;font-size:18px">🙋</span>
+    <div><b>JT.3rDegre3 Assistant</b><span class="cw-st"><i></i>Online — replies in seconds</span></div>
+    <button class="cw-close" id="cwClose" aria-label="Close chat">✕</button>
+  </div>
+  <div class="cw-body" id="cwBody"></div>
+</div>
+
 <!-- MODAL + DRAWER -->
 <div class="overlay" id="ov"></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true">
@@ -900,6 +955,79 @@ function showSuccess(){
   var card=document.getElementById('betaForm');
   card.innerHTML='<div style="text-align:center;padding:22px 8px"><div class="d-done"><div class="big">✓</div></div><h3 style="margin-bottom:6px">Request received</h3><p class="muted" style="max-width:340px;margin:0 auto 20px">Thanks — we’ve got your beta request. We’ll review it and send onboarding details, usually within one business day.</p><a class="btn btn-ghost" href="#product" data-nav="product">See the product</a></div>';
 }
+
+/* ---------- reusable Turnstile mount (for the chat lead form) ---------- */
+function mountTs(el){
+  var ctl={_id:null,_t:'',failed:false,rendered:function(){return ctl._id!=null;},token:function(){return ctl._t||'';},
+    reset:function(){ctl._t='';try{if(window.turnstile&&ctl._id!=null)window.turnstile.reset(ctl._id);}catch(_){}}};
+  if(!TURNSTILE_SITE_KEY||!el){ return ctl; }
+  el.style.minHeight='68px'; tsLoad(); var tries=0;
+  (function poll(){
+    if(ctl._id!=null) return;
+    if(window.turnstile&&window.turnstile.render){
+      try{ ctl._id=window.turnstile.render(el,{sitekey:TURNSTILE_SITE_KEY,theme:'dark',size:'flexible',retry:'auto','refresh-expired':'auto',
+        callback:function(t){ctl._t=t||'';},'expired-callback':function(){ctl._t='';},'error-callback':function(){ctl._t='';}}); el.style.minHeight=''; }catch(e){}
+    } else if(tries++<120){ setTimeout(poll,150); } else { ctl.failed=true; el.style.minHeight=''; }
+  })();
+  return ctl;
+}
+
+/* ---------- FLOATING CHAT ASSISTANT ("Questions?") ---------- */
+(function(){
+  var toggle=document.getElementById('cwToggle'), panel=document.getElementById('cwPanel'),
+      body=document.getElementById('cwBody'), started=false;
+  var FAQ=[
+    {q:'How much does it cost?',a:'Equipment Inspection is €15/month in the focused paid beta — no long commitment. More QHSE apps are coming next.'},
+    {q:'Which app is live now?',a:'Equipment Inspection is live today. Risk Assessments, Permit to Work, Fleet, Plant, Contractor Management and Incident Reporting are coming next.'},
+    {q:'Does it work offline on site?',a:'Yes — complete inspections in the field with no signal. Everything syncs automatically once you are back online.'},
+    {q:'What do I get in the beta?',a:'Digital equipment inspections, automatic report generation, central records, send/export, and phone, tablet & desktop access.'},
+    {q:'How do I start?',a:'Join the paid beta from the Pricing page, or leave your details here and we will set you up — usually within one business day.'}
+  ];
+  function scroll(){ body.scrollTop=body.scrollHeight; }
+  function bot(t){ var d=document.createElement('div'); d.className='cw-msg bot'; d.textContent=t; body.appendChild(d); scroll(); return d; }
+  function usr(t){ var d=document.createElement('div'); d.className='cw-msg user'; d.textContent=t; body.appendChild(d); scroll(); }
+  function chips(items){ var w=document.createElement('div'); w.className='cw-chips'; items.forEach(function(it){ var b=document.createElement('button'); b.type='button'; b.className='cw-chip'; b.textContent=it.label; b.onclick=it.onClick; w.appendChild(b); }); body.appendChild(w); scroll(); return w; }
+  function menu(){ chips(FAQ.map(function(f){ return {label:f.q,onClick:function(){ usr(f.q); bot(f.a); setTimeout(followup,260); }}; }).concat([{label:'💬 Leave your details',onClick:leadForm}])); }
+  function followup(){ chips([{label:'Ask another question',onClick:function(){ bot('Sure — what would you like to know?'); menu(); }},{label:'💬 Leave your details',onClick:leadForm},{label:'See pricing',onClick:function(){ closeCw(); go('pricing'); }}]); }
+  function start(){ if(started) return; started=true; bot("👋 Hi! I'm the JT.3rDegre3 assistant. Pick a question, or leave your details and we'll get back to you fast."); menu(); }
+  function leadForm(){
+    bot("Great — leave your details and we'll email you within one business day.");
+    var f=document.createElement('form'); f.className='cw-form'; f.setAttribute('novalidate','');
+    f.innerHTML='<input class="cw-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">'+
+      '<div><label>Your name</label><input name="name" maxlength="120" autocomplete="name"></div>'+
+      '<div><label>Email</label><input name="email" type="email" maxlength="160" autocomplete="email"></div>'+
+      '<div><label>What do you need?</label><select name="need"><option>Join the beta</option><option>Pricing</option><option>A quick demo</option><option>A question about JT.3rDegre3</option></select></div>'+
+      '<div><label>Message (optional)</label><textarea name="message" maxlength="1000" placeholder="Roughly how many assets / your industry…"></textarea></div>'+
+      '<label class="cw-consent"><input type="checkbox" name="consent"> I agree JT.3rDegre3 can use my details to contact me.</label>'+
+      '<div class="cw-ts"></div><div class="cw-err"></div>'+
+      '<button class="btn btn-primary btn-sm" type="submit" style="width:100%">Send</button>';
+    body.appendChild(f); scroll();
+    var ts=mountTs(f.querySelector('.cw-ts'));
+    f.addEventListener('submit',function(e){ e.preventDefault(); submitLead(f,ts); });
+  }
+  function submitLead(f,ts){
+    var err=f.querySelector('.cw-err'); err.style.display='none';
+    var name=f.name.value.trim(), email=f.email.value.trim().toLowerCase(), need=f.need.value, message=f.message.value.trim();
+    if(!name||!EMAIL_RE.test(email)){ err.textContent='Please add your name and a valid email.'; err.style.display='block'; return; }
+    if(!f.consent.checked){ err.textContent='Please tick the consent box so we can reply.'; err.style.display='block'; return; }
+    if(f.hp.value){ finishLead(f,name); return; }
+    var tok=ts.token();
+    if(TURNSTILE_SITE_KEY && !ts.failed && !tok){ err.textContent=ts.rendered()?'Please complete the "I’m human" check, then send.':'Security check is still loading — give it a moment.'; err.style.display='block'; return; }
+    var btn=f.querySelector('button[type=submit]'); btn.disabled=true; btn.textContent='Sending…';
+    fetch(SB_URL+'/functions/v1/web-forms',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({action:'lead',name:name,email:email,need:need,message:message,hp:f.hp.value,turnstileToken:tok})})
+      .then(function(r){ if(r.ok){ finishLead(f,name); return; } ts.reset(); btn.disabled=false; btn.textContent='Send';
+        if(r.status===429){ err.textContent='You’ve sent a few already — please try again shortly.'; }
+        else if(r.status===403){ err.textContent='Could not verify you’re human — please refresh and try again.'; }
+        else { err.textContent='Could not send — please email support@jt3rdegre3.com.'; } err.style.display='block'; })
+      .catch(function(){ var sub=encodeURIComponent('JT.3rDegre3 enquiry from '+name); var bd=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nNeed: '+need+'\nMessage: '+message); try{ window.location.href='mailto:support@jt3rdegre3.com?subject='+sub+'&body='+bd; }catch(_){} finishLead(f,name); });
+  }
+  function finishLead(f,name){ f.remove(); bot('✅ Thanks, '+name+"! We've got your details and we'll be in touch — usually within one business day."); chips([{label:'See pricing',onClick:function(){ closeCw(); go('pricing'); }},{label:'See the product',onClick:function(){ closeCw(); go('product'); }}]); }
+  function openCw(){ panel.classList.add('open'); toggle.classList.add('hide'); panel.setAttribute('aria-hidden','false'); start(); }
+  function closeCw(){ panel.classList.remove('open'); toggle.classList.remove('hide'); panel.setAttribute('aria-hidden','true'); }
+  toggle.addEventListener('click',openCw);
+  document.getElementById('cwClose').addEventListener('click',closeCw);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && panel.classList.contains('open')) closeCw(); });
+})();
 
 /* init */
 route();
