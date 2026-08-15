@@ -138,14 +138,28 @@ section{padding:76px 0;position:relative}
 .reveal.in{opacity:1;transform:none}
 
 /* ---------- HERO ---------- */
-.hero{min-height:86vh;display:flex;align-items:center;padding:112px 0 64px}
+.hero{min-height:80vh;display:flex;align-items:center;padding:104px 0 44px;position:relative}
+.hero>.wrap{position:relative;z-index:1}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .5s var(--ease);background:radial-gradient(340px circle at var(--mx,50%) var(--my,28%),rgba(59,107,255,.12),transparent 68%)}
+.hero:hover::before{opacity:1}
+.hero-photo{transition:transform .35s var(--ease)}
+@keyframes heroUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.hero-copy>*{animation:heroUp .6s var(--ease) both}
+.hero-copy>*:nth-child(1){animation-delay:.02s}
+.hero-copy>*:nth-child(2){animation-delay:.10s}
+.hero-copy>*:nth-child(3){animation-delay:.18s}
+.hero-copy>*:nth-child(4){animation-delay:.26s}
+.hero-copy>*:nth-child(5){animation-delay:.34s}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center;width:100%}
 .hero h1{font-size:clamp(38px,5.4vw,64px);letter-spacing:-.045em;line-height:1.02}
 .hero h1 .b{color:var(--cobalt-2)}
 .hero .lead{color:var(--gray);font-size:clamp(16px,1.5vw,18.5px);margin:22px 0 30px;max-width:520px;line-height:1.6}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:6px 13px;border:1px solid var(--line-2);border-radius:999px;background:var(--glass);margin-bottom:24px}
-.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--cobalt);box-shadow:0 0 10px var(--cobalt)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:6px 13px;border:1px solid var(--line-2);border-radius:999px;background:var(--glass);margin-bottom:24px;max-width:100%;flex-wrap:wrap}
+.hero-eyebrow .qw{color:var(--gray-2);transition:color .5s var(--ease),text-shadow .5s var(--ease)}
+.hero-eyebrow .qw.on{color:var(--cobalt-2);text-shadow:0 0 14px rgba(59,107,255,.55)}
+.hero-eyebrow .qs{color:var(--line-3);margin:0 2px}
+@media(max-width:400px){.hero-eyebrow .eyebrow{font-size:10px;letter-spacing:.12em}}
 .hero-note{margin-top:22px;font-family:var(--mono);font-size:12px;color:var(--gray-2);letter-spacing:.02em}
 
 /* ---------- PRODUCT PREVIEW CARD (hero visual) ---------- */
@@ -227,6 +241,17 @@ section{padding:76px 0;position:relative}
 
 /* ---------- VALUE CARDS (mini UI) ---------- */
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+/* ---------- Phase 6: six core values ---------- */
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.values>*{min-width:0}
+.value{border:1px solid var(--line-2);border-radius:var(--r);background:var(--panel);padding:24px;transition:transform .25s var(--ease),border-color .25s,box-shadow .25s}
+.value:hover{transform:translateY(-4px);border-color:var(--cobalt-line);box-shadow:0 18px 40px -20px rgba(0,0,0,.7),0 0 30px -14px rgba(59,107,255,.45)}
+.value .v-ic{width:46px;height:46px;border-radius:12px;background:var(--cobalt-dim);border:1px solid var(--cobalt-line);color:var(--cobalt-2);display:grid;place-items:center;font-size:22px;margin-bottom:14px;transition:transform .25s var(--ease)}
+.value:hover .v-ic{transform:translateY(-2px) scale(1.06)}
+.value h3{font-size:16px;margin-bottom:7px}
+.value p{color:var(--gray);font-size:13.8px;line-height:1.55}
+@media(max-width:960px){.values{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.values{grid-template-columns:1fr}}
 .vcard{border:1px solid var(--line-2);border-radius:var(--r);background:var(--panel);overflow:hidden;transition:transform .25s var(--ease),border-color .25s,box-shadow .25s}
 .vcard:hover{transform:translateY(-4px);border-color:var(--line-3);box-shadow:0 24px 50px -30px rgba(0,0,0,.8)}
 .vcard .mini{height:132px;border-bottom:1px solid var(--line);padding:14px;background:linear-gradient(180deg,var(--panel-2),var(--panel));position:relative;overflow:hidden}
@@ -342,6 +367,24 @@ section{padding:76px 0;position:relative}
 
 /* ---------- PRICING ---------- */
 .price-wrap{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start;max-width:1040px;margin:0 auto}
+/* ---------- Phase 8: Request Access / Book Demo conversion ---------- */
+.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start;max-width:1080px;margin:0 auto}
+.access-grid>*{min-width:0}
+.access-copy h2{font-size:clamp(22px,2.6vw,30px);line-height:1.16}
+.access-copy p{color:var(--gray);margin:14px 0 18px;line-height:1.6}
+.access-shot{margin-top:20px;max-width:100%}
+.access-shot .browser-view{aspect-ratio:1280/640}
+.access-shot .browser-view img{width:100%;height:100%;object-fit:cover;display:block}
+.interest{margin:8px 0 4px}
+.interest .il{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);margin-bottom:9px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip-c input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.chip-c label{display:inline-flex;align-items:center;padding:8px 12px;border:1px solid var(--line-2);border-radius:9px;font-size:12.5px;color:var(--gray);cursor:pointer;transition:border-color .18s,background .18s,color .18s;background:var(--glass)}
+.chip-c label:hover{color:var(--white);border-color:var(--line-3)}
+.chip-c input:checked+label{border-color:transparent;background:var(--cobalt);color:#fff}
+.chip-c input:focus-visible+label{box-shadow:0 0 0 3px rgba(59,107,255,.4)}
+.form-actions{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+@media(max-width:860px){.access-grid{grid-template-columns:1fr;gap:24px}}
 .beta-card{border:1px solid var(--cobalt-line);border-radius:18px;background:linear-gradient(180deg,rgba(59,107,255,.08),transparent 55%),var(--panel);padding:28px;position:relative;overflow:hidden}
 .beta-card .tag{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--cobalt-2);border:1px solid var(--cobalt-line);padding:5px 10px;border-radius:7px;margin-bottom:16px}
 .beta-card .price{font-size:44px;font-weight:800;letter-spacing:-.04em;margin:6px 0 2px}
@@ -543,8 +586,18 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
 .fab-contact .fab-ic{color:var(--cobalt-2)}
 .fab-contact:hover,.fab-contact:focus-visible{border-color:var(--cobalt);box-shadow:0 0 24px -8px rgba(59,107,255,.55)}
 [data-theme="light"] .fab{background:rgba(255,255,255,.9);color:#0d1522;box-shadow:0 12px 30px -16px rgba(20,40,80,.4)}
-@media(min-width:641px){ .cw-toggle{display:none} }
-@media(max-width:640px){ .fab-rail{display:none} }
+.fab-rail{display:none}   /* Phase 9: replaced by a single JT.3rDegre3 assistant */
+/* ---------- Phase 9: single floating assistant (logo + Questions? + prompt bubble) ---------- */
+.cw-ava img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+.cw-bubble{position:fixed;z-index:89;right:max(20px,env(safe-area-inset-right));bottom:calc(78px + env(safe-area-inset-bottom));max-width:230px;
+  background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line-2);border-radius:14px;border-bottom-right-radius:5px;
+  padding:11px 14px;font-size:13px;color:var(--white);box-shadow:0 16px 38px -16px rgba(0,0,0,.8),0 0 0 1px rgba(59,107,255,.12);
+  opacity:0;transform:translateY(8px) scale(.96);transform-origin:bottom right;pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.cw-bubble.show{opacity:1;transform:none;pointer-events:auto}
+.cw-bubble b{display:block;font-size:13.5px;margin-bottom:1px}
+.cw-bubble small{color:var(--gray);font-size:12px}
+.cw-bubble .x{position:absolute;top:-8px;right:-8px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line-2);background:var(--panel);color:var(--gray);font-size:12px;cursor:pointer;display:grid;place-items:center;line-height:1}
+[data-theme="light"] .cw-bubble{background:#fff;color:#0d1522}
 [data-theme="light"] #fade{background:#f4f7fc}
 [data-theme="light"] .hero h1 .b{color:var(--cobalt)}
 
@@ -646,12 +699,12 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
 <section class="page active" id="page-home">
   <section class="hero">
     <div class="wrap hero-grid">
-      <div>
-        <span class="hero-eyebrow"><span class="eyebrow">Quality · Health · Safety · Environment</span></span>
+      <div class="hero-copy">
+        <span class="hero-eyebrow" id="qhseEyebrow" aria-label="Quality, Health, Safety, Environment"><span class="eyebrow"><span class="qw">Quality</span><span class="qs">·</span><span class="qw">Health</span><span class="qs">·</span><span class="qw">Safety</span><span class="qs">·</span><span class="qw">Environment</span></span></span>
         <h1>One Platform.<br><span class="b">Total Protection.</span><br>Compliance in Minutes.</h1>
-        <p class="lead">Digital inspections, equipment records, reporting and QHSE workflows — built for real industrial operations.</p>
+        <p class="lead">Bring inspections, fleet checks, plant &amp; equipment records, permits, contractor management, risk assessments and digital reporting into one connected platform — with real-time visibility across sites, assets and operations.</p>
         <div class="hero-cta">
-          <a class="btn btn-primary btn-lg" href="#pricing" data-nav="pricing">Try Equipment Inspection</a>
+          <a class="btn btn-primary btn-lg" href="#pricing" data-nav="pricing">Request Access</a>
           <a class="btn btn-ghost btn-lg" href="#product" data-nav="product">See How It Works</a>
         </div>
         <div class="hero-note">The operating system for QHSE across industrial operations.</div>
@@ -728,6 +781,20 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
 
   <section class="sec-tight">
     <div class="wrap">
+      <div class="sec-head reveal"><span class="eyebrow">Why SafeTrack</span><h2>Built for how operations really run.</h2></div>
+      <div class="values reveal">
+        <div class="value"><div class="v-ic">🔗</div><h3>One Connected Platform</h3><p>Bring critical QHSE workflows together instead of spreading them across disconnected systems.</p></div>
+        <div class="value"><div class="v-ic">🦺</div><h3>Built for Frontline Operations</h3><p>Simple enough for teams working on-site, in vehicles, around equipment and across operational environments.</p></div>
+        <div class="value"><div class="v-ic">📈</div><h3>Real-Time Visibility</h3><p>Turn inspections and operational activity into management visibility — without waiting for paperwork.</p></div>
+        <div class="value"><div class="v-ic">🗂️</div><h3>Compliance Without Complexity</h3><p>Make records, evidence, inspections and follow-up actions easier to manage and retrieve.</p></div>
+        <div class="value"><div class="v-ic">🌱</div><h3>Designed to Grow</h3><p>A growing ecosystem of operational applications that can expand with your organization.</p></div>
+        <div class="value"><div class="v-ic">💡</div><h3>Actionable Safety Intelligence</h3><p>Transform operational information into useful dashboards, trends, risks, actions and decisions.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap">
       <div class="sec-head reveal"><span class="eyebrow">The platform</span><h2>Start with inspections. Grow into one QHSE platform.</h2></div>
       <div class="platform reveal">
         <div class="mod-lead">
@@ -751,7 +818,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
   <section class="sec-tight"><div class="wrap"><div class="ctaband reveal">
     <h2>Ready to leave paper and Excel behind?</h2>
     <p>Move your next inspection off paper today — no card needed to start.</p>
-    <div class="cta-row"><a class="btn btn-primary btn-lg" href="#pricing" data-nav="pricing">Start with Equipment Inspection</a><a class="btn btn-ghost btn-lg" href="#product" data-nav="product">See Product</a></div>
+    <div class="cta-row"><a class="btn btn-primary btn-lg" href="#pricing" data-nav="pricing">Request Access</a><a class="btn btn-ghost btn-lg" href="#product" data-nav="product">See Product</a></div>
   </div></div></section>
 </section>
 
@@ -762,7 +829,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
       <span class="eyebrow" style="display:block;margin-bottom:16px">The product</span>
       <h1 style="font-size:clamp(30px,4.4vw,50px)">From inspection to report in one connected workflow.</h1>
       <p class="lead" style="margin:20px auto 28px">Complete the inspection in the field, capture defects, generate the report and keep the record centrally.</p>
-      <div class="cta-row"><a class="btn btn-primary btn-lg" href="#pricing" data-nav="pricing">Start Beta</a></div>
+      <div class="cta-row"><a class="btn btn-primary btn-lg" href="#pricing" data-nav="pricing">Request Access</a></div>
     </div>
   </section>
 
@@ -821,8 +888,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
 
   <section class="sec-tight"><div class="wrap"><div class="ctaband reveal">
     <h2>Try the workflow on your own inspection.</h2>
-    <p>Join the focused paid beta and move your equipment inspections off paper.</p>
-    <div class="cta-row"><a class="btn btn-primary btn-lg" href="#pricing" data-nav="pricing">Join the Paid Beta</a></div>
+    <p>Request access and move your equipment inspections off paper.</p>
+    <div class="cta-row"><a class="btn btn-primary btn-lg" href="#pricing" data-nav="pricing">Request Access</a></div>
   </div></div></section>
 </section>
 
@@ -864,7 +931,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
   <section class="sec-tight"><div class="wrap"><div class="ctaband reveal">
     <h2>See how JT.3rDegre3 fits your operation.</h2>
     <p>Start with equipment inspection — adapted to your assets and workflows.</p>
-    <div class="cta-row"><a class="btn btn-primary btn-lg" href="#pricing" data-nav="pricing">Try Equipment Inspection</a><a class="btn btn-ghost btn-lg" href="#product" data-nav="product">View Product</a></div>
+    <div class="cta-row"><a class="btn btn-primary btn-lg" href="#pricing" data-nav="pricing">Request Access</a><a class="btn btn-ghost btn-lg" href="#product" data-nav="product">View Product</a></div>
   </div></div></section>
 </section>
 
@@ -872,51 +939,64 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
 <section class="page" id="page-pricing">
   <section class="hero" style="min-height:auto;padding:120px 0 30px">
     <div class="wrap" style="max-width:760px;text-align:center;margin:0 auto">
-      <span class="eyebrow" style="display:block;margin-bottom:16px">Pricing · Start</span>
-      <h1 style="font-size:clamp(30px,4.4vw,50px)">Start with Equipment Inspection.</h1>
-      <p class="lead" style="margin:20px auto 0">A focused paid beta for H&amp;S professionals who want to move inspections away from paper and Excel.</p>
+      <span class="eyebrow" style="display:block;margin-bottom:16px">Access · Book a demo</span>
+      <h1 style="font-size:clamp(30px,4.4vw,50px)">Let's build a SafeTrack solution around your operation.</h1>
+      <p class="lead" style="margin:20px auto 0">Tell us how your organization operates and we'll show you how SafeTrack QHSE can connect your inspections, equipment, permits, contractors, risks and reporting in one practical system.</p>
     </div>
   </section>
 
   <section class="sec-tight">
     <div class="wrap">
-      <div class="price-wrap">
-        <div class="beta-card reveal">
-          <span class="tag">● Paid Beta</span>
-          <div style="font-size:15px;font-weight:600">Equipment Inspection</div>
-          <div class="price" id="betaPrice">€15<span>/month</span></div>
-          <div class="price-note" id="betaPriceNote"></div>
-          <div class="sub">For initial beta users.</div>
+      <div class="access-grid">
+        <div class="access-copy reveal">
+          <h2>One connected system for your whole operation.</h2>
+          <p>Bring inspections, equipment, permits, contractors, risk and reporting together — with real-time visibility for frontline teams and management across every site.</p>
           <ul class="feat">
-            <li><span class="c">✓</span>Digital equipment inspections</li>
-            <li><span class="c">✓</span>Automatic report generation</li>
-            <li><span class="c">✓</span>Central inspection records</li>
-            <li><span class="c">✓</span>Send / export functionality</li>
-            <li><span class="c">✓</span>Phone, tablet &amp; desktop access</li>
+            <li><span class="c">✓</span>Digital inspections on phone, tablet &amp; desktop</li>
+            <li><span class="c">✓</span>Automatic reports &amp; central records</li>
+            <li><span class="c">✓</span>Permits, contractors, risk &amp; compliance in one place</li>
+            <li><span class="c">✓</span>Works offline on site — syncs when you're back online</li>
           </ul>
-          <button class="btn btn-primary btn-block btn-lg" id="joinBetaBtn">Join the Beta</button>
+          <div class="browser access-shot">
+            <div class="browser-bar"><span class="browser-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="browser-url">app.safetrackqhse.com/dashboard</span><span class="browser-live"><i></i>LIVE</span></div>
+            <div class="browser-view"><img id="accessShot" alt="SafeTrack QHSE dashboard"></div>
+          </div>
         </div>
 
         <div class="form-card reveal" id="betaForm">
-          <h3>Request beta access</h3>
-          <div class="fsub">We'll review and send onboarding details — usually within one business day.</div>
+          <h3>Request access</h3>
+          <div class="fsub">Tell us about your operation — we'll set you up, usually within one business day.</div>
           <form id="bForm" novalidate>
             <input type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
             <div class="fgrid">
-              <div class="field full"><label>Full name</label><input name="name" maxlength="120" autocomplete="name"><span class="fe">Please enter your name.</span></div>
-              <div class="field full"><label>Work email</label><input name="email" type="email" maxlength="160" autocomplete="email"><span class="fe">Please enter a valid email.</span></div>
-              <div class="field"><label>Company</label><input name="company" maxlength="120" autocomplete="organization"><span class="fe">Please add your company.</span></div>
-              <div class="field"><label>Role</label><input name="role" maxlength="80" placeholder="e.g. H&S Manager"><span class="fe">Please add your role.</span></div>
+              <div class="field"><label>First name</label><input name="firstname" maxlength="80" autocomplete="given-name"><span class="fe">Please add your first name.</span></div>
+              <div class="field"><label>Last name</label><input name="lastname" maxlength="80" autocomplete="family-name"><span class="fe">Please add your last name.</span></div>
+              <div class="field full"><label>Business email</label><input name="email" type="email" maxlength="160" autocomplete="email"><span class="fe">Please enter a valid email.</span></div>
+              <div class="field"><label>Phone number</label><input name="phone" maxlength="40" autocomplete="tel" inputmode="tel" placeholder="Optional"></div>
+              <div class="field"><label>Company name</label><input name="company" maxlength="120" autocomplete="organization"><span class="fe">Please add your company.</span></div>
               <div class="field"><label>Industry</label>
-                <select name="industry"><option value="">Select…</option><option>Construction</option><option>Quarrying &amp; Mining</option><option>Transport</option><option>Manufacturing</option><option>Other</option></select><span class="fe">Please select an industry.</span></div>
-              <div class="field"><label>Country</label><input name="country" maxlength="80" autocomplete="country-name"><span class="fe">Please add your country.</span></div>
-              <div class="field"><label>Equipment / assets</label><input name="assets" maxlength="40" placeholder="e.g. 25" inputmode="numeric"><span class="fe">Roughly how many?</span></div>
-              <div class="field"><label>Current inspection method</label>
-                <select name="method"><option value="">Select…</option><option>Paper</option><option>Excel</option><option>Existing Software</option><option>Combination</option><option>Other</option></select><span class="fe">Please select one.</span></div>
+                <select name="industry"><option value="">Select…</option><option>Construction</option><option>Transport &amp; Logistics</option><option>Plant &amp; Equipment</option><option>Facilities</option><option>Manufacturing</option><option>Quarrying &amp; Mining</option><option>Contractors / Multi-site</option><option>Other</option></select><span class="fe">Please select an industry.</span></div>
+              <div class="field full"><label>Number of employees</label>
+                <select name="employees"><option value="">Select…</option><option>1–10</option><option>11–50</option><option>51–200</option><option>201–500</option><option>500+</option></select><span class="fe">Please select one.</span></div>
             </div>
-            <label class="consent"><input type="checkbox" name="consent"> I understand this is an early paid beta.</label>
+            <div class="interest">
+              <div class="il">I'm interested in</div>
+              <div class="chips">
+                <span class="chip-c"><input type="checkbox" id="i-tf" name="interest" value="Transport Fleet"><label for="i-tf">Transport Fleet</label></span>
+                <span class="chip-c"><input type="checkbox" id="i-pe" name="interest" value="Plant & Equipment"><label for="i-pe">Plant &amp; Equipment</label></span>
+                <span class="chip-c"><input type="checkbox" id="i-pw" name="interest" value="Permit to Work"><label for="i-pw">Permit to Work</label></span>
+                <span class="chip-c"><input type="checkbox" id="i-sc" name="interest" value="Site & Contractor Management"><label for="i-sc">Site &amp; Contractor</label></span>
+                <span class="chip-c"><input type="checkbox" id="i-ra" name="interest" value="Risk Assessment"><label for="i-ra">Risk Assessment</label></span>
+                <span class="chip-c"><input type="checkbox" id="i-di" name="interest" value="Digital Inspection"><label for="i-di">Digital Inspection</label></span>
+                <span class="chip-c"><input type="checkbox" id="i-full" name="interest" value="Full SafeTrack QHSE Platform"><label for="i-full">Full SafeTrack QHSE Platform</label></span>
+              </div>
+            </div>
+            <label class="consent"><input type="checkbox" name="consent"> I agree SafeTrack QHSE can use these details to contact me about access.</label>
             <div id="ts-beta"></div>
-            <button class="btn btn-primary btn-block btn-lg" type="submit" id="bSubmit"><span class="spin"></span><span class="lbl">Request Beta Access</span></button>
+            <div class="form-actions">
+              <button class="btn btn-primary btn-block btn-lg" type="submit" id="bSubmit" value="access"><span class="spin"></span><span class="lbl">Request Access</span></button>
+              <button class="btn btn-ghost btn-block" type="submit" id="bDemo" value="demo">Book a Demo</button>
+            </div>
             <div class="form-msg" id="bMsg"></div>
           </form>
         </div>
@@ -936,9 +1016,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
   </section>
 
   <section class="sec-tight"><div class="wrap"><div class="ctaband reveal">
-    <h2>Replace your next paper inspection.</h2>
-    <p>Join the paid beta and put your equipment records in one place.</p>
-    <div class="cta-row"><button class="btn btn-primary btn-lg" id="finalJoin">Join the Beta</button></div>
+    <h2>Ready to connect your operation?</h2>
+    <p>Connect your inspections, equipment, permits and reporting in one place.</p>
+    <div class="cta-row"><button class="btn btn-primary btn-lg" id="finalJoin">Request Access</button></div>
   </div></div></section>
 </section>
 </main>
@@ -957,11 +1037,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
 </footer>
 
 <!-- FLOATING CHAT ASSISTANT -->
-<div class="fab-rail" id="fabRail" role="group" aria-label="Quick actions">
-  <button class="fab fab-safety" type="button" aria-label="Open the Safety Assistant"><span class="fab-ic" aria-hidden="true">🛡️</span><span class="fab-lb">Safety Assistant</span></button>
-  <button class="fab fab-contact" type="button" aria-label="Contact us"><span class="fab-ic" aria-hidden="true">💬</span><span class="fab-lb">Contact</span></button>
-</div>
-<button class="cw-toggle" id="cwToggle" aria-label="Questions? Chat with us"><span class="cw-ava">🙋</span><span class="cw-tt">Questions?</span></button>
+<div class="cw-bubble" id="cwBubble" role="status" aria-live="polite"><button class="x" id="cwBubbleX" type="button" aria-label="Dismiss">✕</button><b>Questions?</b><small>How can I help you?</small></div>
+<button class="cw-toggle" id="cwToggle" aria-label="JT.3rDegre3 assistant — Questions? Chat with us"><span class="cw-ava"><img id="cwLogo" alt="JT.3rDegre3"></span><span class="cw-tt">Questions?</span></button>
 <div class="cw-panel" id="cwPanel" role="dialog" aria-label="JT.3rDegre3 Assistant" aria-hidden="true">
   <div class="cw-head">
     <span class="cw-ava" style="width:34px;height:34px;font-size:18px">🙋</span>
@@ -1094,6 +1171,33 @@ megaItems.forEach(function(it){
 });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeAllMega(); });
 document.addEventListener('click',function(e){ if(!e.target.closest('.nav-item.has-mega')) closeAllMega(); });
+
+/* ---------- Phase 3: hero QHSE rotating indicator ---------- */
+(function(){
+  var wrap=document.getElementById('qhseEyebrow'); if(!wrap) return;
+  var ws=wrap.querySelectorAll('.qw'); if(!ws.length) return;
+  var i=0; ws[0].classList.add('on');
+  if(reduce) return;
+  setInterval(function(){ ws[i].classList.remove('on'); i=(i+1)%ws.length; ws[i].classList.add('on'); },2600);
+})();
+
+/* ---------- Phase 3: hero cursor spotlight + product-visual parallax ---------- */
+(function(){
+  var hero=document.querySelector('.hero'); if(!hero || reduce) return;
+  if(!(window.matchMedia && window.matchMedia('(hover:hover) and (pointer:fine)').matches)) return;
+  var photo=hero.querySelector('.hero-photo'), raf=null, mx=50, my=28, px=0, py=0;
+  hero.addEventListener('pointermove',function(e){
+    var r=hero.getBoundingClientRect();
+    mx=(e.clientX-r.left)/r.width*100; my=(e.clientY-r.top)/r.height*100;
+    px=(e.clientX-r.left)/r.width-0.5; py=(e.clientY-r.top)/r.height-0.5;
+    if(!raf) raf=requestAnimationFrame(function(){
+      hero.style.setProperty('--mx',mx.toFixed(1)+'%'); hero.style.setProperty('--my',my.toFixed(1)+'%');
+      if(photo) photo.style.transform='perspective(900px) rotateX('+(-py*2.2).toFixed(2)+'deg) rotateY('+(px*2.6).toFixed(2)+'deg) translateY(-2px)';
+      raf=null;
+    });
+  });
+  hero.addEventListener('pointerleave',function(){ if(photo) photo.style.transform=''; });
+})();
 
 /* ---------- The Shift: live-dashboard video (lazy, muted, poster-safe) ---------- */
 (function(){
@@ -1243,9 +1347,9 @@ function renderBetaTs(){
 }
 renderBetaTs();
 var EMAIL_RE=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-function focusForm(){ if(location.hash!=='#pricing'){ go('pricing'); setTimeout(function(){ document.getElementById('betaForm').scrollIntoView({block:'center'}); var n=document.querySelector('#bForm input[name=name]'); if(n)n.focus(); },420); } else { document.getElementById('betaForm').scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'}); var n=document.querySelector('#bForm input[name=name]'); if(n)setTimeout(function(){n.focus();},200); } }
-document.getElementById('joinBetaBtn').addEventListener('click',focusForm);
-document.getElementById('finalJoin').addEventListener('click',focusForm);
+function focusForm(){ if(location.hash!=='#pricing'){ go('pricing'); setTimeout(function(){ document.getElementById('betaForm').scrollIntoView({block:'center'}); var n=document.querySelector('#bForm input[name=firstname]'); if(n)n.focus(); },420); } else { document.getElementById('betaForm').scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'}); var n=document.querySelector('#bForm input[name=firstname]'); if(n)setTimeout(function(){n.focus();},200); } }
+var _jb=document.getElementById('joinBetaBtn'); if(_jb) _jb.addEventListener('click',focusForm);
+var _fj=document.getElementById('finalJoin'); if(_fj) _fj.addEventListener('click',focusForm);
 
 var bForm=document.getElementById('bForm');
 function fieldErr(name,on){ var el=bForm.querySelector('[name="'+name+'"]'); if(el) el.closest('.field').classList.toggle('err',!!on); }
@@ -1253,18 +1357,22 @@ bForm.addEventListener('submit',function(e){
   e.preventDefault();
   var msg=document.getElementById('bMsg'); msg.className='form-msg';
   var f=bForm, ok=true;
-  var name=f.name.value.trim(), email=f.email.value.trim().toLowerCase(), company=f.company.value.trim(),
-      role=f.role.value.trim(), industry=f.industry.value, country=f.country.value.trim(),
-      assets=f.assets.value.trim(), method=f.method.value, consent=f.consent.checked;
-  [['name',!name],['email',!EMAIL_RE.test(email)],['company',!company],['role',!role],['industry',!industry],['country',!country],['assets',!assets],['method',!method]].forEach(function(p){ fieldErr(p[0],p[1]); if(p[1])ok=false; });
-  if(!consent){ msg.className='form-msg bad'; msg.textContent='Please confirm you understand this is an early paid beta.'; ok=false; }
+  var first=f.firstname.value.trim(), last=f.lastname.value.trim(), email=f.email.value.trim().toLowerCase(),
+      phone=(f.phone?f.phone.value.trim():''), company=f.company.value.trim(), industry=f.industry.value,
+      employees=f.employees.value, consent=f.consent.checked;
+  var interests=[].map.call(f.querySelectorAll('input[name="interest"]:checked'),function(c){return c.value;});
+  [['firstname',!first],['lastname',!last],['email',!EMAIL_RE.test(email)],['company',!company],['industry',!industry],['employees',!employees]].forEach(function(p){ fieldErr(p[0],p[1]); if(p[1])ok=false; });
+  if(!consent){ msg.className='form-msg bad'; msg.textContent='Please tick the consent box so we can contact you.'; ok=false; }
   if(!ok){ if(consent){ msg.className='form-msg bad'; msg.textContent='Please complete the highlighted fields.'; } return; }
   if(f.hp.value){ /* honeypot */ showSuccess(); return; }
   var tok=betaTs.token();
   if(TURNSTILE_SITE_KEY && !betaTs.failed && !tok){ msg.className='form-msg bad'; msg.textContent=betaTs.rendered()?'Please complete the "I’m human" check, then submit.':'Security check is still loading — give it a moment, then submit.'; return; }
+  var intent=(e.submitter&&e.submitter.value)||'access';
+  var need=intent==='demo' ? 'Book a Demo — SafeTrack QHSE' : 'Request Access — SafeTrack QHSE';
+  var name=(first+' '+last).trim();
   var btn=document.getElementById('bSubmit'); btn.classList.add('loading');
-  var message='Paid Beta request\nCompany: '+company+'\nRole: '+role+'\nIndustry: '+industry+'\nCountry: '+country+'\nEquipment/assets: '+assets+'\nCurrent method: '+method;
-  var payload={action:'lead',name:name,email:email,need:'Paid Beta — Equipment Inspection',message:message,hp:f.hp.value,turnstileToken:tok};
+  var message=need+'\nName: '+name+'\nPhone: '+(phone||'—')+'\nCompany: '+company+'\nIndustry: '+industry+'\nEmployees: '+employees+'\nInterested in: '+(interests.join(', ')||'—');
+  var payload={action:'lead',name:name,email:email,need:need,message:message,hp:f.hp.value,turnstileToken:tok};
   fetch(SB_URL+'/functions/v1/web-forms',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(payload)})
     .then(function(r){
       btn.classList.remove('loading');
@@ -1281,7 +1389,7 @@ bForm.addEventListener('submit',function(e){
 });
 function showSuccess(){
   var card=document.getElementById('betaForm');
-  card.innerHTML='<div style="text-align:center;padding:22px 8px"><div class="d-done"><div class="big">✓</div></div><h3 style="margin-bottom:6px">Request received</h3><p class="muted" style="max-width:340px;margin:0 auto 20px">Thanks — we’ve got your beta request. We’ll review it and send onboarding details, usually within one business day.</p><a class="btn btn-ghost" href="#product" data-nav="product">See the product</a></div>';
+  card.innerHTML='<div style="text-align:center;padding:22px 8px"><div class="d-done"><div class="big">✓</div></div><h3 style="margin-bottom:6px">Request received</h3><p class="muted" style="max-width:340px;margin:0 auto 20px">Thanks — we’ve got your details. We’ll be in touch to set up your access, usually within one business day.</p><a class="btn btn-ghost" href="#product" data-nav="product">See the product</a></div>';
 }
 
 /* ---------- reusable Turnstile mount (for the chat lead form) ---------- */
@@ -1305,11 +1413,11 @@ function mountTs(el){
   var toggle=document.getElementById('cwToggle'), panel=document.getElementById('cwPanel'),
       body=document.getElementById('cwBody'), rail=document.getElementById('fabRail'), started=false;
   var FAQ=[
-    {q:'How much does it cost?',a:'Equipment Inspection is €15/month in the focused paid beta — no long commitment. More QHSE apps are coming next.'},
+    {q:'How much does it cost?',a:'Pricing is tailored to your operation and the modules you need. Request access and we\'ll put together the right setup for you.'},
     {q:'Which app is live now?',a:'Equipment Inspection is live today. Risk Assessments, Permit to Work, Fleet, Plant, Contractor Management and Incident Reporting are coming next.'},
     {q:'Does it work offline on site?',a:'Yes — complete inspections in the field with no signal. Everything syncs automatically once you are back online.'},
-    {q:'What do I get in the beta?',a:'Digital equipment inspections, automatic report generation, central records, send/export, and phone, tablet & desktop access.'},
-    {q:'How do I start?',a:'Join the paid beta from the Pricing page, or leave your details here and we will set you up — usually within one business day.'}
+    {q:'What do I get?',a:'Digital inspections, automatic report generation, central records, send/export, and phone, tablet & desktop access.'},
+    {q:'How do I start?',a:'Request access from the Access page, or leave your details here and we will set you up — usually within one business day.'}
   ];
   function scroll(){ body.scrollTop=body.scrollHeight; }
   function bot(t){ var d=document.createElement('div'); d.className='cw-msg bot'; d.textContent=t; body.appendChild(d); scroll(); return d; }
@@ -1324,7 +1432,7 @@ function mountTs(el){
     f.innerHTML='<input class="cw-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">'+
       '<div><label>Your name</label><input name="name" maxlength="120" autocomplete="name"></div>'+
       '<div><label>Email</label><input name="email" type="email" maxlength="160" autocomplete="email"></div>'+
-      '<div><label>What do you need?</label><select name="need"><option>Join the beta</option><option>Pricing</option><option>A quick demo</option><option>A question about JT.3rDegre3</option></select></div>'+
+      '<div><label>What do you need?</label><select name="need"><option>Request access</option><option>Pricing</option><option>A quick demo</option><option>A question about JT.3rDegre3</option></select></div>'+
       '<div><label>Message (optional)</label><textarea name="message" maxlength="1000" placeholder="Roughly how many assets / your industry…"></textarea></div>'+
       '<label class="cw-consent"><input type="checkbox" name="consent"> I agree JT.3rDegre3 can use my details to contact me.</label>'+
       '<div class="cw-ts"></div><div class="cw-err"></div>'+
@@ -1363,6 +1471,26 @@ function mountTs(el){
     if(cBtn) cBtn.addEventListener('click',openContact);
   }
   window.JTChat={ open:openCw, contact:openContact };
+})();
+
+/* ---------- Phase 9: single JT.3rDegre3 assistant — logo + gentle prompt bubble ---------- */
+(function(){
+  var logo=document.getElementById('cwLogo'), brand=document.querySelector('.brand img');
+  if(logo && brand && brand.src) logo.src=brand.src;
+  var ashot=document.getElementById('accessShot'), sv=document.getElementById('shiftVid');
+  if(ashot && sv && sv.getAttribute('poster')) ashot.src=sv.getAttribute('poster');
+  var bubble=document.getElementById('cwBubble'), x=document.getElementById('cwBubbleX'), toggle=document.getElementById('cwToggle');
+  if(!bubble) return;
+  var dismissed=false, timer=null, hideT=null;
+  function panelOpen(){ var p=document.getElementById('cwPanel'); return !!(p && p.classList.contains('open')); }
+  function typing(){ var a=document.activeElement; return !!(a && (a.tagName==='INPUT'||a.tagName==='TEXTAREA'||a.tagName==='SELECT')); }
+  function show(){ if(dismissed||reduce||panelOpen()||typing()) return; bubble.classList.add('show'); clearTimeout(hideT); hideT=setTimeout(hide,7000); }
+  function hide(){ bubble.classList.remove('show'); }
+  function stop(){ dismissed=true; hide(); if(timer){ clearInterval(timer); timer=null; } }
+  if(x) x.addEventListener('click',function(e){ e.stopPropagation(); stop(); });
+  bubble.addEventListener('click',function(){ hide(); if(window.JTChat) window.JTChat.open(); });
+  if(toggle) toggle.addEventListener('click',stop);
+  if(!reduce){ setTimeout(show,15000); timer=setInterval(show,15000); }
 })();
 
 /* ---------- Light / dark theme toggle ---------- */
