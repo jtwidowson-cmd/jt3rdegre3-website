@@ -395,6 +395,26 @@ section{padding:76px 0;position:relative}
 .chip-c input:focus-visible+label{box-shadow:0 0 0 3px rgba(59,107,255,.4)}
 .form-actions{display:flex;flex-direction:column;gap:9px;margin-top:6px}
 @media(max-width:860px){.access-grid{grid-template-columns:1fr;gap:24px}}
+/* ---------- Manual payment checkout (GCash / Bank Transfer) ---------- */
+.pay-wrap{max-width:1080px;margin:0 auto}
+.pay-methods{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px;justify-content:center}
+.pay-m{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:210px;flex:1;max-width:320px;padding:14px 18px;border:1px solid var(--line-2);border-radius:12px;background:var(--panel);color:var(--gray);cursor:pointer;transition:border-color .2s,background .2s,box-shadow .2s;text-align:left}
+.pay-m .pm-ic{font-size:20px}
+.pay-m b{color:var(--white);font-size:15px}
+.pay-m small{font-family:var(--mono);font-size:10.5px;color:var(--gray-2);letter-spacing:.02em}
+.pay-m.active{border-color:transparent;background:var(--cobalt-dim);box-shadow:0 0 0 1px var(--cobalt-line),0 0 26px -12px rgba(59,107,255,.6)}
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+.pay-grid>*{min-width:0}
+.pay-detail{border:1px solid var(--line-2);border-radius:14px;background:var(--panel);padding:22px}
+.pay-detail h4{font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.pay-row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.pay-row:last-child{border-bottom:0}
+.pay-row .k{color:var(--gray)}
+.pay-row .v{color:var(--white);font-weight:600;font-family:var(--mono);text-align:right;word-break:break-word}
+.pay-note{font-size:12.5px;color:var(--gray);margin-top:12px;line-height:1.5}
+.pay-status{margin-top:6px;display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--warn);border:1px solid rgba(245,180,63,.4);background:rgba(245,180,63,.08);padding:7px 12px;border-radius:8px}
+.pay-file input{font-size:12.5px;color:var(--gray);max-width:100%}
+@media(max-width:860px){.pay-grid{grid-template-columns:1fr;gap:20px}}
 .beta-card{border:1px solid var(--cobalt-line);border-radius:18px;background:linear-gradient(180deg,rgba(59,107,255,.08),transparent 55%),var(--panel);padding:28px;position:relative;overflow:hidden}
 .beta-card .tag{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--cobalt-2);border:1px solid var(--cobalt-line);padding:5px 10px;border-radius:7px;margin-bottom:16px}
 .beta-card .price{font-size:44px;font-weight:800;letter-spacing:-.04em;margin:6px 0 2px}
@@ -1027,6 +1047,53 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
     </div>
   </section>
 
+  <section class="sec-tight" id="checkout">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="eyebrow">Checkout</span><h2>Complete your payment.</h2><p>Approved to subscribe? Pay by GCash (Philippines) or bank transfer (Ireland, Europe or international), then submit your reference below. Payments are verified manually and your SafeTrack QHSE access is activated after approval.</p></div>
+      <div class="pay-wrap reveal">
+        <div class="pay-methods" id="payMethods" role="group" aria-label="Choose a payment method">
+          <button class="pay-m" data-method="gcash" type="button"><span class="pm-ic" aria-hidden="true">📱</span><b>GCash</b><small>Philippines · PHP</small></button>
+          <button class="pay-m" data-method="bank_transfer" type="button"><span class="pm-ic" aria-hidden="true">🏦</span><b>Bank Transfer</b><small>Ireland / Europe / International · EUR</small></button>
+        </div>
+        <div class="pay-grid">
+          <div>
+            <div class="pay-detail" id="gcashDetail" hidden>
+              <h4><span aria-hidden="true">📱</span> Pay with GCash</h4>
+              <div class="pay-row"><span class="k">Account name</span><span class="v" id="cfgGcashName">…</span></div>
+              <div class="pay-row"><span class="k">GCash number</span><span class="v" id="cfgGcashNumber">…</span></div>
+              <div class="pay-note" id="cfgGcashNote"></div>
+            </div>
+            <div class="pay-detail" id="bankDetail" hidden>
+              <h4><span aria-hidden="true">🏦</span> Bank transfer</h4>
+              <div class="pay-row"><span class="k">Account holder</span><span class="v" id="cfgBankHolder">…</span></div>
+              <div class="pay-row"><span class="k">Bank</span><span class="v" id="cfgBankName">…</span></div>
+              <div class="pay-row"><span class="k">IBAN</span><span class="v" id="cfgIban">…</span></div>
+              <div class="pay-row"><span class="k">BIC / SWIFT</span><span class="v" id="cfgBic">…</span></div>
+              <div class="pay-row"><span class="k">Reference</span><span class="v" id="cfgBankRef">…</span></div>
+            </div>
+          </div>
+          <div class="form-card" id="payCard">
+            <h3>Submit your payment</h3>
+            <div class="fsub">Enter what you paid and your reference. We verify manually, usually within one business day.</div>
+            <form id="payForm" novalidate>
+              <input type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+              <div class="fgrid">
+                <div class="field full"><label>Full name</label><input name="full_name" maxlength="120" autocomplete="name"><span class="fe">Please add your name.</span></div>
+                <div class="field full"><label>Email</label><input name="email" type="email" maxlength="160" autocomplete="email"><span class="fe">Please enter a valid email.</span></div>
+                <div class="field"><label>Amount paid <span id="payCurLbl" class="insp-sub" style="text-transform:none"></span></label><input name="amount" inputmode="decimal" maxlength="20" placeholder="e.g. 15"><span class="fe">Enter the amount you paid.</span></div>
+                <div class="field"><label id="refLabel">Reference number</label><input name="reference_no" maxlength="80" placeholder="Payment reference"><span class="fe">Add your payment reference.</span></div>
+                <div class="field full"><label>Proof of payment (optional)</label><div class="pay-file"><input type="file" name="proof" accept="image/jpeg,image/png,image/webp,application/pdf"></div><span class="fe">Max 5 MB · JPG, PNG, WEBP or PDF.</span></div>
+              </div>
+              <div id="ts-pay"></div>
+              <button class="btn btn-primary btn-block btn-lg" type="submit" id="paySubmit"><span class="spin"></span><span class="lbl">Submit payment</span></button>
+              <div class="form-msg" id="payMsg"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="sec-tight">
     <div class="wrap">
       <div class="sec-head reveal"><span class="eyebrow">What happens next</span><h2>Three simple steps.</h2></div>
@@ -1150,6 +1217,7 @@ function showPage(pg,instant){
   if(pg==='home') startHeroAnim();
   if(pg==='industries') ensureIndustries();
   if(pg==='product') ensureDemo();
+  if(pg==='pricing'){ setTimeout(function(){ if(typeof renderBetaTs==='function') renderBetaTs(); if(window.__payMountTs) window.__payMountTs(); },80); }
 }
 function go(pg){
   if(reduce){ location.hash=pg; return; }
@@ -1373,21 +1441,26 @@ document.addEventListener('click',function(e){
 
 /* ---------- Beta signup: Turnstile (polling) + validation + secure submit ---------- */
 var __tsLoad=false;
-function tsLoad(){ if(__tsLoad) return; __tsLoad=true; var s=document.createElement('script'); s.src='https://challenges.cloudflare.com/turnstile/v0/api.js'; s.async=true; s.defer=true; document.head.appendChild(s); }
+function tsLoad(){ if(__tsLoad) return; __tsLoad=true; var s=document.createElement('script'); s.src='https://challenges.cloudflare.com/turnstile/v0/api.js'; s.async=true; s.defer=true; s.setAttribute('data-cfasync','false'); document.head.appendChild(s); }
+function tsVisible(el){ return !!(el && (el.offsetParent!==null || el.getClientRects().length>0)); }
 var betaTs={_id:null,_t:'',rendered:function(){return betaTs._id!=null;},failed:false,token:function(){return betaTs._t||'';}};
 function renderBetaTs(){
   var el=document.getElementById('ts-beta'); if(!el||!TURNSTILE_SITE_KEY) return;
-  el.style.minHeight='68px'; tsLoad();
-  var tries=0;
+  if(betaTs._id!=null) return;                 // already rendered
+  betaTs.failed=false; tsLoad(); var tries=0;
   (function poll(){
     if(betaTs._id!=null) return;
-    if(window.turnstile&&window.turnstile.render){
-      try{ betaTs._id=window.turnstile.render(el,{sitekey:TURNSTILE_SITE_KEY,theme:'dark',size:'flexible',retry:'auto','refresh-expired':'auto',
-        callback:function(t){betaTs._t=t||'';},'expired-callback':function(){betaTs._t='';},'error-callback':function(){betaTs._t='';}}); el.style.minHeight=''; }catch(e){}
-    } else if(tries++<120){ setTimeout(poll,150); } else { betaTs.failed=true; el.style.minHeight=''; }
+    // Turnstile renders NOTHING into a hidden container, so wait until the Access page is visible.
+    if(tsVisible(el) && window.turnstile && window.turnstile.render){
+      el.style.minHeight='68px';
+      try{ betaTs._id=window.turnstile.render(el,{sitekey:TURNSTILE_SITE_KEY,theme:'auto',size:'flexible',retry:'auto','refresh-expired':'auto',
+        callback:function(t){betaTs._t=t||'';},'expired-callback':function(){betaTs._t='';},'error-callback':function(){betaTs._t='';}}); }catch(e){ betaTs._id=null; }
+      if(betaTs._id!=null){ el.style.minHeight=''; return; }
+    }
+    if(tries++<400){ setTimeout(poll,150); } else { betaTs.failed=true; el.style.minHeight=''; }
   })();
 }
-renderBetaTs();
+// Rendered on demand when the Access page becomes visible (see showPage) — not into a hidden container.
 var EMAIL_RE=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 function focusForm(){ if(location.hash!=='#pricing'){ go('pricing'); setTimeout(function(){ document.getElementById('betaForm').scrollIntoView({block:'center'}); var n=document.querySelector('#bForm input[name=firstname]'); if(n)n.focus(); },420); } else { document.getElementById('betaForm').scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'}); var n=document.querySelector('#bForm input[name=firstname]'); if(n)setTimeout(function(){n.focus();},200); } }
 var _jb=document.getElementById('joinBetaBtn'); if(_jb) _jb.addEventListener('click',focusForm);
@@ -1439,13 +1512,16 @@ function mountTs(el){
   var ctl={_id:null,_t:'',failed:false,rendered:function(){return ctl._id!=null;},token:function(){return ctl._t||'';},
     reset:function(){ctl._t='';try{if(window.turnstile&&ctl._id!=null)window.turnstile.reset(ctl._id);}catch(_){}}};
   if(!TURNSTILE_SITE_KEY||!el){ return ctl; }
-  el.style.minHeight='68px'; tsLoad(); var tries=0;
+  tsLoad(); var tries=0;
   (function poll(){
     if(ctl._id!=null) return;
-    if(window.turnstile&&window.turnstile.render){
-      try{ ctl._id=window.turnstile.render(el,{sitekey:TURNSTILE_SITE_KEY,theme:'dark',size:'flexible',retry:'auto','refresh-expired':'auto',
-        callback:function(t){ctl._t=t||'';},'expired-callback':function(){ctl._t='';},'error-callback':function(){ctl._t='';}}); el.style.minHeight=''; }catch(e){}
-    } else if(tries++<120){ setTimeout(poll,150); } else { ctl.failed=true; el.style.minHeight=''; }
+    if(tsVisible(el) && window.turnstile && window.turnstile.render){
+      el.style.minHeight='68px';
+      try{ ctl._id=window.turnstile.render(el,{sitekey:TURNSTILE_SITE_KEY,theme:'auto',size:'flexible',retry:'auto','refresh-expired':'auto',
+        callback:function(t){ctl._t=t||'';},'expired-callback':function(){ctl._t='';},'error-callback':function(){ctl._t='';}}); }catch(e){ ctl._id=null; }
+      if(ctl._id!=null){ el.style.minHeight=''; return; }
+    }
+    if(tries++<400){ setTimeout(poll,150); } else { ctl.failed=true; el.style.minHeight=''; }
   })();
   return ctl;
 }
@@ -1602,6 +1678,68 @@ function mountTs(el){
   var tb=document.getElementById('themeBtn'); if(tb) tb.addEventListener('click',function(){ setTimeout(function(){ if(reduce||!running) render(false); },80); });
   resize();
   if(reduce){ running=false; render(false); } else { running=true; loop(); }
+})();
+
+/* ---------- Manual payment checkout (GCash / Bank Transfer) ---------- */
+(function(){
+  var form=document.getElementById('payForm'); if(!form) return;
+  var methods=document.getElementById('payMethods');
+  var gEl=document.getElementById('gcashDetail'), bEl=document.getElementById('bankDetail');
+  var curLbl=document.getElementById('payCurLbl'), refLabel=document.getElementById('refLabel');
+  var msg=document.getElementById('payMsg');
+  var cfg={currency:'EUR'}, method='bank_transfer', payTs=null, proofData=null, proofType=null;
+  function txt(id,v){ var e=document.getElementById(id); if(e) e.textContent=v||'—'; }
+  function fillCfg(){ txt('cfgGcashName',cfg.gcash_name); txt('cfgGcashNumber',cfg.gcash_number); txt('cfgGcashNote',cfg.gcash_note); txt('cfgBankHolder',cfg.bank_holder); txt('cfgBankName',cfg.bank_name); txt('cfgIban',cfg.iban); txt('cfgBic',cfg.bic); txt('cfgBankRef',cfg.bank_reference); }
+  fetch(SB_URL+'/rest/v1/payment_config?id=eq.1&select=*',{headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY}})
+    .then(function(r){ return r.ok?r.json():[]; }).then(function(rows){ if(rows&&rows[0]) cfg=rows[0]; fillCfg(); }).catch(function(){});
+  function setMethod(m){
+    method=m;
+    methods.querySelectorAll('.pay-m').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-method')===m); });
+    gEl.hidden = m!=='gcash'; bEl.hidden = m!=='bank_transfer';
+    var cur = m==='gcash'?'PHP':(cfg.currency||'EUR');
+    if(curLbl) curLbl.textContent='('+cur+')';
+    if(refLabel) refLabel.textContent = m==='gcash'?'GCash reference number':'Transfer reference';
+    form.setAttribute('data-cur',cur);
+  }
+  methods.querySelectorAll('.pay-m').forEach(function(b){ b.addEventListener('click',function(){ setMethod(b.getAttribute('data-method')); }); });
+  var tz=''; try{ tz=Intl.DateTimeFormat().resolvedOptions().timeZone||''; }catch(_){}
+  var lang=(navigator.language||'').toLowerCase();
+  setMethod( (/Manila/i.test(tz) || lang.indexOf('-ph')>-1) ? 'gcash' : 'bank_transfer' );  // auto-detect; user can switch
+  payTs = {token:function(){return '';},failed:false,rendered:function(){return false;},reset:function(){}};
+  var payMounted=false;
+  window.__payMountTs=function(){ if(payMounted||typeof mountTs!=='function') return; payMounted=true; payTs=mountTs(document.getElementById('ts-pay')); };
+  var fileInput=form.querySelector('input[name=proof]');
+  fileInput.addEventListener('change',function(){
+    proofData=null; proofType=null; var f=fileInput.files&&fileInput.files[0]; if(!f) return;
+    if(['image/jpeg','image/png','image/webp','application/pdf'].indexOf(f.type)<0){ msg.className='form-msg bad'; msg.textContent='Proof must be JPG, PNG, WEBP or PDF.'; fileInput.value=''; return; }
+    if(f.size>5*1024*1024){ msg.className='form-msg bad'; msg.textContent='Proof must be 5 MB or smaller.'; fileInput.value=''; return; }
+    var rd=new FileReader(); rd.onload=function(){ proofData=String(rd.result); proofType=f.type; msg.className='form-msg'; msg.textContent=''; }; rd.readAsDataURL(f);
+  });
+  var EMAILRE=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+  function ferr(name,on){ var el=form.querySelector('[name="'+name+'"]'); if(el&&el.closest('.field')) el.closest('.field').classList.toggle('err',!!on); }
+  form.addEventListener('submit',function(e){
+    e.preventDefault(); msg.className='form-msg';
+    var f=form, ok=true;
+    var full_name=f.full_name.value.trim(), email=f.email.value.trim().toLowerCase(), amount=f.amount.value.trim(), reference_no=f.reference_no.value.trim();
+    [['full_name',!full_name],['email',!EMAILRE.test(email)],['amount',!(parseFloat(amount)>0)],['reference_no',!reference_no]].forEach(function(p){ ferr(p[0],p[1]); if(p[1])ok=false; });
+    if(!ok){ msg.className='form-msg bad'; msg.textContent='Please complete the highlighted fields.'; return; }
+    if(f.hp.value){ paySuccess(); return; }
+    var tok=payTs.token();
+    if(TURNSTILE_SITE_KEY && !payTs.failed && !tok){ msg.className='form-msg bad'; msg.textContent=payTs.rendered()?'Please complete the "I’m human" check, then submit.':'Security check is still loading — give it a moment, then submit.'; return; }
+    var btn=document.getElementById('paySubmit'); btn.classList.add('loading');
+    var cur=form.getAttribute('data-cur')||(method==='gcash'?'PHP':'EUR');
+    var payload={action:'payment',provider:method,country:(method==='gcash'?'Philippines':''),full_name:full_name,email:email,amount:amount,currency:cur,reference_no:reference_no,hp:f.hp.value,turnstileToken:tok};
+    if(proofData){ payload.proof_data=proofData; payload.proof_type=proofType; }
+    fetch(SB_URL+'/functions/v1/pay-forms',{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(payload)})
+      .then(function(r){ btn.classList.remove('loading'); if(r.ok){ paySuccess(); return; } if(payTs.reset) payTs.reset();
+        if(r.status===429){ msg.className='form-msg bad'; msg.textContent='You’ve submitted a few already — please try again shortly.'; }
+        else if(r.status===403){ msg.className='form-msg bad'; msg.textContent='Could not verify you’re human — please refresh and try again.'; }
+        else { msg.className='form-msg bad'; msg.textContent='Could not submit — please email support@jt3rdegre3.com.'; } })
+      .catch(function(){ btn.classList.remove('loading'); msg.className='form-msg bad'; msg.textContent='Network problem — please try again, or email support@jt3rdegre3.com.'; });
+  });
+  function paySuccess(){
+    document.getElementById('payCard').innerHTML='<div style="text-align:center;padding:20px 8px"><div class="d-done"><div class="big">✓</div></div><h3 style="margin-bottom:6px">Payment submitted successfully.</h3><p class="muted" style="max-width:360px;margin:0 auto 14px">Your payment is being verified. We’ll notify you once your SafeTrack QHSE access is approved.</p><span class="pay-status">● Payment Pending Verification</span></div>';
+  }
 })();
 
 /* init */
