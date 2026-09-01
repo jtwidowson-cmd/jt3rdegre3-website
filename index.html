@@ -745,7 +745,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
 /* Static fallback (no WebGL / context lost) — centred SVG + message.
    NOTE: an id selector's display would beat the UA [hidden] rule, so the
    layout is scoped to :not([hidden]) and [hidden] is forced off explicitly. */
-#eq3dFallback[hidden]{ display:none !important; }
+#eq3dFallback[hidden]{ display:none; }
 #eq3dFallback:not([hidden]){
   position:absolute; inset:0;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -878,7 +878,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 40px;position:relative;z-
   border-radius:12px; padding:14px 16px 15px; color:var(--white,#fff);
   box-shadow:0 18px 40px -20px rgba(0,0,0,.8); pointer-events:auto;
 }
-#eq3dInfo[hidden]{ display:none !important; }
+#eq3dInfo[hidden]{ display:none; }
 #eq3dInfoName{ font-family:var(--sans,system-ui,sans-serif); font-weight:800; font-size:15px; margin:0 26px 6px 0; }
 #eq3dInfoDesc{ font-size:12.5px; line-height:1.5; color:var(--gray,#c3cad6); }
 #eq3dInfoState{ margin-top:9px; font-size:11.5px; font-family:var(--mono,ui-monospace,monospace); color:var(--cobalt-2,#5b84ff); }
@@ -2699,11 +2699,6 @@ function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"f
         shown.push(cn);
       }
     }
-
-    // dev-only debug: displacement of each part from its assembled position (0 = seated)
-    if(devOn){ window.EQ3D_DBG=function(){ var o={}; for(var i=0;i<parts.length;i++){ var p=parts[i];
-      var dx=p.g.position.x-p.a.x, dy=p.g.position.y-p.a.y, dz=p.g.position.z-p.a.z;
-      o[p.g.name]=Math.sqrt(dx*dx+dy*dy+dz*dz); } return o; }; }
 
     // ---- future-integration interface layer (no schema change, read-only mapping) ----
     // A caller (e.g. a later phase reading Plant & Equipment data) can light up a
